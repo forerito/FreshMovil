@@ -22,7 +22,7 @@ const ChatWhatsApp = () => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 50,
     right: 20,
     borderRadius: 30,
     elevation: 9,

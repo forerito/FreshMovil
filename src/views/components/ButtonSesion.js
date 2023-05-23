@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginRight: 15,
-    marginBottom: 5,
+    marginRight: 10,
+    marginBottom: 10,
   },
   button: {
     backgroundColor: '#249bad',

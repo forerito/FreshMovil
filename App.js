@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="CitasAgendadas">
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="BlogScreen" component={BlogScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ProcedimientosScreen" component={ProcedimientosScreen} options={{ headerShown: false }} />
@@ -30,6 +30,7 @@ function App() {
         <Stack.Screen name="AgendarCita" component={AgendarCita} options={{ headerShown: false }} />
 
         <Stack.Screen name="CitasAgendadas" component={CitasAgendadas} options={{ headerShown: false }} />
+
         <Stack.Screen
           name="RegistrationScreen"
           component={RegistrationScreen} options={{ headerShown: false }}

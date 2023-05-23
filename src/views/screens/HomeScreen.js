@@ -66,6 +66,10 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
+              <View style={styles.containerUser}>
+                <Text style={styles.text}>Bienvenido {userDetails?.fullname} </Text>
+              </View>
+
               <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />
@@ -111,10 +115,6 @@ const HomeScreen = ({ navigation }) => {
 
             </View>
           )}
-        </View>
-
-        <View style={styles.containerUser}>
-          <Text style={styles.text}>Bienvenido {userDetails?.fullname} </Text>
         </View>
 
         <View style={styles.containerBanner}>
@@ -422,8 +422,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginTop: 5,
-    marginLeft: 10,
+    marginBottom: 1,
+    marginLeft: 15,
+    color: 'white',
   },
   tituloSomos: {
     fontSize: 20,
