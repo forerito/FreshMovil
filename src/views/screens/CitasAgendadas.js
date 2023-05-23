@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ALERT_TYPE, Dialog, AlertNotificationRoot } from "react-native-alert-notification";
 import Header from './Header';
@@ -22,17 +22,33 @@ const CitasAgendadas = () => {
   }, []);
 
   const handleCancelarCita = async (index) => {
+    Alert.alert(
+      'Confirmación',
+      '¿Estás seguro de que deseas cancelar esta cita?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          style: 'destructive',
+          onPress: async () => {
+            const nuevasCitas = citas.filter((_, i) => i !== index);
+            await AsyncStorage.setItem('citas', JSON.stringify(nuevasCitas));
+            setCitas(nuevasCitas);
 
-    const nuevasCitas = citas.filter((_, i) => i !== index);
-    await AsyncStorage.setItem('citas', JSON.stringify(nuevasCitas));
-    setCitas(nuevasCitas);
-
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Exito',
-      textBody: 'Tu cita ha sido cancelada!',
-      button: 'Cerrar',
-    });
+            Dialog.show({
+              type: ALERT_TYPE.SUCCESS,
+              title: 'Éxito',
+              textBody: '¡Tu cita ha sido cancelada!',
+              button: 'Cerrar',
+            });
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   return (

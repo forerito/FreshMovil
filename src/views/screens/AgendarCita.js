@@ -15,10 +15,18 @@ const AgendarCita = ({ navigation }) => {
   const [costo, setCosto] = useState('');
 
   const handleGuardar = async () => {
+    if (!fechaCita || !horaCita || !tipoCita || !estado || !sede || !costo) {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Error',
+        textBody: 'Por favor, completa todos los campos',
+        button: 'Cerrar',
+      });
+      return;
+    }
 
     const citasGuardadas = await AsyncStorage.getItem('citas');
     let citas = citasGuardadas ? JSON.parse(citasGuardadas) : [];
-
 
     const horaExistente = citas.find((cita) => cita.horaCita === horaCita);
     if (horaExistente) {
@@ -34,7 +42,6 @@ const AgendarCita = ({ navigation }) => {
     const nuevaCita = { fechaCita, horaCita, tipoCita, estado, sede, costo };
     citas.push(nuevaCita);
     await AsyncStorage.setItem('citas', JSON.stringify(citas));
-
 
     setFechaCita('');
     setHoraCita('');

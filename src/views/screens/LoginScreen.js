@@ -100,10 +100,10 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <AlertNotificationRoot style={styles.container}>
+    <AlertNotificationRoot style={styles.notification}>
       <SafeAreaView style={styles.container}>
         <Loader visible={loading} />
-        <ScrollView style={styles.svContainer}>
+        <ScrollView contentContainerStyle={styles.svContainer}>
           <Image source={user} style={styles.image} />
           <Text style={styles.heading}>Inicio de Sesión</Text>
           <View style={styles.viewContainer}>
@@ -140,15 +140,19 @@ const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  notification: {
     justifyContent: 'center',
-    marginTop: 10,
-    marginLeft: 5,
-    marginRight: 5,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginRight: 20,
     borderRadius: 5,
   },
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+  },
   svContainer: {
-    paddingTop: 20,
+    paddingTop: 30,
     paddingHorizontal: 20,
   },
   image: {

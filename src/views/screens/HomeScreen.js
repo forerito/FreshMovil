@@ -44,7 +44,6 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-
     <SafeAreaView className="flex-1 " style={{ backgroundColor: "white" }}>
 
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
