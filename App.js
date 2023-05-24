@@ -14,6 +14,7 @@ import ContactoScreen from "./src/views/screens/ContactoScreen";
 import AgendarCita from "./src/views/screens/AgendarCita";
 
 import CitasAgendadas from "./src/views/screens/CitasAgendadas";
+import CitasPendientes from "./src/views/screens/CitasPendientes";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ function App() {
         <Stack.Screen name="AgendarCita" component={AgendarCita} options={{ headerShown: false }} />
 
         <Stack.Screen name="CitasAgendadas" component={CitasAgendadas} options={{ headerShown: false }} />
+        <Stack.Screen name="CitasPendientes" component={CitasPendientes} options={{ headerShown: false }} />
 
         <Stack.Screen
           name="RegistrationScreen"

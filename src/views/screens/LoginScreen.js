@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
   svContainer: {
     paddingTop: 30,
     paddingHorizontal: 20,
+    marginTop: 30,
   },
   image: {
     width: 250,

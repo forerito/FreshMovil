@@ -1,61 +1,84 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, ScrollView, ImageBackground } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Alert, StyleSheet, ScrollView, ImageBackground } from 'react-native';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot } from "react-native-alert-notification";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from './Header';
+import Icon from "react-native-vector-icons/FontAwesome5";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AgendarCita = ({ navigation }) => {
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+    const handlePress = () => {
+      setMenuOpen(!menuOpen);
+    };
+  
+    const handleClose = () => {
+      setMenuOpen(false);
+    };
+
+  const [tipoDocumento, setTipoDocumento] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
+  const [nombrePaciente, setNombrePaciente] = useState('');
+  const [telefonoCita, setTelefonoCita] = useState('');
+  const [correoCita, setCorreoCita] = useState('');
   const [fechaCita, setFechaCita] = useState('');
-  const [horaCita, setHoraCita] = useState('');
+  const [disponibilidadCita, setDisponibilidadCita] = useState('');
   const [tipoCita, setTipoCita] = useState('');
-  const [estado, setEstado] = useState('');
   const [sede, setSede] = useState('');
-  const [costo, setCosto] = useState('');
 
   const handleGuardar = async () => {
-    if (!fechaCita || !horaCita || !tipoCita || !estado || !sede || !costo) {
-      Dialog.show({
-        type: ALERT_TYPE.DANGER,
-        title: 'Error',
-        textBody: 'Por favor, completa todos los campos',
-        button: 'Cerrar',
-      });
+    if (
+      !tipoDocumento ||
+      !numeroDocumento ||
+      !nombrePaciente ||
+      !telefonoCita ||
+      !correoCita ||
+      !fechaCita ||
+      !disponibilidadCita ||
+      !tipoCita ||
+      !sede
+    ) {
+      Alert.alert('Error', 'Por favor, completa todos los campos', [{ text: 'Cerrar' }]);
       return;
     }
+
 
     const citasGuardadas = await AsyncStorage.getItem('citas');
     let citas = citasGuardadas ? JSON.parse(citasGuardadas) : [];
 
-    const horaExistente = citas.find((cita) => cita.horaCita === horaCita);
+    const horaExistente = citas.find((cita) => cita.disponibilidadCita === disponibilidadCita);
     if (horaExistente) {
-      Dialog.show({
-        type: ALERT_TYPE.DANGER,
-        title: 'Error',
-        textBody: 'La hora seleccionada ya está en uso',
-        button: 'Cerrar',
-      });
+      Alert.alert('Error', 'La hora seleccionada ya está en uso', [{ text: 'Cerrar' }]);
       return;
     }
 
-    const nuevaCita = { fechaCita, horaCita, tipoCita, estado, sede, costo };
+    const nuevaCita = {
+      tipoDocumento,
+      numeroDocumento,
+      nombrePaciente,
+      telefonoCita,
+      correoCita,
+      fechaCita,
+      disponibilidadCita,
+      tipoCita,
+      sede,
+    };
     citas.push(nuevaCita);
     await AsyncStorage.setItem('citas', JSON.stringify(citas));
+    Alert.alert('Felicidades', '¡Tu cita ha sido agendada!', [{ text: 'Cerrar' }]);
 
+    setTipoDocumento('');
+    setNumeroDocumento('');
+    setNombrePaciente('');
+    setTelefonoCita('');
+    setCorreoCita('');
     setFechaCita('');
-    setHoraCita('');
+    setDisponibilidadCita('');
     setTipoCita('');
-    setEstado('');
     setSede('');
-    setCosto('');
 
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Felicidades',
-      textBody: 'Tu cita ha sido agendada!',
-      button: 'Cerrar',
-    });
   };
 
   return (
@@ -65,49 +88,131 @@ const AgendarCita = ({ navigation }) => {
 
         <Header />
 
+        <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 330, marginTop: -43 }}>
+            <TouchableOpacity onPress={handlePress}>
+              <Icon name="bars" size={24} color="#5FFDFF" />
+            </TouchableOpacity>
+          </View>
+
+          {menuOpen && (
+            <View style={{ marginTop: 8 }}>
+              <TouchableOpacity onPress={handleClose}>
+                <View style={styles.contentMenuCerrar}>
+                  <Icon name="window-close" size={24} color="white" />
+                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="home" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Inicio</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("NosotrosScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="users" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nosotros</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="tooth" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Procedimientos</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("SedesScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="globe-americas" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Sedes</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("BlogScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="newspaper" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Blog</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="comments" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Contacto</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="calendar-alt" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Mis citas</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agendamiento</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+
         <ImageBackground
           source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852207/Fresh_Smile_Cmills/galeria8_g8lbub.jpg" }}
           resizeMode={"stretch"}
           style={styles.fondoContainer}
         >
 
+          <View style={styles.formContainertitulo}>
+            <Text style={styles.formTitle}>Agenda aquí tu cita</Text>
+            <Text style={styles.formText}>Llena este formulario para agendar tu cita</Text>
+          </View>
+
           <AlertNotificationRoot>
-
-            <View style={styles.formContainertitulo}>
-              <Text style={styles.formTitle}>Agenda aquí tu cita</Text>
-              <Text style={styles.formText}>Llena este formulario para agendar tu cita</Text>
-            </View>
-
             <View style={styles.formContainer}>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Fecha de la cita</Text>
+                <TextInput style={styles.input} placeholder="Tipo de documento:" value={tipoDocumento} onChangeText={setTipoDocumento} />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <TextInput style={styles.input} placeholder="Número de documento:" value={numeroDocumento} onChangeText={setNumeroDocumento} />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <TextInput style={styles.input} placeholder="Nombre completo:" value={nombrePaciente} onChangeText={setNombrePaciente} />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <TextInput style={styles.input} placeholder="Teléfono" value={telefonoCita} onChangeText={setTelefonoCita} />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <TextInput style={styles.input} placeholder="Correo electrónico" value={correoCita} onChangeText={setCorreoCita} />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Fecha de nacimiento</Text>
                 <TextInput style={styles.input} placeholder="dd/mm/aaaa" value={fechaCita} onChangeText={setFechaCita} />
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Hora de la cita</Text>
-                <TextInput style={styles.input} placeholder="10:00 a. m." value={horaCita} onChangeText={setHoraCita} />
+                <Text style={styles.label}>Disponibilidad</Text>
+                <TextInput style={styles.input} placeholder="hora" value={disponibilidadCita} onChangeText={setDisponibilidadCita} />
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Tipo de cita</Text>
-                <TextInput style={styles.input} placeholder="Tipo de cita" value={tipoCita} onChangeText={setTipoCita} />
+                <TextInput style={styles.input} placeholder="Tipo de cita:" value={tipoCita} onChangeText={setTipoCita} />
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Estado</Text>
-                <TextInput style={styles.input} placeholder="Estado" value={estado} onChangeText={setEstado} />
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Sede</Text>
-                <TextInput style={styles.input} placeholder="Sede principal, secundaria, terciaria" value={sede} onChangeText={setSede} />
-              </View>
-
-              <View style={styles.inputContainer}>
-                <Text style={styles.label}>Costo</Text>
-                <TextInput style={styles.input} placeholder="Costo" value={costo} onChangeText={setCosto} />
+                <TextInput style={styles.input} placeholder="Sede Armenia, Tebaida, Genová" value={sede} onChangeText={setSede} />
               </View>
 
               <View style={styles.containerButton}>
@@ -125,14 +230,33 @@ const AgendarCita = ({ navigation }) => {
             </View>
           </AlertNotificationRoot>
 
-        </ImageBackground>
 
+        </ImageBackground>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  contentMenuCerrar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 300,
+    marginBottom: 5,
+  },
+  contentMenuItems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  contentMenuText: {
+    marginLeft: 8,
+    color: 'white',
+    fontSize: 16,
+  },
   fondoContainer: {
     marginTop: 0,
     opacity: 0.9,

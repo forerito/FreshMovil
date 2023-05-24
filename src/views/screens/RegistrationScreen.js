@@ -169,6 +169,12 @@ const RegistrationScreen = ({ navigation }) => {
           />
 
           <Button title="Registrarse" onPress={validate} />
+          <Text
+              style={styles.textLogin}
+              onPress={() => navigation.navigate("LoginScreen")}
+            >
+              ¿Ya eres miembro? Inicia Sesión
+            </Text>
         </ScrollView>
       </AlertNotificationRoot>
     </SafeAreaView>
@@ -181,14 +187,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    paddingTop: 30,
+    paddingTop: 50,
     paddingHorizontal: 20,
+    // marginTop: 30,
   },
   heading: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
     alignSelf: 'center',
+  },
+  textLogin: {
+    textAlign: "center",
+    fontSize: 15,
+    marginBottom: 20,
+    color: 'blue',
+    textDecorationLine: 'underline',
+    fontWeight: "bold",
   },
   image: {
     width: 60,

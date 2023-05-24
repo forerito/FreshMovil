@@ -81,6 +81,20 @@ const NosotrosScreen = ({ navigation }) => {
                   <Text style={styles.contentMenuText}>Contacto</Text>
                 </View>
               </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="calendar-alt" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Mis citas</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agendamiento</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           )}
         </View>
