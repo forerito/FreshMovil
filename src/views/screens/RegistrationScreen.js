@@ -112,7 +112,7 @@ const RegistrationScreen = ({ navigation }) => {
           <Input
             label="Identificación"
             iconName="address-card"
-            placeholder="Enter your Student Number"
+            placeholder="Ingrese su número de identificación"
             onChangeText={(text) => handleOnChange(text, "id")}
             onFocus={() => handleError(null, "id")}
             error={errors.id}

@@ -25,7 +25,7 @@ const NosotrosScreen = ({ navigation }) => {
         <Header />
 
         <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 330, marginTop: -43 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -58,20 +58,6 @@ const NosotrosScreen = ({ navigation }) => {
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("SedesScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="globe-americas" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Sedes</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("BlogScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="newspaper" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Blog</Text>
                 </View>
               </TouchableOpacity>
 
@@ -122,7 +108,6 @@ const NosotrosScreen = ({ navigation }) => {
           </View>
         </View>
 
-
         <View style={styles.containerEmpresa}>
           <View style={styles.itemEmpresa}>
             <Image source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465038/icono-cohete_lcojoc.png" }} resizeMode={'stretch'} style={styles.imageEmpresa} />
@@ -133,14 +118,16 @@ const NosotrosScreen = ({ navigation }) => {
               promoviendo la salud oral y mejorando
               la salud de nuestros pacientes</Text>
           </View>
-          <View style={styles.itemEmpresa2}>
+
+          <View style={styles.itemEmpresa}>
             <Image source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465036/icono-ojo_jxzh94.png" }} resizeMode={'stretch'} style={styles.imageEmpresa} />
             <Text style={styles.textEmpresa}>Visión</Text>
             <Text style={styles.text2}>Ser reconocidos como el consultorio
               odontológico líder en nuestra
               comunidad, brindando una atención</Text>
           </View>
-          <View style={styles.itemEmpresa3}>
+
+          <View style={styles.itemEmpresa}>
             <Image source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465040/icono-diamante_oqtknb.png" }} resizeMode={'stretch'} style={styles.imageEmpresa} />
             <Text style={styles.textEmpresa}>Valores</Text>
             <Text style={styles.text2}>Profesionalismo: ofrecer servicios
@@ -209,7 +196,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#f1f1f1',
   },
   image: {
     width: 180,
@@ -230,7 +216,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   containerEmpresa: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -238,32 +224,22 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: 'center',
   },
-  itemEmpresa2: {
-    marginTop: -56,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  itemEmpresa3: {
-    marginTop: -56,
-    marginBottom: 20,
-    alignItems: 'center',
-  },
   imageEmpresa: {
-    width: 100,
-    margin: 10,
-    height: 100,
+    width: 150,
+    height: 150,
   },
   textEmpresa: {
-    marginTop: 5,
     fontSize: 20,
-    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 5,
   },
   text2: {
-    marginTop: 5,
-    width: 100,
-    fontSize: 8,
     textAlign: 'center',
+    marginHorizontal: 20,
   },
+
+
   footer: {
     marginTop: 20,
   },

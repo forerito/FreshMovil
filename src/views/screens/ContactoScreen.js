@@ -23,7 +23,7 @@ const ContactoScreen = ({ navigation }) => {
         <Header />
 
         <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 330, marginTop: -43 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -59,20 +59,6 @@ const ContactoScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("SedesScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="globe-americas" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Sedes</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("BlogScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="newspaper" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Blog</Text>
-                </View>
-              </TouchableOpacity>
-
               <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="comments" size={24} color="white" />
@@ -85,7 +71,7 @@ const ContactoScreen = ({ navigation }) => {
 
         <ImageBackground
           source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465034/fondo_v946ct.png" }}
-          resizeMode={"stretch"}
+          resizeMode={"cover"}
           style={styles.fondoContainer}
         >
           <View style={styles.container}>
@@ -199,6 +185,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 10,
     marginLeft: -10,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
   },
   title: {
     fontSize: 20,
@@ -240,7 +227,6 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 15,
     backgroundColor: "lightgray",
-    justifyContent: 'flex-end',
   },
   formTitle: {
     fontSize: 18,
@@ -257,7 +243,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     backgroundColor: "white",
-    opacity: 0.6,
+    opacity: 0.8,
   },
   paragraph: {
     fontSize: 15,
@@ -312,6 +298,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
+    color: 'white',
   },
 });
 

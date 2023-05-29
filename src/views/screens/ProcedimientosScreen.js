@@ -25,7 +25,7 @@ const ProcedimientosScreen = ({ navigation }) => {
         <Header />
 
         <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 330, marginTop: -43 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -58,20 +58,6 @@ const ProcedimientosScreen = ({ navigation }) => {
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("SedesScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="globe-americas" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Sedes</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("BlogScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="newspaper" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Blog</Text>
                 </View>
               </TouchableOpacity>
 
@@ -119,13 +105,13 @@ const ProcedimientosScreen = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465022/blanqueamiento_tukanw.jpg" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125232/blanqueamiento-dental_k79oav.png" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
               <Text style={styles.serviceTitle}>Blanqueamiento dental</Text>
               <Text style={styles.serviceText}>
-                El blanqueamiento dental es un procedimiento de odontología estética que busca aclarar el color de los dientes para obtener una sonrisa más blanca y brillante.
+                Es un procedimiento estético que busca aclarar el color de los dientes y eliminar las manchas y decoloraciones. Se puede realizar en el consultorio del dentista o mediante el uso de kits de blanqueamiento dental en el hogar bajo la supervisión del dentista.
               </Text>
             </View>
           </View>
@@ -135,15 +121,15 @@ const ProcedimientosScreen = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465292/brackets_ccon9q.jpg" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125289/implante_m34lfe.png" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
               <Text style={styles.serviceTitle}>
-                Brackets
+                Implantes dentales
               </Text>
               <Text style={styles.serviceText}>
-                El tratamiento de brackets es un procedimiento ortodóntico utilizado para corregir la alineación y posición de los dientes.
+                Son dispositivos utilizados para reemplazar las raíces de los dientes perdidos. Los implantes dentales se colocan en el hueso maxilar o mandibular y luego se colocan coronas dentales artificiales sobre ellos para restaurar la función y la apariencia de los dientes perdidos.
               </Text>
             </View>
           </View>
@@ -153,15 +139,15 @@ const ProcedimientosScreen = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465334/cordales_wrozqf.jpg" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685126311/diente_iowcnf.png" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
               <Text style={styles.serviceTitle}>
-                Extracción de cordales
+                Prótesis dental
               </Text>
               <Text style={styles.serviceText}>
-                La extracción de las cordales es un procedimiento común y seguro, y suele ser necesario cuando las muelas del juicio causan dolor o pueden afectar la salud bucal en general
+                Las prótesis dentales son reemplazos artificiales de uno o varios dientes perdidos. Pueden ser parciales o completas, removibles o fijas. Incluyen opciones como puentes y dentaduras postizas, así como implantes dentales.
               </Text>
             </View>
           </View>
@@ -171,93 +157,141 @@ const ProcedimientosScreen = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465271/dise%C3%B1osonrisa2_yis8so.jpg" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685126397/medico_meiagz.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Cirugía oral</Text>
+              <Text style={styles.serviceText}>
+                La cirugía oral incluye una variedad de procedimientos quirúrgicos en la boca y los maxilares. Puede involucrar extracciones complejas, colocación de implantes dentales, cirugía de mandíbula y corrección de deformidades faciales.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127203/muela-del-juicio_gepql6.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Extracción de muelas del juicio</Text>
+              <Text style={styles.serviceText}>
+                La extracción de las muelas del juicio es un procedimiento común para eliminar las muelas que no tienen suficiente espacio para emerger o están causando problemas como dolor, infecciones o daños a los dientes adyacentes. Se realiza bajo anestesia local.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127204/limpieza-dental_yooh5t.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Limpieza dental profunda</Text>
+              <Text style={styles.serviceText}>
+                La limpieza dental profunda, también conocida como raspado y alisado radicular, es un procedimiento para eliminar la placa bacteriana, el sarro y las toxinas de las superficies de los dientes y las raíces. Ayuda a prevenir la enfermedad periodontal y mantener las encías saludables.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127203/corona-dental_j2kdj1.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Coronas dentales</Text>
+              <Text style={styles.serviceText}>
+                Las coronas dentales son fundas que se colocan sobre dientes dañados, debilitados o restaurados. Proporcionan protección y mejoran la apariencia de los dientes. Las coronas pueden ser de metal, porcelana, porcelana fusionada a metal o materiales cerámicos de alta resistencia.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685124831/ortodoncista_tlq9k3.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Ortodoncia</Text>
+              <Text style={styles.serviceText}>
+                Tratamiento utilizado para corregir la posición de los dientes y la mandíbula, mejorando la estética y la función de la dentadura. Puede incluir el uso de brackets, alineadores transparentes u otros dispositivos para alinear los dientes correctamente.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125116/cepillo-de-dientes_1_d1q7ii.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Limpieza dental</Text>
+              <Text style={styles.serviceText}>
+                También conocida como profilaxis dental, es un procedimiento en el que se eliminan la placa y el sarro de los dientes para prevenir enfermedades dentales y mantener una buena salud bucal.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125346/endodoncia_n5itxb.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Endodoncia</Text>
+              <Text style={styles.serviceText}>
+                La endodoncia, o tratamiento de conducto, es un procedimiento para tratar y salvar dientes con pulpa dental dañada o infectada. Consiste en eliminar el tejido pulpar afectado, limpiar los conductos radiculares y sellarlos para prevenir futuras infecciones.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125180/extraccion_jn5wxt.png" }}
+                resizeMode={"stretch"}
+                style={styles.serviceImg}
+              />
+              <Text style={styles.serviceTitle}>Extracción dental</Text>
+              <Text style={styles.serviceText}>
+                Consiste en la remoción de un diente dañado, infectado o afectado por una enfermedad periodontal. Las extracciones dentales también se realizan en casos de dientes de sabiduría impactados o cuando hay una superpoblación dental en la boca.
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.containercompleto}>
+          <View style={styles.viewcompleto}>
+            <View style={styles.serviceItem}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127846/sonrisa_naagzz.png" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
               <Text style={styles.serviceTitle}>Diseño de sonrisa</Text>
               <Text style={styles.serviceText}>
-                El diseño de sonrisa es un proceso estético y personalizado en odontología que busca mejorar la apariencia de la sonrisa de una persona.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465245/fractura-dientes_ksa0kp.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Fractura dental</Text>
-              <Text style={styles.serviceText}>
-                El tratamiento de fractura dental en odontología es un procedimiento que se realiza para reparar un diente dañado debido a una fractura o una fisura.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684464937/implantes2_x0iwcf.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Implantes dentales</Text>
-              <Text style={styles.serviceText}>
-                El tratamiento de implantes dentales es un procedimiento odontológico utilizado para reemplazar dientes perdidos o extraídos.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465237/caries-infantil_qht9ag.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Caries</Text>
-              <Text style={styles.serviceText}>
-                El tratamiento de caries es un procedimiento dental utilizado para eliminar y tratar las cavidades o deterioro de los dientes causados por la caries dental.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465294/frenos_elag17.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Frenos dentales</Text>
-              <Text style={styles.serviceText}>
-                Los frenos dentales son dispositivos utilizados en odontología para corregir la posición y alineación de los dientes.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684464942/cirugia_xo6czs.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Cirugía de Encías</Text>
-              <Text style={styles.serviceText}>
-                La cirugía de encías es un procedimiento dental que se realiza para tratar y corregir problemas en las encías y estructuras de soporte de los dientes.
+                El diseño de sonrisa es un procedimiento estético que busca mejorar la apariencia de la sonrisa y los dientes. Consiste en un análisis detallado de la forma, el color, el tamaño y la posición de los dientes, así como de la armonía facial en general.
               </Text>
             </View>
           </View>
@@ -296,17 +330,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   serviceImg: {
-    width: "80%",
-    height: 180,
+    marginTop: 2,
+    width: "60%",
+    height: 160,
     borderRadius: 10,
   },
   serviceTitle: {
     fontSize: 25,
-    width: "100%",
+    width: "90%",
     textAlign: "center",
     fontWeight: "bold",
     marginVertical: 10,
-    color: '#7DC3E8',
+    color: 'black',
   },
   serviceText: {
     fontSize: 12,
@@ -340,8 +375,9 @@ const styles = StyleSheet.create({
   viewcompleto: {
     width: "90%",
     borderRadius: 10,
-    borderColor: "gray",
-    borderWidth: 1,
+    borderColor: "#249bad",
+    backgroundColor: "linear-gradient(90deg, rgba(125,195,232,1) 0%, rgba(183,222,242,1) 35%, rgba(131,205,245,1) 100%)",
+    borderWidth: 3,
     padding: 10,
   },
   containerBanner: {

@@ -51,7 +51,7 @@ const HomeScreen = ({ navigation }) => {
         <Header />
 
         <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 330, marginTop: -43 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -88,20 +88,6 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("SedesScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="globe-americas" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Sedes</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("BlogScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="newspaper" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Blog</Text>
                 </View>
               </TouchableOpacity>
 
@@ -158,214 +144,113 @@ const HomeScreen = ({ navigation }) => {
             </View>
           </ImageBackground>
 
-          <Text style={styles.titulo}>Conoce Nuestros Procedimientos</Text>
+          <View style={styles.containerBlog}>
+            <Text>
+              <Text style={styles.tituloBlog}>¿Quiénes Somos?</Text>
+            </Text>
+          </View>
+
+          <View>
+            <View style={styles.itemContainerBlog}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465241/nosotros_iwn5ht.jpg" }}
+                resizeMode={"stretch"}
+                style={styles.imageSomos}
+              />
+              <View style={styles.contentBlog}>
+                <Text style={styles.textSomos}>
+                  Fresh Smile Cmills es una reconocida clínica de ortodoncia comprometida con ofrecer
+                  soluciones de alta calidad para la salud dental de nuestros pacientes. Con una amplia
+                  experiencia y conocimientos en el campo de la ortodoncia, nos hemos ganado la confianza
+                  de numerosos individuos y familias que buscan mejorar su sonrisa y salud bucal.
+                </Text>
+                <TouchableOpacity style={styles.buttonBlog}
+                  onPress={() => navigation.navigate("NosotrosScreen")}
+                >
+                  <Text style={styles.buttonTextBlog}>Leer más</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.containerBlog}>
+            <Text>
+              <Text style={styles.tituloBlog}>Nuestros procedimientos</Text>
+            </Text>
+          </View>
 
           <View style={styles.containerProcedimientos}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465319/dise%C3%B1osonrisa_uofwag.jpg" }}
-              resizeMode={"stretch"}
-              style={styles.image}
-            />
-            <TouchableOpacity style={styles.buttonProce}
-              onPress={() => navigation.navigate("ProcedimientosScreen")}
-            >
-              <Text style={styles.buttonText}>Diseño de sonrisa</Text>
-            </TouchableOpacity>
+            <View style={styles.containerProcedimientos2}>
+              <Image
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685124831/ortodoncista_tlq9k3.png' }}
+                style={styles.image}
+                resizeMode="stretch"
+              />
+              <View style={{ marginLeft: 25, marginTop: 30, }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Ortodoncia</Text>
+                <TouchableOpacity style={styles.buttonBlog2}
+                  onPress={() => navigation.navigate("ProcedimientosScreen")}
+                >
+                  <Text style={styles.buttonTextBlog}>Leer más</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
 
           <View style={styles.containerProcedimientos}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465271/dise%C3%B1osonrisa2_yis8so.jpg" }}
-              resizeMode={"stretch"}
-              style={styles.image}
-            />
-            <TouchableOpacity style={styles.buttonProce}
-              onPress={() => navigation.navigate("ProcedimientosScreen")}
-            >
-              <Text style={styles.buttonText}>Blanqueamiento</Text>
-            </TouchableOpacity>
+            <View style={styles.containerProcedimientos2}>
+              <Image
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125116/cepillo-de-dientes_1_d1q7ii.png' }}
+                style={styles.image}
+                resizeMode="stretch"
+              />
+              <View style={{ marginLeft: 25, marginTop: 30, }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Limpieza dental</Text>
+                <TouchableOpacity style={styles.buttonBlog2}
+                  onPress={() => navigation.navigate("ProcedimientosScreen")}
+                >
+                  <Text style={styles.buttonTextBlog}>Leer más</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
 
           <View style={styles.containerProcedimientos}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465073/implantes_fjrpyg.jpg" }}
-              resizeMode={"stretch"}
-              style={styles.image}
-            />
-            <TouchableOpacity style={styles.buttonProce}
-              onPress={() => navigation.navigate("ProcedimientosScreen")}
-            >
-              <Text style={styles.buttonText}>Implantes</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.containerBlog}>
-          <Text>
-            <Text style={styles.tituloBlog}>Nuestro Blog</Text>
-          </Text>
-        </View>
-
-        <View>
-          <View style={styles.itemContainerBlog}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465034/consultorio2_yjjmzo.jpg" }}
-              resizeMode={"stretch"}
-              style={styles.imageBlog}
-            />
-            <View style={styles.contentBlog}>
-              <Text style={styles.titleBlog}>Odontoestetic</Text>
-              <Text style={styles.textBlog}>
-                Odontoestetic es una clínica privada prestadora de servicios de
-                salud oral, con mas de 15 años de experiencia
-              </Text>
-              <TouchableOpacity style={styles.buttonBlog}
-                onPress={() => navigation.navigate("BlogScreen")}
-              >
-                <Text style={styles.buttonTextBlog}>Leer más</Text>
-              </TouchableOpacity>
+            <View style={styles.containerProcedimientos2}>
+              <Image
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125346/endodoncia_n5itxb.png' }}
+                style={styles.image}
+                resizeMode="stretch"
+              />
+              <View style={{ marginLeft: 25, marginTop: 30, }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Endodoncia</Text>
+                <TouchableOpacity style={styles.buttonBlog2}
+                  onPress={() => navigation.navigate("ProcedimientosScreen")}
+                >
+                  <Text style={styles.buttonTextBlog}>Leer más</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
 
-          <View style={styles.itemContainerBlog}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465065/Dentix_lnjc6h.png" }}
-              resizeMode={"stretch"}
-              style={styles.imageBlog}
-            />
-            <View style={styles.contentBlog}>
-              <Text style={styles.titleBlog}>Dentix</Text>
-              <Text style={styles.textBlog}>
-                Dentix es una empresa española de servicios dentales fundada en
-                2010 por Ángel Lorenzo. Es una empresa familiar cuyo modelo de
-                negocio se basa en clínicas propias, no en acuerdos de
-                franquicia
-              </Text>
-              <TouchableOpacity style={styles.buttonBlog}
-                onPress={() => navigation.navigate("BlogScreen")}
-              >
-                <Text style={styles.buttonTextBlog}>Leer más</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <View>
-          <View style={styles.itemContainerBlog}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465025/consultorio3_mc2jhx.jpg" }}
-              resizeMode={"stretch"}
-              style={styles.imageBlog}
-            />
-            <View style={styles.contentBlog}>
-              <Text style={styles.titleBlog}>Centro Medico Integral</Text>
-              <Text style={styles.textBlog}>
-                Centro Medico Integral es un establecimiento de atención médica
-                que ofrece una amplia gama de servicios para atender las
-                necesidades de salud de sus pacientes
-              </Text>
-              <TouchableOpacity style={styles.buttonBlog}
-                onPress={() => navigation.navigate("BlogScreen")}
-              >
-                <Text style={styles.buttonTextBlog}>Leer más</Text>
-              </TouchableOpacity>
+          <View style={styles.containerProcedimientos}>
+            <View style={styles.containerProcedimientos2}>
+              <Image
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125180/extraccion_jn5wxt.png' }}
+                style={styles.image}
+                resizeMode="stretch"
+              />
+              <View style={{ marginLeft: 25, marginTop: 30, }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Extracción dental</Text>
+                <TouchableOpacity style={styles.buttonBlog2}
+                  onPress={() => navigation.navigate("ProcedimientosScreen")}
+                >
+                  <Text style={styles.buttonTextBlog}>Leer más</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
 
-          <View style={styles.itemContainerBlog}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465034/consultorio2_yjjmzo.jpg" }}
-              resizeMode={"stretch"}
-              style={styles.imageBlog}
-            />
-            <View style={styles.contentBlog}>
-              <Text style={styles.titleBlog}>Prodentales</Text>
-              <Text style={styles.textBlog}>
-                El Dr.Oscar Zapata ofrece odontología general y especializada
-                para pacientes de todas las edades. Sus servicios abarcan la
-                prevención, el diagnóstico y el tratamiento de condiciones
-                especiales o enfermedades que afectan a los dientes
-              </Text>
-              <TouchableOpacity style={styles.buttonBlog}
-                onPress={() => navigation.navigate("BlogScreen")}
-              >
-                <Text style={styles.buttonTextBlog}>Leer más</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <Text style={styles.tituloSomos}>¿Quienes Somos?</Text>
-
-        <View>
-          <View style={styles.itemContainerBlog}>
-            <Image
-              source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465241/nosotros_iwn5ht.jpg" }}
-              resizeMode={"stretch"}
-              style={styles.imageSomos}
-            />
-            <View style={styles.contentBlog}>
-              <Text style={styles.textSomos}>
-                Fresh Smile Cmills es una reconocida clínica de ortodoncia comprometida con ofrecer
-                soluciones de alta calidad para la salud dental de nuestros pacientes. Con una amplia
-                experiencia y conocimientos en el campo de la ortodoncia, nos hemos ganado la confianza
-                de numerosos individuos y familias que buscan mejorar su sonrisa y salud bucal.
-              </Text>
-              <TouchableOpacity style={styles.buttonBlog}
-                onPress={() => navigation.navigate("NosotrosScreen")}
-              >
-                <Text style={styles.buttonTextBlog}>Leer más</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containerBlog}>
-          <Text>
-            <Text style={styles.titulo2}>Clinica Fresh Smile Cmills</Text>
-          </Text>
-        </View>
-
-        <View style={styles.containerProcedimientos}>
-          <Image
-            source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465035/sede1_nv5feq.png" }}
-            resizeMode={"stretch"}
-            style={styles.imageSedes}
-          />
-          <Text style={styles.tituloSedes}>SEDE ARMENIA</Text>
-          <TouchableOpacity style={styles.buttonProce}
-            onPress={() => navigation.navigate("SedesScreen")}
-          >
-            <Text style={styles.buttonText}>Ingresar</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.containerProcedimientos}>
-          <Image
-            source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465036/sede2_ullry4.png" }}
-            resizeMode={"stretch"}
-            style={styles.imageSedes}
-          />
-          <Text style={styles.tituloSedes}>SEDE TEBAIDA</Text>
-          <TouchableOpacity style={styles.buttonProce}
-            onPress={() => navigation.navigate("SedesScreen")}
-          >
-            <Text style={styles.buttonText}>Ingresar</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.containerProcedimientos}>
-          <Image
-            source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465036/sede3_r9syxe.png" }}
-            resizeMode={"stretch"}
-            style={styles.imageSedes}
-          />
-          <Text style={styles.tituloSedes}>SEDE GÉNOVA</Text>
-          <TouchableOpacity style={styles.buttonProce}
-            onPress={() => navigation.navigate("SedesScreen")}
-          >
-            <Text style={styles.buttonText}>Ingresar</Text>
-          </TouchableOpacity>
         </View>
 
         <View style={styles.footer}></View>
@@ -423,11 +308,8 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     borderRadius: 5,
   },
-  titulo: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 25,
-    color: "#7DC3E8",
+  containerProcedimientos2: {
+    flexDirection: 'row',
   },
   containerUser: {
     flexDirection: 'row',
@@ -454,7 +336,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#249bad",
     padding: 10,
-    borderRadius: 50,
+    borderRadius: 20,
     margin: 10,
   },
   buttonProce: {
@@ -462,34 +344,52 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     margin: 10,
+    width: '90%',
   },
   buttonText: {
     color: "white",
     fontSize: 15,
+    textAlign: 'center',
   },
   containerProcedimientos: {
+    width: '85%',
     marginTop: 20,
+    padding: 20,
+    borderRadius: 15,
     alignItems: "center",
+    backgroundColor: "linear-gradient(90deg, rgba(125,195,232,1) 0%, rgba(183,222,242,1) 35%, rgba(131,205,245,1) 100%)",
   },
   image: {
-    width: 300,
-    height: 200,
-    borderRadius: 25,
+    width: 150,
+    height: 150,
   },
-  imageSedes: {
-    width: 200,
-    height: 200,
+  itemContainerBlog: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+    paddingHorizontal: 10,
+    width: "90%",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: -170,
-    marginBottom: 20,
+  imageSomos: {
+    width: 170,
+    height: 155,
+    marginRight: 10,
+    marginBottom: 50,
+    borderRadius: 5,
+  },
+  contentBlog: {
+    flex: 1,
+  },
+  textSomos: {
+    marginTop: 5,
+    fontSize: 11,
+    color: "black",
   },
   containerBlog: {
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 10,
     height: 60,
+    width: '100%',
     backgroundColor: "black",
     justifyContent: "center",
     textAlign: "center",
@@ -497,76 +397,33 @@ const styles = StyleSheet.create({
   },
   tituloBlog: {
     marginBottom: 10,
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "white",
-  },
-  titulo2: {
-    marginBottom: 10,
     fontSize: 25,
     fontWeight: "bold",
     color: "white",
   },
-  tituloSedes: {
-    marginTop: 10,
-    marginBottom: 5,
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "black",
-  },
-  itemContainerBlog: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "linear-gradient(90deg, rgba(125,195,232,1) 0%, rgba(183,222,242,1) 35%, rgba(131,205,245,1) 100%)",
-    width: "90%",
-    marginLeft: 20,
-  },
-  imageBlog: {
-    width: 120,
-    height: 110,
-    marginRight: 10,
+  buttonBlog2: {
+    backgroundColor: "#249bad",
+    padding: 10,
     borderRadius: 5,
-  },
-  imageSomos: {
-    width: 140,
-    height: 110,
-    marginRight: 10,
-    marginBottom: 50,
-  },
-  contentBlog: {
-    flex: 1,
-  },
-  titleBlog: {
-    fontSize: 18,
-    color: "#4fafd2",
-    fontWeight: "bold",
-    marginTop: 5,
-    marginBottom: 5,
-    textAlign: "center",
-  },
-  textBlog: {
-    fontSize: 12,
-    color: "black",
-  },
-  textSomos: {
-    marginTop: 5,
-    fontSize: 12,
-    textAlign: "center",
-    color: "black",
+    marginTop: 10,
+    marginLeft: 5,
+    width: 100,
+    textAlign: 'center',
+    alignItems: "center",
   },
   buttonBlog: {
     backgroundColor: "#249bad",
     padding: 10,
     borderRadius: 5,
-    margin: 10,
+    marginTop: 10,
+    marginLeft: 55,
     width: 100,
-    textAlign: "center",
+    textAlign: 'center',
   },
   buttonTextBlog: {
     color: "white",
     fontSize: 16,
+    textAlign: 'center',
   },
   footer: {
     marginTop: 50,

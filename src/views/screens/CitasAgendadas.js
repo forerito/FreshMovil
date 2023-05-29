@@ -71,7 +71,7 @@ const CitasAgendadas = ({ navigation }) => {
         <Header />
 
         <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 330, marginTop: -43 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -104,20 +104,6 @@ const CitasAgendadas = ({ navigation }) => {
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("SedesScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="globe-americas" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Sedes</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("BlogScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="newspaper" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Blog</Text>
                 </View>
               </TouchableOpacity>
 
