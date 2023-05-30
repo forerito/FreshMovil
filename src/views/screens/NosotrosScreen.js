@@ -136,6 +136,87 @@ const NosotrosScreen = ({ navigation }) => {
           </View>
         </View>
 
+
+        <View style={styles.specialistContainer}>
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685325361/cuidado-dental_wmiath.png',
+              }}
+            />
+            <Text style={styles.specialistName}>Karen Sanchez</Text>
+            <Text style={styles.specialistDescription}>
+              Con más de 10 años de experiencia en el campo de la odontología, Karen Sanchez es una profesional altamente capacitada y apasionada por brindar atención dental de calidad.
+            </Text>
+          </View>
+
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685325361/dentista_1_rr7agx.png',
+              }}
+            />
+            <Text style={styles.specialistName}>Juan González</Text>
+            <Text style={styles.specialistDescription}>
+              Juan González es un destacado especialista en odontología con una sólida experiencia de más de 15 años en el campo. Se distingue por su enfoque integral y su dedicación para brindar una atención dental de calidad a sus pacientes.
+            </Text>
+          </View>
+
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326579/dentista_6_ih7caq.png',
+              }}
+            />
+            <Text style={styles.specialistName}>Juan González</Text>
+            <Text style={styles.specialistDescription}>
+              Juan González es un destacado especialista en odontología con una sólida experiencia de más de 15 años en el campo. Se distingue por su enfoque integral y su dedicación para brindar una atención dental de calidad a sus pacientes.
+            </Text>
+          </View>
+
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326579/dentista_4_wa8js1.png',
+              }}
+            />
+            <Text style={styles.specialistName}>María Rodríguez</Text>
+            <Text style={styles.specialistDescription}>
+              María Rodríguez es una odontóloga altamente capacitada y comprometida con la salud bucal de sus pacientes. Con más de 10 años de experiencia en el campo de la odontología restauradora, se especializa en tratamientos de rehabilitación oral y prótesis dentales.
+            </Text>
+          </View>
+
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326579/dentista_3_tdg21p.png',
+              }}
+            />
+            <Text style={styles.specialistName}>Alejandro López</Text>
+            <Text style={styles.specialistDescription}>
+              Alejandro López es un reconocido ortodoncista con una pasión por crear sonrisas perfectas. Con una formación sólida y más de 15 años de experiencia en ortodoncia, Alejandro se dedica a corregir problemas de maloclusión y alineación dental.
+            </Text>
+          </View>
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326391/cuidado-dental_1_ox28ap.png',
+              }}
+            />
+            <Text style={styles.specialistName}>Sofia Herrera</Text>
+            <Text style={styles.specialistDescription}>
+              Sofia Herrera es una periodoncista comprometida con la salud periodontal y el cuidado de las encías. Con una formación especializada en enfermedades periodontales y cirugía oral, Sofia se dedica a tratar y prevenir problemas como la gingivitis y la periodontitis.
+            </Text>
+          </View>
+          {/* ... Repite el mismo patrón para las otras tarjetas de especialistas */}
+        </View>
+
         <View style={styles.footer}></View>
 
         <Footer />
@@ -238,8 +319,37 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginHorizontal: 20,
   },
-
-
+  specialistContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  specialistCard: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    marginTop: 25,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  specialistImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  specialistName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  specialistDescription: {
+    fontSize: 15,
+    lineHeight: 20,
+    width: 325,
+    textAlign: 'center',
+    marginHorizontal: 20,
+  },
   footer: {
     marginTop: 20,
   },

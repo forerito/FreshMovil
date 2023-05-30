@@ -77,7 +77,7 @@ const RegistrationScreen = ({ navigation }) => {
         Dialog.show({
           type: ALERT_TYPE.SUCCESS,
           title: "Felicidades",
-          textBody: "Te haz registrado correctamente!",
+          textBody: "Te has registrado correctamente!",
           button: "Cerrar",
           onHide: () => {
             navigation.navigate("LoginScreen");
