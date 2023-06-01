@@ -1,215 +1,382 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, View, Text, ScrollView, Image } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from "react-native-alert-notification";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import Loader from "../components/Loader";
-import user from "../../../assets/usuario.png"
+import React, { useState } from 'react';
+import { View, TextInput, Text, Alert, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import Icon from "react-native-vector-icons/FontAwesome5";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const RegistrationScreen = ({ navigation }) => {
-  const [inputs, setInputs] = React.useState({
-    id: "",
-    email: "",
-    fullname: "",
-    phone: "",
-    adress: "",
-    password: "",
-    passwordConfirm: "",
-  });
-  const [errors, setErrors] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
+  const [tipoDocumento, setTipoDocumento] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
+  const [nombres, setNombres] = useState('');
+  const [apellidos, setApellidos] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [contraseña, setContraseña] = useState('');
+  const [rol, setRol] = useState('');
 
-  const validate = () => {
-    let isValid = true;
+  const [showPassword, setShowPassword] = useState(false);
 
-    if (!inputs.id) {
-      handleError("Por favor ingrese un número de identificación", "id");
-      isValid = false;
-    }
-    if (!inputs.email) {
-      handleError("Por favor ingrese su dirección de correo eléctronico", "email");
-      isValid = false;
-    } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
-      handleError("Por favor ingrese una dirección de correo válida", "email");
-      isValid = false;
-    }
-    if (!inputs.fullname) {
-      handleError("Por favor ingrese su nombre completo", "fullname");
-      isValid = false;
-    }
-    if (!inputs.adress) {
-      handleError("Por favor ingrese su dirección", "adress");
-      isValid = false;
-    }
-    if (!inputs.phone) {
-      handleError("Por favor ingrese su número de teléfono", "phone");
-      isValid = false;
-    }
-    if (!inputs.password) {
-      handleError("Por favor ingrese una contraseña", "password");
-      isValid = false;
-    } else if (inputs.password.length < 8) {
-      handleError("La contraseña debe ser de mínimo 8 carácteres", "password");
-      isValid = false;
-    }
-    if (!inputs.passwordConfirm) {
-      handleError("Por favor confirme su contraseña", "passwordConfirm");
-      isValid = false;
-    } else if (inputs.passwordConfirm !== inputs.password) {
-      handleError("Las contraseñas no coinciden", "passwordConfirm");
-      isValid = false;
-    }
-
-    if (isValid) register();
+  const handleTipoDocumentoChange = (value) => {
+    setTipoDocumento(value);
   };
 
-  const register = () => {
-    console.log("Registrado!");
-    console.log(inputs);
+  const handleNumeroDocumentoChange = (value) => {
+    setNumeroDocumento(value);
+  };
 
-    setLoading(true);
-    setTimeout(() => {
-      try {
-        setLoading(false);
-        AsyncStorage.setItem("userData", JSON.stringify(inputs));
+  const handleNombresChange = (value) => {
+    setNombres(value);
+  };
 
-        Dialog.show({
-          type: ALERT_TYPE.SUCCESS,
-          title: "Felicidades",
-          textBody: "Te has registrado correctamente!",
-          button: "Cerrar",
-          onHide: () => {
-            navigation.navigate("LoginScreen");
-          },
-        });
-      } catch (error) {
-        Dialog.show({
-          type: ALERT_TYPE.DANGER,
-          title: "ERROR",
-          textBody: error,
-          button: "Cerrar",
-        });
+  const handleApellidosChange = (value) => {
+    setApellidos(value);
+  };
+
+  const handleDireccionChange = (value) => {
+    setDireccion(value);
+  };
+
+  const handleTelefonoChange = (value) => {
+    setTelefono(value);
+  };
+
+  const handleCorreoChange = (value) => {
+    setCorreo(value);
+  };
+
+  const handleContraseñaChange = (value) => {
+    const contraseña = value;
+
+    if (contraseña.length <= 8) {
+      setContraseña(contraseña);
+    } else {
+      Alert.alert('Contraseña inválida', 'La contraseña no puede tener más de 8 caracteres.');
+    }
+  };
+
+  const handleRolChange = (value) => {
+    setRol(value);
+  };
+
+  const opcionesTipoDocumento = [
+    { value: 'Cédula de ciudadanía', label: 'Cédula de ciudadanía' },
+    { value: 'Tarjeta de identidad', label: 'Tarjeta de identidad' },
+    { value: 'Cédula de extranjería', label: 'Cédula de extranjería' },
+    // Add more options as needed
+  ];
+
+  const handleLoginClick = () => {
+    // Handle navigation to the login screen
+    navigation.navigate('LoginScreen'); 
+  };
+
+  const handleSubmit = async () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+      Alert.alert('Correo electrónico inválido', 'La dirección de correo electrónico no es válida.');
+      return;
+    }
+
+    let apiEndpoint = '';
+    let datosFormulario = {};
+
+    if (rol === 'Administrador') {
+      apiEndpoint = 'https://backfresh.azurewebsites.net/FreshSmile/CrearAdministradores';
+      datosFormulario = {
+        tipo_documento_uadministrador: tipoDocumento,
+        numero_documento_uadministrador: numeroDocumento,
+        nombres_uadministrador: nombres,
+        apellidos_uadministrador: apellidos,
+        direccion_uadministrador: direccion,
+        telefono_uadministrador: telefono,
+        correo: correo,
+        contraseña: contraseña,
+      };
+    } else if (rol === 'Paciente') {
+      apiEndpoint = 'https://backfresh.azurewebsites.net/FreshSmile/CrearPacientes';
+      datosFormulario = {
+        tipo_documento_paciente: tipoDocumento,
+        numero_documento_paciente: numeroDocumento,
+        nombres_paciente: nombres,
+        apellidos_paciente: apellidos,
+        direccion_paciente: direccion,
+        telefono_paciente: telefono,
+        correo: correo,
+        contraseña: contraseña,
+      };
+    }
+
+    try {
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosFormulario),
+      });
+
+      if (response.ok) {
+        Alert.alert('Registro exitoso', '¡Se ha registrado correctamente!', [
+          { text: 'OK', onPress: resetFormAndNavigateToLogin },
+        ]);
+      } else {
+        Alert.alert('Error en el registro', 'Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.');
       }
-    }, 3000);
+    } catch (error) {
+      Alert.alert('Error en el registro', 'Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.');
+      console.error(error);
+    }
   };
 
-  const handleOnChange = (text, input) => {
-    setInputs((prevState) => ({ ...prevState, [input]: text }));
-  };
-  const handleError = (text, input) => {
-    setErrors((prevState) => ({ ...prevState, [input]: text }));
+  const resetFormAndNavigateToLogin = () => {
+    setTipoDocumento('');
+    setNumeroDocumento('');
+    setNombres('');
+    setApellidos('');
+    setDireccion('');
+    setTelefono('');
+    setCorreo('');
+    setContraseña('');
+    setRol('');
+    // Handle navigation to the login screen
+    navigation.navigate('LoginScreen');
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <AlertNotificationRoot>
-        <Loader visible={loading} />
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <Image source={user} style={styles.image} />
-          <Text style={styles.heading}>Registro</Text>
+    <SafeAreaView className="flex-1">
+      <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Registro</Text>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Tipo de documento</Text>
+            <View style={styles.inputContainer}>
+              <Picker
+                selectedValue={tipoDocumento}
+                onValueChange={handleTipoDocumentoChange}
+                style={styles.input}
+              >
+                <Picker.Item label="Seleccione tipo de documento" value="" />
+                {opcionesTipoDocumento.map((opcion) => (
+                  <Picker.Item
+                    key={opcion.value}
+                    label={opcion.label}
+                    value={opcion.value}
+                  />
+                ))}
+              </Picker>
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Número de documento</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="address-card" size={24} color="white" style={styles.icon} />
+              <TextInput
+                value={numeroDocumento}
+                placeholder="Ingrese su número de documento"
+                onChangeText={handleNumeroDocumentoChange}
+                style={styles.input}
+                keyboardType="numeric"
+                required
+              />
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Nombres</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="user" size={24} color="white" style={styles.icon} />
+              <TextInput
+                value={nombres}
+                placeholder="Ingrese sus nombres"
+                onChangeText={handleNombresChange}
+                style={styles.input}
+                required
+              />
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Apellidos</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="user" size={24} color="white" style={styles.icon} />
+              <TextInput
+                value={apellidos}
+                placeholder="Ingrese sus apellidos"
+                onChangeText={handleApellidosChange}
+                style={styles.input}
+                required
+              />
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Dirección</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="building" size={24} color="white" style={styles.icon} />
+              <TextInput
+                value={direccion}
+                placeholder="Ingrese su dirección"
+                onChangeText={handleDireccionChange}
+                style={styles.input}
+                required
+              />
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Teléfono</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="mobile-alt" size={24} color="white" style={styles.icon} />
+              <TextInput
+                value={telefono}
+                placeholder="Ingrese su número de teléfono"
+                onChangeText={handleTelefonoChange}
+                style={styles.input}
+                keyboardType="numeric"
+                required
+              />
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Correo electrónico</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="envelope" size={24} color="white" style={styles.icon} />
+              <TextInput
+                value={correo}
+                placeholder="Ingrese su correo electrónico"
+                onChangeText={handleCorreoChange}
+                style={styles.input}
+                keyboardType="email-address"
+                required
+              />
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Contraseña</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="lock" size={24} color="white" style={styles.icon} />
+              <TextInput
+                value={contraseña}
+                placeholder="Ingrese su contraseña"
+                onChangeText={handleContraseñaChange}
+                style={styles.input}
+                secureTextEntry={!showPassword}
+                required
+              />
+              <TouchableOpacity
+                onPress={() => setShowPassword(!showPassword)}
+                style={styles.eyeIconContainer}
+              >
+                <Icon
+                  name={showPassword ? 'eye' : 'eye-slash'}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Tipo de Rol</Text>
+            <View style={styles.inputContainer}>
+              <Picker
+                selectedValue={rol}
+                onValueChange={handleRolChange}
+                style={styles.input}
+              >
+                <Picker.Item label="Seleccione su rol" value="" />
+                <Picker.Item label="Administrador" value="Administrador" />
+                <Picker.Item label="Paciente" value="Paciente" />
+              </Picker>
+            </View>
+          </View>
 
-          <Input
-            label="Identificación"
-            iconName="address-card"
-            placeholder="Ingrese su número de identificación"
-            onChangeText={(text) => handleOnChange(text, "id")}
-            onFocus={() => handleError(null, "id")}
-            error={errors.id}
-          />
-          <Input
-            label="Nombre"
-            iconName="user"
-            placeholder="Ingrese su nombre"
-            onChangeText={(text) => handleOnChange(text, "fullname")}
-            onFocus={() => handleError(null, "fullname")}
-            error={errors.fullname}
-          />
-          <Input
-            label="Dirección"
-            iconName="building"
-            placeholder="Ingrese su dirección"
-            onChangeText={(text) => handleOnChange(text, "adress")}
-            onFocus={() => handleError(null, "adress")}
-            error={errors.adress}
-          />
-          <Input
-            label="Teléfono"
-            iconName="mobile-alt"
-            placeholder="Ingrese su teléfono"
-            onChangeText={(text) => handleOnChange(text, "phone")}
-            onFocus={() => handleError(null, "phone")}
-            error={errors.phone}
-          />
-          <Input
-            label="Correo"
-            iconName="envelope"
-            placeholder="Ingrese su correo electrónico"
-            onChangeText={(text) => handleOnChange(text, "email")}
-            onFocus={() => handleError(null, "email")}
-            error={errors.email}
-          />
-          <Input
-            label="Contraseña"
-            iconName="lock"
-            password
-            placeholder="Ingrese su contraseña"
-            onChangeText={(text) => handleOnChange(text, "password")}
-            onFocus={() => handleError(null, "password")}
-            error={errors.password}
-          />
-          <Input
-            label="Confirme contraseña"
-            iconName="lock"
-            password
-            placeholder="Confirme su contraseña"
-            onChangeText={(text) => handleOnChange(text, "passwordConfirm")}
-            onFocus={() => handleError(null, "passwordConfirm")}
-            error={errors.passwordConfirm}
-          />
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={styles.button}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.title}>Registrar</Text>
+          </TouchableOpacity>
 
-          <Button title="Registrarse" onPress={validate} />
-          <Text
-              style={styles.textLogin}
-              onPress={() => navigation.navigate("LoginScreen")}
+          <View style={styles.loginLink}>
+            <Text style={styles.loginText}>¿Ya tienes una cuenta?</Text>
+
+            <TouchableOpacity
+              onPress={handleLoginClick}
+              style={styles.button2}
+              activeOpacity={0.7}
             >
-              ¿Ya eres miembro? Inicia Sesión
-            </Text>
-        </ScrollView>
-      </AlertNotificationRoot>
+              <Text style={styles.title}>Iniciar sesión</Text>
+            </TouchableOpacity>
+
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    flex: 1,
-  },
-  scrollContainer: {
-    paddingTop: 50,
     paddingHorizontal: 20,
-    // marginTop: 30,
+    paddingVertical: 30,
   },
-  heading: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-    alignSelf: 'center',
-  },
-  textLogin: {
-    textAlign: "center",
-    fontSize: 15,
-    marginBottom: 20,
-    color: 'blue',
-    textDecorationLine: 'underline',
-    fontWeight: "bold",
-  },
-  image: {
-    width: 60,
-    height: 60,
+  formGroup: {
     marginBottom: 5,
-    alignSelf: "center",
+  },
+  label: {
+    marginBottom: 5,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: 'gray',
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  icon: {
+    marginRight: 10,
+    color: 'black',
+  },
+  input: {
+    flex: 1,
+    paddingVertical: 10,
+  },
+  loginLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  loginText: {
+    marginRight: 5,
+  },
+  button: {
+    height: 50,
+    width: "50%",
+    backgroundColor: "#249bad",
+    marginBottom: 10,
+    alignSelf: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+  },
+  button2: {
+    height: 40,
+    width: "40%",
+    backgroundColor: "#249bad",
+    alignSelf: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+  },
+  title: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  eyeIconContainer: {
+    position: 'absolute',
+    right: 10,
   },
 });
 

@@ -1,194 +1,143 @@
-import React from "react";
-import { StyleSheet, SafeAreaView, View, Text, ScrollView, Image } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from "react-native-alert-notification";
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, Alert, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import { Picker } from '@react-native-picker/picker';
 
-import Input from "../components/Input";
-import Button from "../components/Button";
-import Loader from "../components/Loader";
-import user from "../../../assets/usuario.png";
+const LoginScreen = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
-const LoginScreen = ({ navigation }) => {
-  const [inputs, setInputs] = React.useState({
-    email: "",
-    password: "",
-  });
-  const [errors, setErrors] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const validate = async () => {
-    let isValid = true;
-
-    if (!inputs.email) {
-      handleError("Por favor ingrese su dirección de correo eléctronico", "email");
-      isValid = false;
-    } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
-      handleError("Por favor ingrese una dirección de correo válida", "email");
-      isValid = false;
-    }
-
-    if (!inputs.password) {
-      handleError("Por favor ingrese una contraseña", "password");
-      isValid = false;
-    } else if (inputs.password.length < 8) {
-      handleError("La contraseña debe ser de mínimo 8 carácteres", "password");
-      isValid = false;
-    }
-
-    if (isValid) login();
-  };
-
-  const handleOnChange = (text, input) => {
-    setInputs((prevState) => ({ ...prevState, [input]: text }));
-  };
-  const handleError = (text, input) => {
-    setErrors((prevState) => ({ ...prevState, [input]: text }));
-  };
-
-  const login = () => {
-    console.log("login!");
-    console.log(inputs);
-
-    setLoading(true);
-    setTimeout(async () => {
-      try {
-        setLoading(false);
-        let userData = await AsyncStorage.getItem("userData");
-
-        if (userData) {
-          userData = JSON.parse(userData);
-          console.log("userData");
-          console.log(userData);
-
-          if (
-            inputs.email == userData.email &&
-            inputs.password == userData.password
-          ) {
-            navigation.navigate("HomeScreen");
-            AsyncStorage.setItem(
-              "userData",
-              JSON.stringify({ ...userData, loggedIn: true })
-            );
-          } else {
-            console.log("No Account Found");
-            Dialog.show({
-              type: ALERT_TYPE.DANGER,
-              title: "ERROR",
-              textBody: "¡Correo/Contraseña incorrectos!",
-              button: "Cerrar",
-            });
-          }
-        } else {
-          console.log("No Account Found");
-          Dialog.show({
-            type: ALERT_TYPE.DANGER,
-            title: "ERROR",
-            textBody: "El usuario no está registrado",
-            button: "Cerrar",
-          });
-        }
-      } catch (error) {
-        console.log("Error! " + error);
-        Dialog.show({
-          type: ALERT_TYPE.DANGER,
-          title: "ERROR",
-          textBody: error,
-          button: "Cerrar",
-        });
+  const handleSubmit = async () => {
+    try {
+      let url;
+      if (role === "paciente") {
+        url = "https://backfresh.azurewebsites.net/FreshSmile/loginPaciente";
+      } else if (role === "administrador") {
+        url = "https://backfresh.azurewebsites.net/FreshSmile/loginAdministrador";
+      } else {
+        throw new Error("Rol no válido");
       }
-    }, 3000);
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `correo=${email}&contraseña=${password}`,
+      });
+
+      if (response.ok) {
+        // Inicio de sesión exitoso
+        const data = await response.text();
+        // Aquí puedes mostrar una alerta o realizar cualquier otra acción en React Native
+        Alert.alert("Inicio de sesión exitoso:", data);
+      } else {
+        // Las credenciales son incorrectas
+        throw new Error("Correo o contraseña incorrectos");
+      }
+    } catch (error) {
+      // Aquí puedes mostrar una alerta de error en React Native
+      Alert.alert("Error:", error.message);
+    }
   };
 
   return (
-    <AlertNotificationRoot style={styles.notification}>
-      <SafeAreaView style={styles.container}>
-        <Loader visible={loading} />
-        <ScrollView contentContainerStyle={styles.svContainer}>
-          <Image source={user} style={styles.image} />
-          <Text style={styles.heading}>Inicio de Sesión</Text>
-          <View style={styles.viewContainer}>
-            <Input
-              label="Correo"
-              iconName="envelope"
-              placeholder="Ingrese su correo"
-              onChangeText={(text) => handleOnChange(text, "email")}
-              onFocus={() => handleError(null, "email")}
-              error={errors.email}
-            />
-            <Input
-              label="Contraseña"
-              iconName="lock"
-              password
-              placeholder="Ingrese su contraseña"
-              onChangeText={(text) => handleOnChange(text, "password")}
-              onFocus={() => handleError(null, "password")}
-              error={errors.password}
-            />
-
-            <Button title="Iniciar sesión" onPress={validate} />
-            <Text
-              style={styles.textRegister}
-              onPress={() => navigation.navigate("RegistrationScreen")}
-            >
-              ¿Aún no eres miembro? Regístrate
-            </Text>
+    <SafeAreaView className="flex-1">
+      <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Iniciar sesión</Text>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Correo:</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="envelope" size={24} color="white" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Ingrese su correo electrónico"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+              />
+            </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </AlertNotificationRoot>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Contraseña:</Text>
+            <View style={styles.inputContainer}>
+              <Icon name="lock" size={24} color="white" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Ingrese su contraseña"
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                secureTextEntry={!showPassword}
+              />
+               <TouchableOpacity
+                onPress={() => setShowPassword(!showPassword)}
+                style={styles.eyeIconContainer}
+              >
+                <Icon
+                  name={showPassword ? 'eye' : 'eye-slash'}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.formGroup}>
+            <Text style={styles.label}>Rol:</Text>
+            <View style={styles.inputContainer}>
+              <Picker
+                selectedValue={role}
+                style={styles.input}
+                onValueChange={(value) => setRole(value)}
+              >
+                <Picker.Item label="Seleccione un rol" value="" />
+                <Picker.Item label="Paciente" value="paciente" />
+                <Picker.Item label="Administrador" value="administrador" />
+              </Picker>
+            </View>
+          </View>
+          <Button title="Iniciar sesión" onPress={handleSubmit} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  notification: {
-    justifyContent: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginRight: 20,
-    borderRadius: 5,
-  },
+const styles = {
   container: {
-    backgroundColor: "white",
-    flex: 1,
-  },
-  svContainer: {
-    paddingTop: 30,
     paddingHorizontal: 20,
-    marginTop: 30,
+    paddingVertical: 30,
   },
-  image: {
-    width: 250,
-    height: 250,
-    alignSelf: "center",
-  },
-  textTitle: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "black",
-  },
-  viewContainer: {
-    paddingVertical: 20,
-  },
-  textRegister: {
-    textAlign: "center",
-    fontSize: 15,
-    color: 'blue',
-    textDecorationLine: 'underline',
-    fontWeight: "bold",
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 6,
-    alignSelf: 'center',
-  },
-  image: {
-    width: 60,
-    height: 60,
-    marginTop: 10,
+  formGroup: {
     marginBottom: 5,
-    alignSelf: "center",
   },
-});
+  label: {
+    marginBottom: 5,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: 'gray',
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  icon: {
+    marginRight: 10,
+    color: 'black',
+  },
+  input: {
+    flex: 1,
+    paddingVertical: 10,
+  },
+  eyeIconContainer: {
+    position: 'absolute',
+    right: 10,
+  },
+};
 
 export default LoginScreen;

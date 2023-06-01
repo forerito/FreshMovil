@@ -91,10 +91,10 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
+              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
                 <View style={styles.contentMenuItems}>
-                  <Icon name="comments" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Contacto</Text>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agenda cita</Text>
                 </View>
               </TouchableOpacity>
 
@@ -107,8 +107,22 @@ const HomeScreen = ({ navigation }) => {
 
               <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
                 <View style={styles.contentMenuItems}>
-                  <Icon name="user-clock" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Agendamiento</Text>
+                  <Icon name="trophy" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Mi ranking</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-check" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nuestros especialistas</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="comments" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Contacto</Text>
                 </View>
               </TouchableOpacity>
               <Button title='Salir' onPress={logout} />
