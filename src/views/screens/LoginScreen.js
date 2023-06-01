@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Toast from 'react-native-toast-message';
 import { Picker } from '@react-native-picker/picker';
 
 const LoginScreen = ({ navigation }) => {
@@ -20,9 +21,9 @@ const LoginScreen = ({ navigation }) => {
     try {
       let url;
       if (role === "paciente") {
-        url = "https://backfresh.azurewebsites.net/FreshSmile/loginPaciente";
+        url = "https://freshsmile.azurewebsites.net/FreshSmile/loginPaciente";
       } else if (role === "administrador") {
-        url = "https://backfresh.azurewebsites.net/FreshSmile/loginAdministrador";
+        url = "https://freshsmile.azurewebsites.net/FreshSmile/loginAdministrador";
       } else {
         throw new Error("Rol no válido");
       }

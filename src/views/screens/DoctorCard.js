@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const defaultPhoto =
   'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852209/Fresh_Smile_Cmills/cards4_r5phfs.jpg';
@@ -35,46 +36,52 @@ const DoctorCard = ({ name, specialty, photo }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.card}>
-        <Image source={{ uri: photo || defaultPhoto }} style={styles.photo} />
-        <View style={styles.details}>
-          <Text style={styles.name}>{name}</Text>
-          <Text>Especialidad: {specialty}</Text>
-        </View>
-        <View style={styles.rating}>
-          <Text>Valoración:</Text>
-          <View style={styles.starRating}>
-            {[1, 2, 3, 4, 5].map((value) => (
-              <TouchableOpacity
-                key={value}
-                style={[
-                  styles.star,
-                  value <= (hoverRating || rating) ? styles.selectedStar : null,
-                ]}
-                onPress={() => handleRatingClick(value)}
-                onMouseEnter={() => handleRatingHover(value)}
-                onMouseLeave={handleRatingLeave}
-              >
-                <Text>{value % 1 === 0.5 ? '★½' : '★'}</Text>
-              </TouchableOpacity>
-            ))}
+    <SafeAreaView className="flex-1 ">
+      <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+
+        <View style={styles.container}>
+          <View style={styles.card}>
+            <Image source={{ uri: photo || defaultPhoto }} style={styles.photo} />
+            <View style={styles.details}>
+              <Text style={styles.name}>{name}</Text>
+              <Text>Especialidad: {specialty}</Text>
+            </View>
+            <View style={styles.rating}>
+              <Text>Valoración:</Text>
+              <View style={styles.starRating}>
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <TouchableOpacity
+                    key={value}
+                    style={[
+                      styles.star,
+                      value <= (hoverRating || rating) ? styles.selectedStar : null,
+                    ]}
+                    onPress={() => handleRatingClick(value)}
+                    onMouseEnter={() => handleRatingHover(value)}
+                    onMouseLeave={handleRatingLeave}
+                  >
+                    <Text>{value % 1 === 0.5 ? '★½' : '★'}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+            <View style={styles.comments}>
+              <Text>Comentario:</Text>
+              <TextInput
+                value={comment}
+                onChangeText={handleCommentChange}
+                style={styles.commentInput}
+                // multiline
+              />
+            </View>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text>Enviar</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.comments}>
-          <Text>Comentario:</Text>
-          <TextInput
-            value={comment}
-            onChangeText={handleCommentChange}
-            style={styles.commentInput}
-            multiline
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text>Enviar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

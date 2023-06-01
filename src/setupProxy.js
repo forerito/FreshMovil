@@ -4,7 +4,7 @@ export default function setupProxy(app) {
     app.use(
       '/FreshSmile',
       createProxyMiddleware({
-        target: 'https://backfresh.azurewebsites.net',
+        target: 'https://freshsmile.azurewebsites.net',
         changeOrigin: true,
       })
     );

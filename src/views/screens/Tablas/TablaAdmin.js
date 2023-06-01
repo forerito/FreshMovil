@@ -1,24 +1,30 @@
-import React from "react";
-import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import MapView from 'react-native-maps';
 
-const TablaAdmin = ({ navigation }) => {
+const TablaAdmin = () => {
 
     return (
-        <SafeAreaView className="flex-1 ">
-            <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+       
+                <View style={styles.container}>
+                    {/* <MapView style={styles.map}>
+                    </MapView> */}
+                </View>
 
-
-
-
-
-            </ScrollView>
-        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-
-});
+    container: {
+      flex: '1',
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    map: {
+        width: '100%',
+        height: '100%',
+    },
+}); 
 
 export default TablaAdmin;

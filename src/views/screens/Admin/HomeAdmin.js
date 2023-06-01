@@ -18,7 +18,6 @@ const HomeAdmin = ({ navigation }) => {
 
   return (
     <SafeAreaView className="flex-1 ">
-
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
 
         <Header />

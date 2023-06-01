@@ -23,8 +23,6 @@ const Stack = createNativeStackNavigator();
 
 
 
-
-
 function App() {
   return (
     <NavigationContainer>
