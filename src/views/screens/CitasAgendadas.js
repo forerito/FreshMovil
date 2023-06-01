@@ -64,7 +64,7 @@ const CitasAgendadas = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView className="flex-1 " style={{ backgroundColor: "white" }}>
+    <SafeAreaView className="flex-1 ">
 
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
 

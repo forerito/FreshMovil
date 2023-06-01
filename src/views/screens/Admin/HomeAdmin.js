@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, ImageBackground } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import Footer from "../layouts/Footer";
-import Button from "../components/ButtonSesion";
-import ChatWhatsApp from "../layouts/ChatWhatsApp";
-import Header from "./Header";
+import Header from "../Header";
 
-const HomeScreen = ({ navigation }) => {
+const HomeAdmin = ({ navigation }) => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -42,7 +39,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
+              <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Inicio</Text>
@@ -70,7 +67,14 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
+              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="star" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Mi valoración</Text>
+                </View>
+              </TouchableOpacity>
+
+              {/* <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="calendar-alt" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Mis citas</Text>
@@ -89,161 +93,16 @@ const HomeScreen = ({ navigation }) => {
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Nuestros especialistas</Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
-              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="comments" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Contacto</Text>
-                </View>
-              </TouchableOpacity>
               {/* <Button title='Salir' onPress={logout} /> */}
 
             </View>
           )}
         </View>
-
-        <View style={styles.containerBanner}>
-          <ImageBackground
-            source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465042/banner_xdrd5m.png" }}
-            resizeMode={"stretch"}
-            style={styles.fondoContainer}
-          >
-            <View style={styles.containerHome}>
-              <Text style={styles.heading}>
-                ¡BIENVENIDOS A LA CLINICA FRESH SMILE CMILLS!
-              </Text>
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => navigation.navigate("AgendarCita")}
-                >
-                  <Text style={styles.buttonText}>Agendar Cita</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button}
-                  onPress={() => navigation.navigate("SedesScreen")}
-                >
-                  <Text style={styles.buttonText}>Buscar Clinica</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ImageBackground>
-
-          <View style={styles.containerBlog}>
-            <Text>
-              <Text style={styles.tituloBlog}>¿Quiénes Somos?</Text>
-            </Text>
-          </View>
-
-          <View>
-            <View style={styles.itemContainerBlog}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465241/nosotros_iwn5ht.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.imageSomos}
-              />
-              <View style={styles.contentBlog}>
-                <Text style={styles.textSomos}>
-                  Fresh Smile Cmills es una reconocida clínica de ortodoncia comprometida con ofrecer
-                  soluciones de alta calidad para la salud dental de nuestros pacientes. Con una amplia
-                  experiencia y conocimientos en el campo de la ortodoncia, nos hemos ganado la confianza
-                  de numerosos individuos y familias que buscan mejorar su sonrisa y salud bucal.
-                </Text>
-                <TouchableOpacity style={styles.buttonBlog}
-                  onPress={() => navigation.navigate("NosotrosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerBlog}>
-            <Text>
-              <Text style={styles.tituloBlog}>Nuestros procedimientos</Text>
-            </Text>
-          </View>
-
-          <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685124831/ortodoncista_tlq9k3.png' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Ortodoncia</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125116/cepillo-de-dientes_1_d1q7ii.png' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Limpieza dental</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125346/endodoncia_n5itxb.png' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Endodoncia</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125180/extraccion_jn5wxt.png' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Extracción dental</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-        </View>
-
         <View style={styles.footer}></View>
 
-        <Footer />
       </ScrollView>
-      <ChatWhatsApp />
     </SafeAreaView>
   );
 };
@@ -412,8 +271,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   footer: {
-    marginTop: 30,
+    marginTop: 50,
   },
 });
 
-export default HomeScreen;
+export default HomeAdmin;

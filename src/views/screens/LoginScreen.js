@@ -4,12 +4,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Picker } from '@react-native-picker/picker';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleRegisterClick = () => {
+    // Handle navigation to the login screen
+    navigation.navigate('RegistrationScreen');
+  };
 
   const handleSubmit = async () => {
     try {
@@ -49,7 +54,7 @@ const LoginScreen = () => {
     <SafeAreaView className="flex-1">
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <Text style={styles.title}>Iniciar sesión</Text>
+          <Text style={styles.titlePrincipal}>Iniciar sesión</Text>
           <View style={styles.formGroup}>
             <Text style={styles.label}>Correo:</Text>
             <View style={styles.inputContainer}>
@@ -73,12 +78,12 @@ const LoginScreen = () => {
                 onChangeText={(text) => setPassword(text)}
                 secureTextEntry={!showPassword}
               />
-               <TouchableOpacity
+              <TouchableOpacity
                 onPress={() => setShowPassword(!showPassword)}
                 style={styles.eyeIconContainer}
               >
                 <Icon
-                  name={showPassword ? 'eye' : 'eye-slash'}
+                  name={showPassword ? 'eye-slash' : 'eye'}
                   size={24}
                   color="black"
                 />
@@ -99,7 +104,28 @@ const LoginScreen = () => {
               </Picker>
             </View>
           </View>
-          <Button title="Iniciar sesión" onPress={handleSubmit} />
+
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={styles.button}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.title}>Iniciar sesión</Text>
+          </TouchableOpacity>
+
+          <View style={styles.loginLink}>
+            <Text style={styles.loginText}>¿Aún no tienes una cuenta?</Text>
+
+            <TouchableOpacity
+              onPress={handleRegisterClick}
+              style={styles.button2}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.title}>Registrate</Text>
+            </TouchableOpacity>
+
+          </View>
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -110,6 +136,14 @@ const styles = {
   container: {
     paddingHorizontal: 20,
     paddingVertical: 30,
+  },
+  titlePrincipal: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 30,
+    marginBottom: 20,
+    alignItems: 'center',
+    textAlign: 'center',
   },
   formGroup: {
     marginBottom: 5,
@@ -134,9 +168,42 @@ const styles = {
     flex: 1,
     paddingVertical: 10,
   },
+  button: {
+    height: 50,
+    width: "50%",
+    backgroundColor: "#249bad",
+    marginBottom: 10,
+    alignSelf: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+  },
+  title: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
   eyeIconContainer: {
     position: 'absolute',
     right: 10,
+  },
+  loginLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  loginText: {
+    marginRight: 5,
+  },
+  button2: {
+    height: 40,
+    width: "40%",
+    backgroundColor: "#249bad",
+    alignSelf: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
   },
 };
 

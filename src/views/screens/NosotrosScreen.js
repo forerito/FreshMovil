@@ -19,7 +19,7 @@ const NosotrosScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView className='flex-1 ' style={{ backgroundColor: 'white' }}>
+    <SafeAreaView className='flex-1 '>
       <ScrollView className='h-full' showsVerticalScrollIndicator={false}>
 
         <Header />
@@ -97,10 +97,12 @@ const NosotrosScreen = ({ navigation }) => {
 
 
         <View style={styles.container}>
-          <Image
-            source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852193/Fresh_Smile_Cmills/imagen15.jpg_gg3f9o.jpg" }} resizeMode={'stretch'}
-            style={styles.image}
-          />
+          <View style={styles.borderImage}>
+            <Image
+              source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852193/Fresh_Smile_Cmills/imagen15.jpg_gg3f9o.jpg" }} resizeMode={'stretch'}
+              style={styles.image}
+            />
+          </View>
           <View style={styles.content}>
             <Text style={styles.title}>Nosotros</Text>
             <Text style={styles.paragraph}>
@@ -283,6 +285,7 @@ const styles = StyleSheet.create({
     height: 160,
     marginTop: 35,
     marginRight: 16,
+    borderRadius: 10,
   },
   content: {
     flex: 1,
@@ -323,19 +326,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 10,
   },
   specialistCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5;',
     borderRadius: 8,
     marginTop: 25,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 2,
   },
   specialistImage: {
     width: 200,
     height: 200,
     borderRadius: 8,
+    marginTop: 10,
     marginBottom: 10,
   },
   specialistName: {
@@ -346,6 +356,7 @@ const styles = StyleSheet.create({
   specialistDescription: {
     fontSize: 15,
     lineHeight: 20,
+    marginBottom: 25,
     width: 325,
     textAlign: 'center',
     marginHorizontal: 20,

@@ -157,7 +157,7 @@ const RegistrationScreen = ({ navigation }) => {
     <SafeAreaView className="flex-1">
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <Text style={styles.title}>Registro</Text>
+          <Text style={styles.titlePrincipal}>Registro</Text>
           <View style={styles.formGroup}>
             <Text style={styles.label}>Tipo de documento</Text>
             <View style={styles.inputContainer}>
@@ -275,7 +275,7 @@ const RegistrationScreen = ({ navigation }) => {
                 style={styles.eyeIconContainer}
               >
                 <Icon
-                  name={showPassword ? 'eye' : 'eye-slash'}
+                  name={showPassword ? 'eye-slash' : 'eye'}
                   size={24}
                   color="black"
                 />
@@ -327,6 +327,14 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingVertical: 30,
+  },
+  titlePrincipal: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 30,
+    marginBottom: 20,
+    alignItems: 'center',
+    textAlign: 'center',
   },
   formGroup: {
     marginBottom: 5,
