@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, Alert, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import Icon from "react-native-vector-icons/FontAwesome5";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Picker } from '@react-native-picker/picker';
+import Toast from 'react-native-toast-message'
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const RegistrationScreen = ({ navigation }) => {
   const [tipoDocumento, setTipoDocumento] = useState('');
@@ -68,7 +69,7 @@ const RegistrationScreen = ({ navigation }) => {
 
   const handleLoginClick = () => {
     // Handle navigation to the login screen
-    navigation.navigate('LoginScreen'); 
+    navigation.navigate('LoginScreen');
   };
 
   const handleSubmit = async () => {
@@ -122,6 +123,15 @@ const RegistrationScreen = ({ navigation }) => {
         ]);
       } else {
         Alert.alert('Error en el registro', 'Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.');
+        Toast.show({
+          type: "success",
+          text1: "Toast Message",
+          text2: "Por favor inténtalo de nuevo",
+          autoHide: true,
+          visibilityTime: 3000,
+          onPress: () => Toast.hide(),
+          position: 'bottom',
+        });
       }
     } catch (error) {
       Alert.alert('Error en el registro', 'Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.');
