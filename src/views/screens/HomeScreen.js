@@ -122,7 +122,7 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button}
-                  onPress={() => navigation.navigate("SedesScreen")}
+                  onPress={() => navigation.navigate("MapaArmenia")}
                 >
                   <Text style={styles.buttonText}>Buscar Clinica</Text>
                 </TouchableOpacity>

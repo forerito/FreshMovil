@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import Toast from 'react-native-toast-message';
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setRol }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -40,9 +46,18 @@ const LoginScreen = ({ navigation }) => {
         // Inicio de sesión exitoso
         const data = await response.text();
         // Aquí puedes mostrar una alerta o realizar cualquier otra acción en React Native
-        Alert.alert("Inicio de sesión exitoso:", data);
+        Alert.alert("Inicio de sesión exitoso", data);
+        // setRol(role);
+        await AsyncStorage.setItem("loggedIn", "true");
+        await AsyncStorage.setItem("rol", role);
+      
+        // Redirigir al usuario a la página de inicio según el rol seleccionado
+        if (role === "paciente") {
+          navigation.navigate("HomeScreenPaciente");
+        } else if (role === "administrador") {
+          navigation.navigate("HomeScreenAdministrador");
+        }
       } else {
-        // Las credenciales son incorrectas
         throw new Error("Correo o contraseña incorrectos");
       }
     } catch (error) {
@@ -54,10 +69,11 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+    <AlertNotificationRoot>
         <View style={styles.container}>
-          <Text style={styles.titlePrincipal}>Iniciar sesión</Text>
+          <Text style={styles.titlePrincipal}>INICIAR SESIÓN</Text>
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Correo:</Text>
+            <Text style={styles.label}>Correo</Text>
             <View style={styles.inputContainer}>
               <Icon name="envelope" size={24} color="white" style={styles.icon} />
               <TextInput
@@ -69,7 +85,7 @@ const LoginScreen = ({ navigation }) => {
             </View>
           </View>
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Contraseña:</Text>
+            <Text style={styles.label}>Contraseña</Text>
             <View style={styles.inputContainer}>
               <Icon name="lock" size={24} color="white" style={styles.icon} />
               <TextInput
@@ -92,13 +108,14 @@ const LoginScreen = ({ navigation }) => {
             </View>
           </View>
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Rol:</Text>
+            <Text style={styles.label}>Rol</Text>
             <View style={styles.inputContainer}>
               <Picker
                 selectedValue={role}
                 style={styles.input}
                 onValueChange={(value) => setRole(value)}
               >
+                
                 <Picker.Item label="Seleccione un rol" value="" />
                 <Picker.Item label="Paciente" value="paciente" />
                 <Picker.Item label="Administrador" value="administrador" />
@@ -122,12 +139,13 @@ const LoginScreen = ({ navigation }) => {
               style={styles.button2}
               activeOpacity={0.7}
             >
-              <Text style={styles.title}>Registrate</Text>
+              <Text style={styles.title2}>Registrate</Text>
             </TouchableOpacity>
 
           </View>
 
         </View>
+    </AlertNotificationRoot>
       </ScrollView>
     </SafeAreaView>
   );
@@ -139,7 +157,7 @@ const styles = {
     paddingVertical: 30,
   },
   titlePrincipal: {
-    color: "black",
+    color: "#4fafd2",
     fontWeight: "bold",
     fontSize: 30,
     marginBottom: 20,
@@ -151,6 +169,7 @@ const styles = {
   },
   label: {
     marginBottom: 5,
+    fontWeight: "bold",
   },
   inputContainer: {
     flexDirection: 'row',
@@ -173,6 +192,7 @@ const styles = {
     height: 50,
     width: "50%",
     backgroundColor: "#249bad",
+    marginTop: 10,
     marginBottom: 10,
     alignSelf: 'center',
     justifyContent: "center",
@@ -180,7 +200,12 @@ const styles = {
     borderRadius: 15,
   },
   title: {
-    color: "black",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  title2: {
+    color: "#249bad",
     fontWeight: "bold",
     fontSize: 18,
   },
@@ -192,15 +217,13 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
   loginText: {
     marginRight: 5,
   },
   button2: {
     height: 40,
-    width: "40%",
-    backgroundColor: "#249bad",
     alignSelf: 'center',
     justifyContent: "center",
     alignItems: "center",

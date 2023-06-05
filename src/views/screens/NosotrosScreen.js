@@ -89,7 +89,7 @@ const NosotrosScreen = ({ navigation }) => {
 
           <ImageBackground source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852201/Fresh_Smile_Cmills/banner_fjy0jl.jpg" }} resizeMode={'stretch'} style={styles.fondoContainer}>
             <View style={styles.containerHome}>
-              <Text style={styles.heading}>¡SOBRE NOSOTROS!</Text>
+              <Text style={styles.heading}>CONOCE UN POCO SOBRE NOSOTROS</Text>
             </View>
           </ImageBackground>
 
@@ -268,7 +268,8 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
+    marginTop: -25,
     color: 'white',
     textAlign: 'center',
     backgroundColor: 'lightgray',

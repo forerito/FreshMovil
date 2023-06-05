@@ -89,7 +89,7 @@ const ProcedimientosScreen = ({ navigation }) => {
 
           <ImageBackground source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684601807/Fresh_Smile_Cmills/Procedimientos_-fondo_j3w4lj.jpg" }} resizeMode={'stretch'} style={styles.fondoContainer}>
             <View style={styles.containerHome}>
-              <Text style={styles.heading}>¡NUESTROS PROCEDIMIENTOS!</Text>
+              <Text style={styles.heading}>CONOCE UN POCO SOBRE NUESTROS PROCEDIMIENTOS</Text>
             </View>
           </ImageBackground>
 
