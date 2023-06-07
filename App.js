@@ -22,6 +22,9 @@ import CitasAgendadas from "./src/views/screens/CitasAgendadas";
 import CitasPendientes from "./src/views/screens/CitasPendientes";
 
 
+import Prueba from "./src/views/screens/Prueba";
+
+
 const Stack = createNativeStackNavigator();
 
 
@@ -29,7 +32,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="TablaUsuario">
+      <Stack.Navigator initialRouteName="Prueba">
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NosotrosScreen" component={NosotrosScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ProcedimientosScreen" component={ProcedimientosScreen} options={{ headerShown: false }} />
@@ -50,6 +53,10 @@ function App() {
           component={RegistrationScreen} options={{ headerShown: false }}
         />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+
+
+
+        <Stack.Screen name="Prueba" component={Prueba} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
