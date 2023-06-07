@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, ImageBackg
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Footer from "../layouts/Footer";
-import Button from "../components/ButtonSesion";
 import ChatWhatsApp from "../layouts/ChatWhatsApp";
 import Header from "./Header";
 
@@ -168,12 +167,12 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.containerProcedimientos2}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685124831/ortodoncista_tlq9k3.png' }}
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268332/Fresh_Smile_Cmills/enis-yavuz-4u2fG9mqGvQ-unsplash_saf7yd.jpg' }}
                 style={styles.image}
                 resizeMode="stretch"
               />
               <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: '' }}>Ortodoncia</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white' }}>Ortodoncia</Text>
                 <TouchableOpacity style={styles.buttonBlog2}
                   onPress={() => navigation.navigate("ProcedimientosScreen")}
                 >
@@ -186,12 +185,12 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.containerProcedimientos2}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125116/cepillo-de-dientes_1_d1q7ii.png' }}
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
                 style={styles.image}
                 resizeMode="stretch"
               />
               <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Limpieza dental</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white', width: 100 }}>Limpieza dental</Text>
                 <TouchableOpacity style={styles.buttonBlog2}
                   onPress={() => navigation.navigate("ProcedimientosScreen")}
                 >
@@ -204,12 +203,12 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.containerProcedimientos2}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125346/endodoncia_n5itxb.png' }}
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268377/Fresh_Smile_Cmills/jonathan-borba-W9YEY6G8LVM-unsplash_qpfaed.jpg' }}
                 style={styles.image}
                 resizeMode="stretch"
               />
               <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Endodoncia</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white' }}>Endodoncia</Text>
                 <TouchableOpacity style={styles.buttonBlog2}
                   onPress={() => navigation.navigate("ProcedimientosScreen")}
                 >
@@ -222,12 +221,12 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.containerProcedimientos2}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125180/extraccion_jn5wxt.png' }}
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268627/Fresh_Smile_Cmills/jonathan-borba-v_2FRXEba94-unsplash_cth93o.jpg' }}
                 style={styles.image}
                 resizeMode="stretch"
               />
               <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Extracción dental</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white', width: 100 }}>Extracción dental</Text>
                 <TouchableOpacity style={styles.buttonBlog2}
                   onPress={() => navigation.navigate("ProcedimientosScreen")}
                 >
@@ -348,6 +347,7 @@ const styles = StyleSheet.create({
   image: {
     width: 150,
     height: 150,
+    borderRadius: 5,
   },
   itemContainerBlog: {
     flexDirection: "row",

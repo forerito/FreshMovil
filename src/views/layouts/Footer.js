@@ -14,7 +14,11 @@ const Footer = () => {
   return (
     <View>
       <View style={styles.footerContainer}>
-        <Text style={styles.title}>FRESH SMILE CMILLS</Text>
+        <Text style={styles.title}>
+        <Text style={styles.titleblue}>FRESH</Text>
+        <Text style={styles.title}> SMILE </Text>
+        <Text style={styles.titleblue}>CMILLS</Text>
+        </Text>
         <View style={styles.iconsContainer}>
           <View style={styles.icon}>
             <Image
@@ -74,6 +78,12 @@ const styles = StyleSheet.create({
   },
   title: {
     color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  titleblue: {
+    color: "#5FFDFF",
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,

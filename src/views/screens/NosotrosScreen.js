@@ -330,12 +330,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   specialistCard: {
-    backgroundColor: '#D3D3D3;',
     borderRadius: 8,
     marginTop: 25,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#D3D3D3',
     shadowColor: 'rgba(0, 0, 0, 0.2)',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,

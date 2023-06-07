@@ -14,7 +14,6 @@ const RegistrationScreen = ({ navigation }) => {
   const [tipoDocumento, setTipoDocumento] = useState('');
   const [numeroDocumento, setNumeroDocumento] = useState('');
   const [nombres, setNombres] = useState('');
-  const [apellidos, setApellidos] = useState('');
   const [direccion, setDireccion] = useState('');
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
@@ -33,10 +32,6 @@ const RegistrationScreen = ({ navigation }) => {
 
   const handleNombresChange = (value) => {
     setNombres(value);
-  };
-
-  const handleApellidosChange = (value) => {
-    setApellidos(value);
   };
 
   const handleDireccionChange = (value) => {
@@ -83,7 +78,6 @@ const RegistrationScreen = ({ navigation }) => {
       tipoDocumento === '' ||
       numeroDocumento === '' ||
       nombres === '' ||
-      apellidos === '' ||
       direccion === '' ||
       telefono === '' ||
       correo === '' ||
@@ -119,7 +113,6 @@ const RegistrationScreen = ({ navigation }) => {
         tipo_documento_uadministrador: tipoDocumento,
         numero_documento_uadministrador: numeroDocumento,
         nombres_uadministrador: nombres,
-        apellidos_uadministrador: apellidos,
         direccion_uadministrador: direccion,
         telefono_uadministrador: telefono,
         correo: correo,
@@ -131,7 +124,6 @@ const RegistrationScreen = ({ navigation }) => {
         tipo_documento_paciente: tipoDocumento,
         numero_documento_paciente: numeroDocumento,
         nombres_paciente: nombres,
-        apellidos_paciente: apellidos,
         direccion_paciente: direccion,
         telefono_paciente: telefono,
         correo: correo,
@@ -203,7 +195,7 @@ const RegistrationScreen = ({ navigation }) => {
             <View style={styles.formGroup}>
               <Text style={styles.label}>Número de documento</Text>
               <View style={styles.inputContainer}>
-                <Icon name="address-card" size={24} color="white" style={styles.icon} />
+                <Icon name="address-card" size={24} style={styles.icon} />
                 <TextInput
                   value={numeroDocumento}
                   placeholder="Ingrese su número de documento"
@@ -217,7 +209,7 @@ const RegistrationScreen = ({ navigation }) => {
             <View style={styles.formGroup}>
               <Text style={styles.label}>Nombres</Text>
               <View style={styles.inputContainer}>
-                <Icon name="user" size={24} color="white" style={styles.icon} />
+                <Icon name="user" size={24} style={styles.icon} />
                 <TextInput
                   value={nombres}
                   placeholder="Ingrese sus nombres"
@@ -228,22 +220,9 @@ const RegistrationScreen = ({ navigation }) => {
               </View>
             </View>
             <View style={styles.formGroup}>
-              <Text style={styles.label}>Apellidos</Text>
-              <View style={styles.inputContainer}>
-                <Icon name="user" size={24} color="white" style={styles.icon} />
-                <TextInput
-                  value={apellidos}
-                  placeholder="Ingrese sus apellidos"
-                  onChangeText={handleApellidosChange}
-                  style={styles.input}
-                  required
-                />
-              </View>
-            </View>
-            <View style={styles.formGroup}>
               <Text style={styles.label}>Dirección</Text>
               <View style={styles.inputContainer}>
-                <Icon name="building" size={24} color="white" style={styles.icon} />
+                <Icon name="building" size={24} style={styles.icon} />
                 <TextInput
                   value={direccion}
                   placeholder="Ingrese su dirección"
@@ -256,7 +235,7 @@ const RegistrationScreen = ({ navigation }) => {
             <View style={styles.formGroup}>
               <Text style={styles.label}>Teléfono</Text>
               <View style={styles.inputContainer}>
-                <Icon name="mobile-alt" size={24} color="white" style={styles.icon} />
+                <Icon name="mobile-alt" size={24} style={styles.icon} />
                 <TextInput
                   value={telefono}
                   placeholder="Ingrese su número de teléfono"
@@ -270,7 +249,7 @@ const RegistrationScreen = ({ navigation }) => {
             <View style={styles.formGroup}>
               <Text style={styles.label}>Correo electrónico</Text>
               <View style={styles.inputContainer}>
-                <Icon name="envelope" size={24} color="white" style={styles.icon} />
+                <Icon name="envelope" size={24} style={styles.icon} />
                 <TextInput
                   value={correo}
                   placeholder="Ingrese su correo electrónico"
@@ -284,7 +263,7 @@ const RegistrationScreen = ({ navigation }) => {
             <View style={styles.formGroup}>
               <Text style={styles.label}>Contraseña</Text>
               <View style={styles.inputContainer}>
-                <Icon name="lock" size={24} color="white" style={styles.icon} />
+                <Icon name="lock" size={24} style={styles.icon} />
                 <TextInput
                   value={contraseña}
                   placeholder="Ingrese su contraseña"
@@ -305,6 +284,7 @@ const RegistrationScreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
+
             <View style={styles.formGroup}>
               <Text style={styles.label}>Tipo de Rol</Text>
               <View style={styles.inputContainer}>

@@ -54,8 +54,6 @@ function App() {
         />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
 
-
-
         <Stack.Screen name="Prueba" component={Prueba} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -75,7 +75,7 @@ const LoginScreen = ({ navigation, setRol }) => {
           <View style={styles.formGroup}>
             <Text style={styles.label}>Correo</Text>
             <View style={styles.inputContainer}>
-              <Icon name="envelope" size={24} color="white" style={styles.icon} />
+              <Icon name="envelope" size={24} style={styles.icon} />
               <TextInput
                 style={styles.input}
                 placeholder="Ingrese su correo electrónico"
@@ -87,7 +87,7 @@ const LoginScreen = ({ navigation, setRol }) => {
           <View style={styles.formGroup}>
             <Text style={styles.label}>Contraseña</Text>
             <View style={styles.inputContainer}>
-              <Icon name="lock" size={24} color="white" style={styles.icon} />
+              <Icon name="lock" size={24} style={styles.icon} />
               <TextInput
                 style={styles.input}
                 placeholder="Ingrese su contraseña"
