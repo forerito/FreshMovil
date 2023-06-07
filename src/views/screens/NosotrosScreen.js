@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   specialistCard: {
-    backgroundColor: '#f5f5f5;',
+    backgroundColor: '#D3D3D3;',
     borderRadius: 8,
     marginTop: 25,
     flexDirection: 'column',

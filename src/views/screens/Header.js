@@ -7,8 +7,8 @@ const Header = () => {
     <View style={styles.header}>
       <Image source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465073/favicon_rkh0rr.png" }} style={styles.leftImage} />
       <Text style={styles.titleblue}>   FRESH</Text>
-      <Text style={styles.title}>SMILE</Text>
-      <Text style={styles.titleblue2}>CMILLS</Text>
+      <Text style={styles.title}> SMILE</Text>
+      <Text style={styles.titleblue2}> CMILLS</Text>
     </View>
   );
 };

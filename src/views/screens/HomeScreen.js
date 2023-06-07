@@ -173,7 +173,7 @@ const HomeScreen = ({ navigation }) => {
                 resizeMode="stretch"
               />
               <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Ortodoncia</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: '' }}>Ortodoncia</Text>
                 <TouchableOpacity style={styles.buttonBlog2}
                   onPress={() => navigation.navigate("ProcedimientosScreen")}
                 >
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 15,
     alignItems: "center",
-    backgroundColor: "linear-gradient(90deg, rgba(125,195,232,1) 0%, rgba(183,222,242,1) 35%, rgba(131,205,245,1) 100%)",
+    backgroundColor: "#D3D3D3",
   },
   image: {
     width: 150,

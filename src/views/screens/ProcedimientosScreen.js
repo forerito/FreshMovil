@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
     width: "90%",
     borderRadius: 10,
     borderColor: "#249bad",
-    backgroundColor: "linear-gradient(90deg, rgba(125,195,232,1) 0%, rgba(183,222,242,1) 35%, rgba(131,205,245,1) 100%)",
+    backgroundColor: "#D3D3D3",
     borderWidth: 3,
     padding: 10,
   },
