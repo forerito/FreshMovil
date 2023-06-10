@@ -96,6 +96,7 @@ const HomeScreen = ({ navigation }) => {
                   <Text style={styles.contentMenuText}>Contacto</Text>
                 </View>
               </TouchableOpacity>
+              
               {/* <Button title='Salir' onPress={logout} /> */}
 
             </View>
