@@ -188,7 +188,7 @@ const ContactoScreen = ({ navigation }) => {
                   </View>
 
                   <Text style={styles.paragraph}>
-                    Si desea solicitar más información, por favor contáctenos.
+                    {/* Si desea solicitar más información, por favor contáctenos. */}
                   </Text>
                 </View>
               </View>

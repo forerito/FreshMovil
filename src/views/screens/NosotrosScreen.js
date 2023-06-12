@@ -143,8 +143,9 @@ const NosotrosScreen = ({ navigation }) => {
           <View style={styles.specialistCard}>
             <Image
               style={styles.specialistImage}
+              resizeMode="stretch"
               source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685325361/cuidado-dental_wmiath.png',
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505008/doctora1_ng31ar.jpg',
               }}
             />
             <Text style={styles.specialistName}>Karen Sanchez</Text>
@@ -156,8 +157,9 @@ const NosotrosScreen = ({ navigation }) => {
           <View style={styles.specialistCard}>
             <Image
               style={styles.specialistImage}
+              resizeMode="stretch"
               source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685325361/dentista_1_rr7agx.png',
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505071/doctor4_qet252.jpg',
               }}
             />
             <Text style={styles.specialistName}>Juan González</Text>
@@ -169,21 +171,9 @@ const NosotrosScreen = ({ navigation }) => {
           <View style={styles.specialistCard}>
             <Image
               style={styles.specialistImage}
+              resizeMode="stretch"
               source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326579/dentista_6_ih7caq.png',
-              }}
-            />
-            <Text style={styles.specialistName}>Juan González</Text>
-            <Text style={styles.specialistDescription}>
-              Juan González es un destacado especialista en odontología con una sólida experiencia de más de 15 años en el campo. Se distingue por su enfoque integral y su dedicación para brindar una atención dental de calidad a sus pacientes.
-            </Text>
-          </View>
-
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326579/dentista_4_wa8js1.png',
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505033/doctora3_x4tvyn.jpg',
               }}
             />
             <Text style={styles.specialistName}>María Rodríguez</Text>
@@ -195,8 +185,9 @@ const NosotrosScreen = ({ navigation }) => {
           <View style={styles.specialistCard}>
             <Image
               style={styles.specialistImage}
+              resizeMode="stretch"
               source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326579/dentista_3_tdg21p.png',
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505021/doctora2_ldgdmn.jpg',
               }}
             />
             <Text style={styles.specialistName}>Alejandro López</Text>
@@ -204,19 +195,6 @@ const NosotrosScreen = ({ navigation }) => {
               Alejandro López es un reconocido ortodoncista con una pasión por crear sonrisas perfectas. Con una formación sólida y más de 15 años de experiencia en ortodoncia, Alejandro se dedica a corregir problemas de maloclusión y alineación dental.
             </Text>
           </View>
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685326391/cuidado-dental_1_ox28ap.png',
-              }}
-            />
-            <Text style={styles.specialistName}>Sofia Herrera</Text>
-            <Text style={styles.specialistDescription}>
-              Sofia Herrera es una periodoncista comprometida con la salud periodontal y el cuidado de las encías. Con una formación especializada en enfermedades periodontales y cirugía oral, Sofia se dedica a tratar y prevenir problemas como la gingivitis y la periodontitis.
-            </Text>
-          </View>
-          {/* ... Repite el mismo patrón para las otras tarjetas de especialistas */}
         </View>
 
         <View style={styles.footer}></View>
@@ -299,6 +277,7 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     fontSize: 10,
+    padding: 5,
   },
   containerEmpresa: {
     flexDirection: 'column',
@@ -343,11 +322,12 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   specialistImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 8,
     marginTop: 10,
     marginBottom: 10,
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    marginVertical: 10,
   },
   specialistName: {
     fontSize: 18,

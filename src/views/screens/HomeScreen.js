@@ -96,7 +96,7 @@ const HomeScreen = ({ navigation }) => {
                   <Text style={styles.contentMenuText}>Contacto</Text>
                 </View>
               </TouchableOpacity>
-              
+
               {/* <Button title='Salir' onPress={logout} /> */}
 
             </View>
@@ -132,40 +132,11 @@ const HomeScreen = ({ navigation }) => {
 
           <View style={styles.containerBlog}>
             <Text>
-              <Text style={styles.tituloBlog}>¿Quiénes Somos?</Text>
-            </Text>
-          </View>
-
-          <View>
-            <View style={styles.itemContainerBlog}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465241/nosotros_iwn5ht.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.imageSomos}
-              />
-              <View style={styles.contentBlog}>
-                <Text style={styles.textSomos}>
-                  Fresh Smile Cmills es una reconocida clínica de ortodoncia comprometida con ofrecer
-                  soluciones de alta calidad para la salud dental de nuestros pacientes. Con una amplia
-                  experiencia y conocimientos en el campo de la ortodoncia, nos hemos ganado la confianza
-                  de numerosos individuos y familias que buscan mejorar su sonrisa y salud bucal.
-                </Text>
-                <TouchableOpacity style={styles.buttonBlog}
-                  onPress={() => navigation.navigate("NosotrosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerBlog}>
-            <Text>
               <Text style={styles.tituloBlog}>Nuestros procedimientos</Text>
             </Text>
           </View>
 
-          <View style={styles.containerProcedimientos}>
+          {/* <View style={styles.containerProcedimientos}>
             <View style={styles.containerProcedimientos2}>
               <Image
                 source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268332/Fresh_Smile_Cmills/enis-yavuz-4u2fG9mqGvQ-unsplash_saf7yd.jpg' }}
@@ -181,9 +152,9 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
+          </View> */}
 
-          <View style={styles.containerProcedimientos}>
+          {/* <View style={styles.containerProcedimientos}>
             <View style={styles.containerProcedimientos2}>
               <Image
                 source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
@@ -217,21 +188,107 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
+          </View> */}
+
+          <View style={styles.containerProcedimientos}>
+            <View style={styles.card}>
+              <Image
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
+                style={styles.imagecard}
+                resizeMode={'stretch'}
+              />
+              <TouchableOpacity style={styles.buttoncard} onPress={() => navigation.navigate("ProcedimientosScreen")}>
+                <Text style={styles.buttonTextBlog2}>Blanqueamiento dental</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
+            <View style={styles.card}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268627/Fresh_Smile_Cmills/jonathan-borba-v_2FRXEba94-unsplash_cth93o.jpg' }}
-                style={styles.image}
-                resizeMode="stretch"
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852202/Fresh_Smile_Cmills/carillas_hbazmk.jpg' }}
+                style={styles.imagecard}
+                resizeMode={'stretch'}
               />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white', width: 100 }}>Extracción dental</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
+              <TouchableOpacity style={styles.buttoncard} onPress={() => navigation.navigate("ProcedimientosScreen")}>
+                <Text style={styles.buttonTextBlog2}>Diseño de sonrisa</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.containerProcedimientos}>
+            <View style={styles.card}>
+              <Image
+                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852210/Fresh_Smile_Cmills/implantes_keq38a.jpg' }}
+                style={styles.imagecard}
+                resizeMode={'stretch'}
+              />
+              <TouchableOpacity style={styles.buttoncard} onPress={() => navigation.navigate("ProcedimientosScreen")}>
+                <Text style={styles.buttonTextBlog2}>Implante dental</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.containerBlog}>
+            <Text>
+              <Text style={styles.tituloBlog}>Sobre Nosotros</Text>
+            </Text>
+          </View>
+
+          <View style={styles.specialistContainer}>
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              resizeMode="stretch"
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505008/doctora1_ng31ar.jpg',
+              }}
+            />
+            <Text style={styles.specialistName}>Karen Sanchez</Text>
+          </View>
+
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              resizeMode="stretch"
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505071/doctor4_qet252.jpg',
+              }}
+            />
+            <Text style={styles.specialistName}>Juan González</Text>
+          </View>
+
+          <View style={styles.specialistCard}>
+            <Image
+              style={styles.specialistImage}
+              resizeMode="stretch"
+              source={{
+                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505033/doctora3_x4tvyn.jpg',
+              }}
+            />
+            <Text style={styles.specialistName}>María Rodríguez</Text>
+          </View>
+
+        </View>
+
+          <View style={{ backgroundColor: "#d3d3d3", borderRadius: 5, marginTop: 20 }}>
+            <View style={styles.itemContainerBlog}>
+              <Image
+                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465241/nosotros_iwn5ht.jpg" }}
+                resizeMode={"stretch"}
+                style={styles.imageSomos}
+              />
+              <View style={styles.contentBlog}>
+                <Text style={styles.textSomos}>
+                  Fresh Smile Cmills es una reconocida clínica de ortodoncia comprometida con ofrecer
+                  soluciones de alta calidad para la salud dental de nuestros pacientes. Con una amplia
+                  experiencia y conocimientos en el campo de la ortodoncia, nos hemos ganado la confianza
+                  de numerosos individuos y familias que buscan mejorar su sonrisa y salud bucal.
+                </Text>
+                <TouchableOpacity style={styles.buttonBlog}
+                  onPress={() => navigation.navigate("NosotrosScreen")}
                 >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
+                  <Text style={styles.buttonTextBlog}>Conocer más</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -368,9 +425,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textSomos: {
-    marginTop: 5,
+    marginTop: 8,
+    marginLeft: 8,
     fontSize: 11,
     color: "black",
+    textAlign: 'justify',
   },
   containerBlog: {
     marginTop: 20,
@@ -402,9 +461,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#249bad",
     padding: 10,
     borderRadius: 5,
-    marginTop: 10,
-    marginLeft: 55,
-    width: 100,
+    marginBottom: 5,
+    marginLeft: 25,
+    width: 130,
     textAlign: 'center',
   },
   buttonTextBlog: {
@@ -414,6 +473,70 @@ const styles = StyleSheet.create({
   },
   footer: {
     marginTop: 30,
+  },
+  buttonTextBlog2: {
+    color: "white",
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  card: {
+    width: '100%',
+    height: 200,
+  },
+  imagecard: {
+    width: '100%',
+    height: '80%',
+    borderRadius: 5,
+  },
+  buttoncard: {
+    marginTop: 5,
+    borderRadius: 5,
+    height: 40,
+    backgroundColor: '#249bad',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  specialistContainer: {
+    flex: 1,
+    width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  specialistCard: {
+    borderRadius: 15,
+    width: '100%',
+    marginTop: 25,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#D3D3D3',
+    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  specialistImage: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: 130,
+    height: 130,
+    borderRadius: 75,
+    marginVertical: 10,
+  },
+  specialistName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    marginBottom: 5,
+    color: 'black',
   },
 });
 
