@@ -14,7 +14,7 @@ import Ranking from "./src/views/screens/Ranking";
 import MapaArmenia from "./src/views/screens/MapasArmenia";
 import TablaUsuario from "./src/views/screens/Tablas/TablaUsuario";
 import TablaAdmin from "./src/views/screens/Tablas/TablaAdmin";
-import HomeAdmin from "./src/views/screens/Admin/HomeAdmin";
+import HomeEspecialista from "./src/views/screens/Admin/HomeEspecialista";
 import PerfilAdmin from "./src/views/screens/Admin/PerfilAdmin";
 import PerfilUsuario from "./src/views/screens/PerfilUsuario";
 
@@ -43,7 +43,7 @@ function App() {
         <Stack.Screen name="MapaArmenia" component={MapaArmenia} options={{ headerShown: false }} />
         <Stack.Screen name="TablaUsuario" component={TablaUsuario} options={{ headerShown: false }} />
         <Stack.Screen name="TablaAdmin" component={TablaAdmin} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeAdmin" component={HomeAdmin} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeEspecialista" component={HomeEspecialista} options={{ headerShown: false }} />
         <Stack.Screen name="PerfilAdmin" component={PerfilAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="PerfilUsuario" component={PerfilUsuario} options={{ headerShown: false }} />
         <Stack.Screen name="CitasAgendadas" component={CitasAgendadas} options={{ headerShown: false }} />

@@ -27,9 +27,9 @@ const LoginScreen = ({ navigation, setRol }) => {
     try {
       let url;
       if (role === "paciente") {
-        url = "https://freshsmile.azurewebsites.net/FreshSmile/loginPaciente";
-      } else if (role === "administrador") {
-        url = "https://freshsmile.azurewebsites.net/FreshSmile/loginAdministrador";
+        url = "https://freshsmile.azurewebsites.net/login/paciente";
+      } else if (role === "especialista") {
+        url = "https://freshsmile.azurewebsites.net/login/especialista";
       } else {
         throw new Error("Rol no válido");
       }
@@ -43,25 +43,24 @@ const LoginScreen = ({ navigation, setRol }) => {
       });
 
       if (response.ok) {
-        // Inicio de sesión exitoso
+
         const data = await response.text();
-        // Aquí puedes mostrar una alerta o realizar cualquier otra acción en React Native
+
         Alert.alert("Inicio de sesión exitoso", data);
-        // setRol(role);
+
         await AsyncStorage.setItem("loggedIn", "true");
         await AsyncStorage.setItem("rol", role);
       
-        // Redirigir al usuario a la página de inicio según el rol seleccionado
         if (role === "paciente") {
           navigation.navigate("HomeScreenPaciente");
-        } else if (role === "administrador") {
-          navigation.navigate("HomeScreenAdministrador");
+        } else if (role === "especialista") {
+          navigation.navigate("HomeEspecialista");
         }
       } else {
         throw new Error("Correo o contraseña incorrectos");
       }
     } catch (error) {
-      // Aquí puedes mostrar una alerta de error en React Native
+
       Alert.alert("Error:", error.message);
     }
   };
@@ -118,7 +117,7 @@ const LoginScreen = ({ navigation, setRol }) => {
                 
                 <Picker.Item label="Seleccione un rol" value="" />
                 <Picker.Item label="Paciente" value="paciente" />
-                <Picker.Item label="Administrador" value="administrador" />
+                <Picker.Item label="especialista" value="especialista" />
               </Picker>
             </View>
           </View>

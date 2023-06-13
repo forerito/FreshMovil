@@ -64,7 +64,7 @@ const Prueba = () => {
 
   const handleDateConfirm = (date) => {
     setSelectedDate(date);
-    console.log("A date has been picked: ", date);
+    console.log("A date has been picked: ", date.strftime);
     setShowDatePicker(false);
   };
 
@@ -87,61 +87,89 @@ const Prueba = () => {
         <View style={styles.container}>
           <Text style={styles.heading}>Agenda tu cita</Text>
           <View style={styles.formContainer}>
-            <Text style={styles.label}>Tipo de documento:</Text>
-            <Picker
-              selectedValue={tipoDocumento}
-              onValueChange={(value) => setTipoDocumento(value)}
-              enabled={!isCitaParaMi}
-            >
-              <Picker.Item label="Seleccione un tipo de documento" value="" />
-              {tiposDocumento.map((tipo) => (
-                <Picker.Item key={tipo} label={tipo} value={tipo} />
-              ))}
-            </Picker>
-            <Text style={styles.label}>Número de documento:</Text>
-            <TextInput
-              style={styles.input}
-              value={numeroDocumento}
-              onChangeText={(text) => setNumeroDocumento(text)}
-              editable={!isCitaParaMi}
-            />
-            <Text style={styles.label}>Nombre completo:</Text>
-            <TextInput
-              style={styles.input}
-              value={nombre}
-              onChangeText={(text) => setNombre(text)}
-              editable={!isCitaParaMi}
-            />
-            <Text style={styles.label}>Tipo de cita:</Text>
-            <Picker
-              selectedValue={tipoCita}
-              onValueChange={(value) => setTipoCita(value)}
-              enabled={!isCitaParaMi}
-            >
-              <Picker.Item label="Seleccione un tipo de cita" value="" />
-              <Picker.Item label="Consulta" value="Consulta" />
-              <Picker.Item label="Control" value="Control" />
-              <Picker.Item label="Emergencia" value="Emergencia" />
-            </Picker>
-            {/* <Button title="¿La cita es para ti?" onPress={handleToggleModal} /> */}
+
+
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Tipo de documento</Text>
+              <View style={styles.inputContainer}>
+                <Picker
+                  selectedValue={tipoDocumento}
+                  onValueChange={(value) => setTipoDocumento(value)}
+                  enabled={!isCitaParaMi}
+                  style={styles.input}
+                >
+                  <Picker.Item label="Seleccione un tipo de documento" value="" />
+                  {tiposDocumento.map((tipo) => (
+                    <Picker.Item key={tipo} label={tipo} value={tipo} />
+                  ))}
+                </Picker>
+              </View>
+            </View>
+
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Número de documento:</Text>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="Ingrese su dirección"
+                  value={numeroDocumento}
+                  onChangeText={(text) => setNumeroDocumento(text)}
+                  editable={!isCitaParaMi}
+                  required
+                />
+              </View>
+            </View>
+
+
+
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Nombre completo:</Text>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="Ingrese su nombre"
+                  value={nombre}
+                  onChangeText={(text) => setNombre(text)}
+                  editable={!isCitaParaMi}
+                  required
+                />
+              </View>
+            </View>
+
+
+
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Tipo de cita:</Text>
+              <View style={styles.inputContainer}>
+                <Picker
+                  selectedValue={tipoCita}
+                  onValueChange={(value) => setTipoCita(value)}
+                  enabled={!isCitaParaMi}
+                  style={styles.input}
+                >
+                  <Picker.Item label="Seleccione el tipo de cita" value="" />
+                  <Picker.Item label="Consulta" value="Consulta" />
+                  <Picker.Item label="Control" value="Control" />
+                  <Picker.Item label="Emergencia" value="Emergencia" />
+                </Picker>
+              </View>
+            </View>
 
             <Modal visible={isModalVisible} animationType="none">
               <View style={styles.container}>
-                <Text style={styles.heading}>¿La cita es para ti?</Text>
+                <Text style={styles.heading}>¿Para quién es la cita?</Text>
 
                 <View style={styles.containerModal}>
                   <TouchableOpacity
                     onPress={() => handleCitaParaMi(true)}
                     style={styles.button}
                   >
-                    <Text style={styles.buttonText}>Sí, es para mí</Text>
+                    <Text style={styles.buttonText}>Para mí</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={() => handleCitaParaMi(false)}
                     style={styles.button}
                   >
-                    <Text style={styles.buttonText}>No, es para alguien más</Text>
+                    <Text style={styles.buttonText}>Para otra persona</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -163,17 +191,17 @@ const Prueba = () => {
               <Button
                 title="9:00 AM"
                 onPress={() => handleHourSelect('9:00 AM')}
-                color={selectedHour === '9:00 AM' ? '#5FFDFF' : '#249bad'}
+                color={selectedHour === '9:00 AM' ? '#249bad' : '#D3D3D3'}
               />
               <Button
                 title="10:00 AM"
                 onPress={() => handleHourSelect('10:00 AM')}
-                color={selectedHour === '10:00 AM' ? '#5FFDFF' : '#249bad'}
+                color={selectedHour === '10:00 AM' ? '#249bad' : '#D3D3D3'}
               />
               <Button
                 title="11:00 AM"
                 onPress={() => handleHourSelect('11:00 AM')}
-                color={selectedHour === '11:00 AM' ? '#5FFDFF' : '#249bad'}
+                color={selectedHour === '11:00 AM' ? '#249bad' : '#D3D3D3'}
               />
               {/* Agrega más botones de hora según sea necesario */}
             </View>
@@ -233,7 +261,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   buttonText: {
-    color: 'black',
+    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },

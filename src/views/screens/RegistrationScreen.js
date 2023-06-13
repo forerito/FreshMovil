@@ -445,25 +445,29 @@ const RegistrationScreen = ({ navigation }) => {
   };
 
   const handleNumeroDocumentoChange = (value) => {
-    setNumeroDocumento(value);
+    if (/^\d*$/.test(value)) {
+      setNumeroDocumento(value);
+    }
   };
 
   useEffect(() => {
     // Realizar la solicitud HTTP para obtener los procedimientos
-    axios
-      .get('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarProcedimientos')
-      .then((response) => {
+    fetch('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarProcedimientos')
+      .then(response => response.json())
+      .then(data => {
         // Guardar los procedimientos en el estado
-        setProcedimientos(response.data);
+        setProcedimientos(data);
       })
-      .catch((error) => {
+      .catch(error => {
         // Manejar el error en caso de que la solicitud falle
         console.error('Error al obtener los procedimientos:', error);
       });
   }, []);
 
   const handleNombresChange = (value) => {
-    setNombrescompletos(value);
+    if (/^[a-zA-Z\s]*$/.test(value)) {
+      setNombrescompletos(value);
+    }
   };
 
   const handleDireccionChange = (value) => {
@@ -484,10 +488,8 @@ const RegistrationScreen = ({ navigation }) => {
     if (contraseña.length <= 8) {
       setContraseña(contraseña);
     } else {
-      Alert.alert(
-        'Contraseña inválida',
-        'La contraseña no puede tener más de 8 caracteres.'
-      );
+      // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
+      console.log('La contraseña no puede tener más de 8 caracteres.');
     }
   };
 
@@ -525,17 +527,14 @@ const RegistrationScreen = ({ navigation }) => {
   ];
 
   const handleLoginClick = () => {
-    // Navigate to "/Login"
+    // Navegar a la pantalla de login
     navigation.navigate('LoginScreen');
   };
 
   const validarCodigo = async () => {
     try {
-      const response = await axios.get(
-        'https://freshsmile.azurewebsites.net/FreshSmile/ConsultarCodigo'
-      );
-
-      const codigos = response.data; // Arreglo de objetos de códigos
+      const response = await fetch('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarCodigo');
+      const codigos = await response.json();
       const codigoValido = codigos.some((obj) => obj.codigo === codigo);
 
       return codigoValido;
@@ -558,8 +557,8 @@ const RegistrationScreen = ({ navigation }) => {
     }
 
     try {
-      const response = await axios.get(apiEndpoint);
-      const usuarios = response.data;
+      const response = await fetch(apiEndpoint);
+      const usuarios = await response.json();
       const correoRegistrado = usuarios.some(
         (usuario) => usuario.correo === correo
       );
@@ -573,10 +572,8 @@ const RegistrationScreen = ({ navigation }) => {
   const handleSubmit = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(correo)) {
-      Alert.alert(
-        'Correo electrónico inválido',
-        'La dirección de correo electrónico no es válida.'
-      );
+      // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
+      console.log('La dirección de correo electrónico no es válida.');
       return;
     }
 
@@ -587,7 +584,8 @@ const RegistrationScreen = ({ navigation }) => {
       const codigoValido = await validarCodigo();
 
       if (!codigoValido) {
-        Alert.alert('Código inválido', 'El código ingresado no es válido.');
+        // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
+        console.log('El código ingresado no es válido.');
         return;
       }
 
@@ -607,8 +605,8 @@ const RegistrationScreen = ({ navigation }) => {
       apiEndpoint =
         'https://freshsmile.azurewebsites.net/FreshSmile/CrearPacientes';
       datosFormulario = {
-        tipo_documento: tipoDocumento,
         identificacion_paciente: numeroDocumento,
+        tipo_documento: tipoDocumento,
         nombre_completo: nombrescompletos,
         direccion: direccion,
         telefono: telefono,
@@ -618,40 +616,39 @@ const RegistrationScreen = ({ navigation }) => {
     }
 
     try {
-      const response = await axios.post(apiEndpoint, datosFormulario);
+      const response = await fetch(apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosFormulario),
+      });
 
       if (response.ok) {
-        Alert.alert(
-          'Registro exitoso',
-          '¡Se ha registrado correctamente!',
-          [
-            {
-              text: 'Aceptar',
-              onPress: () => {
-                // Resetear los valores de los campos
-                setTipoDocumento('');
-                setNumeroDocumento('');
-                setNombrescompletos('');
-                setDireccion('');
-                setTelefono('');
-                setEspecialidad('');
-                setCorreo('');
-                setContraseña('');
-                setRol('');
-                setCodigo('');
-              },
-            },
-          ]
-        );
+        // Mostrar el mensaje de éxito utilizando una librería adecuada para la interfaz de usuario en React Native
+        console.log('¡Se ha registrado correctamente!');
+        Alert.alert('Registro exitoso', '¡Se ha registrado correctamente!');
+        // Resetear los valores de los campos
+        setTipoDocumento('');
+        setNumeroDocumento('');
+        setNombrescompletos('');
+        setDireccion('');
+        setTelefono('');
+        setEspecialidad('');
+        setCorreo('');
+        setContraseña('');
+        setRol('');
+        setCodigo('');
+        navigation.navigate('LoginScreen');
       } else {
-        Alert.alert(
-          'Error en el registro',
+        // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
+        console.log(
           'Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.'
         );
       }
     } catch (error) {
-      Alert.alert(
-        'Error en el registro',
+      // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
+      console.log(
         'Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.'
       );
       console.error(error);

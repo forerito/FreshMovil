@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Header from "../Header";
 
-const HomeAdmin = ({ navigation }) => {
+const HomeEspecialista = ({ navigation }) => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeAdmin;
+export default HomeEspecialista;

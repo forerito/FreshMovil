@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, ImageBackground } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import jwtDecode from "jwt-decode";
 import Footer from "../layouts/Footer";
 import ChatWhatsApp from "../layouts/ChatWhatsApp";
 import Header from "./Header";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, isAuthenticated }) => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -18,12 +20,94 @@ const HomeScreen = ({ navigation }) => {
     setMenuOpen(false);
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    generateAvatar();
+  }, []);
+
+
+  const generateAvatar = async () => {
+    try {
+      const accessToken = await AsyncStorage.getItem("accessToken");
+      const decodedToken = jwtDecode(accessToken);
+
+      const id = decodedToken.id;
+
+      const response = await fetch(`https://freshsmile.azurewebsites.net/FreshSmile/BuscarPacientes/${id}`);
+      const data = await response.json();
+      const name = data.nombre;
+      setName(name);
+
+      const apiUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
+      setAvatarUrl(apiUrl);
+    } catch (error) {
+      console.error("Error fetching patient data:", error);
+    }
+  };
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+  };
+
+  const logout = async () => {
+    try {
+
+      await AsyncStorage.removeItem("loggedIn");
+      await AsyncStorage.removeItem("rol");
+
+      navigation.navigate("RegistrationScreen");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 ">
 
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
 
         <Header />
+
+
+        <View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 310, marginTop: -43 }}>
+            <TouchableOpacity style={styles.dropdownWrapper} onPress={toggleDropdown}>
+            <Icon name="user" size={24} color="#5FFDFF" />
+              {/* <View style={styles.iconContainer}>
+                {avatarUrl ? (
+                  <Image style={styles.iconoInicio} source={{ uri: avatarUrl }} />
+                ) : (
+                  <Image
+                    style={styles.iconoInicio}
+                    source={{
+                      uri: "https://res.cloudinary.com/dfvxujvf8/image/upload/v1683825569/Fresh_Smile_Cmills/icono_inicio_enxtjd.png",
+                    }}
+                  />
+                )}
+              </View> */}
+              {/* {isOpen && (
+                <View style={styles.dropdown}>
+                  <TouchableOpacity style={styles.dropdownLink} onPress={handleLogoutClick}>
+                    <Text>Cerrar sesión</Text>
+                  </TouchableOpacity>
+                  {isAuthenticated && (
+                    <TouchableOpacity style={styles.dropdownLink} onPress={() => navigation.navigate("Perfil")}>
+                      <Text>Ver perfil</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )} */}
+            </TouchableOpacity>
+          </View>
+        </View>
+
 
         <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
@@ -236,40 +320,40 @@ const HomeScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.specialistContainer}>
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              resizeMode="stretch"
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505008/doctora1_ng31ar.jpg',
-              }}
-            />
-            <Text style={styles.specialistName}>Karen Sanchez</Text>
-          </View>
+            <View style={styles.specialistCard}>
+              <Image
+                style={styles.specialistImage}
+                resizeMode="stretch"
+                source={{
+                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505008/doctora1_ng31ar.jpg',
+                }}
+              />
+              <Text style={styles.specialistName}>Karen Sanchez</Text>
+            </View>
 
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              resizeMode="stretch"
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505071/doctor4_qet252.jpg',
-              }}
-            />
-            <Text style={styles.specialistName}>Juan González</Text>
-          </View>
+            <View style={styles.specialistCard}>
+              <Image
+                style={styles.specialistImage}
+                resizeMode="stretch"
+                source={{
+                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505071/doctor4_qet252.jpg',
+                }}
+              />
+              <Text style={styles.specialistName}>Juan González</Text>
+            </View>
 
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              resizeMode="stretch"
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505033/doctora3_x4tvyn.jpg',
-              }}
-            />
-            <Text style={styles.specialistName}>María Rodríguez</Text>
-          </View>
+            <View style={styles.specialistCard}>
+              <Image
+                style={styles.specialistImage}
+                resizeMode="stretch"
+                source={{
+                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505033/doctora3_x4tvyn.jpg',
+                }}
+              />
+              <Text style={styles.specialistName}>María Rodríguez</Text>
+            </View>
 
-        </View>
+          </View>
 
           <View style={{ backgroundColor: "#d3d3d3", borderRadius: 5, marginTop: 20 }}>
             <View style={styles.itemContainerBlog}>
