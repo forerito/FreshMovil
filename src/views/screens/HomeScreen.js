@@ -223,24 +223,6 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
           {/* <View style={styles.containerProcedimientos}>
             <View style={styles.containerProcedimientos2}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268332/Fresh_Smile_Cmills/enis-yavuz-4u2fG9mqGvQ-unsplash_saf7yd.jpg' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white' }}>Ortodoncia</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View> */}
-
-          {/* <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
                 source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
                 style={styles.image}
                 resizeMode="stretch"
