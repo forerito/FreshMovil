@@ -68,7 +68,7 @@ const HomeEspecialista = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("NosotrosScreen")}>
+              <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="users" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Nosotros</Text>
@@ -82,36 +82,23 @@ const HomeEspecialista = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+              <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agenda</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
+              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
                 <View style={styles.contentMenuItems}>
-                  <Icon name="calendar-alt" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Citas</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="calendar-alt" size={24} color="white" />
+                  <Icon name="star" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Valoraciones</Text>
                 </View>
               </TouchableOpacity>
 
-              {/* <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="comments" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Contacto</Text>
-                </View>
-              </TouchableOpacity> */}
-
-              {/* <Button title='Salir' onPress={logout} /> */}
-
+              <TouchableOpacity>   
+                  <Text>Contacto</Text>
+              </TouchableOpacity>
 
               <View style={styles.menu}>
 

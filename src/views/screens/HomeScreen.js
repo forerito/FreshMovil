@@ -62,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
+              <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Inicio</Text>
@@ -90,21 +90,21 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
+              <TouchableOpacity onPress={() => navigation.navigate("TablaUsuario")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="calendar-alt" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Citas</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Ranking")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="trophy" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Ranking</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Especialistas</Text>
@@ -116,6 +116,10 @@ const HomeScreen = ({ navigation }) => {
                   <Icon name="comments" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Contacto</Text>
                 </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                  <Text>Contacto</Text>
               </TouchableOpacity>
 
               {/* <Button title='Salir' onPress={logout} /> */}

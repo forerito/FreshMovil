@@ -257,8 +257,12 @@
 
 // export default Prueba;
 
+
+
+
+
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, Modal, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
@@ -296,6 +300,7 @@ const Prueba = () => {
     console.log(actualCitas.filter(cita => cita.fecha === selectedDate?.toISOString().slice(0, 10)));
     setFilteredCitas(actualCitas.filter(cita => cita.fecha === selectedDate?.toISOString().slice(0, 10)).map(cita2 => cita2.hora));
   }, [selectedDate]);
+
 
   useEffect(() => {
     console.log(actualCitas);
@@ -384,7 +389,7 @@ const Prueba = () => {
         setSelectedHour(null);
         setSelectedDate(null);
         // Mostrar una alerta de cita creada con éxito
-        alert("Cita creada con éxito");
+        Alert.alert("Cita creada con éxito");
       })
       .catch(error => {
         // Manejar el error si la solicitud no se completa correctamente
@@ -624,3 +629,4 @@ const styles = {
 }
 
 export default Prueba;
+

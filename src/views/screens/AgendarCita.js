@@ -325,7 +325,7 @@ const tiposDocumento = [
   "Pasaporte",
 ];
 
-const AgendarCita = () => {
+const AgendarCita = ({ navigation }) => {
   const [tipoDocumento, setTipoDocumento] = useState("");
   const [numeroDocumento, setNumeroDocumento] = useState("");
   const [nombre, setNombre] = useState("");

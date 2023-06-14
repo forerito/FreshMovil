@@ -1,41 +1,134 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import Header from "./Header";
 import Footer from "../layouts/Footer";
 
 const Ranking = ({ navigation }) => {
 
-    const [data, setData] = useState([]);
+    const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        try {
-            const response = await fetch('https://freshsmile.azurewebsites.net/FreshSmile/CrearAdministradores');
-            const json = await response.json();
-            setData(json);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
+    const handlePress = () => {
+        setMenuOpen(!menuOpen);
     };
 
-    const calculateStars = (valoracion) => {
-        const roundedValoracion = Math.round(valoracion);
-        return "⭐".repeat(roundedValoracion);
+    const handleClose = () => {
+        setMenuOpen(false);
     };
 
-    const sortedData = data
-        .sort((a, b) => b.valoracion - a.valoracion)
-        .slice(0, 5);
+    // const [data, setData] = useState([]);
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
+
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await fetch('https://freshsmile.azurewebsites.net/FreshSmile/CrearAdministradores');
+    //         const json = await response.json();
+    //         setData(json);
+    //     } catch (error) {
+    //         console.error("Error fetching data:", error);
+    //     }
+    // };
+
+    // const calculateStars = (valoracion) => {
+    //     const roundedValoracion = Math.round(valoracion);
+    //     return "⭐".repeat(roundedValoracion);
+    // };
+
+    // const sortedData = data
+    //     .sort((a, b) => b.valoracion - a.valoracion)
+    //     .slice(0, 5);
 
     return (
         <SafeAreaView className="flex-1 ">
             <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
 
                 <Header />
+
+                <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
+            <TouchableOpacity onPress={handlePress}>
+              <Icon name="bars" size={24} color="#5FFDFF" />
+            </TouchableOpacity>
+          </View>
+
+          {menuOpen && (
+            <View style={{ marginTop: 8 }}>
+              <TouchableOpacity onPress={handleClose}>
+                <View style={styles.contentMenuCerrar}>
+                  <Icon name="window-close" size={24} color="white" />
+                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="home" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Inicio</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("NosotrosScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="users" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nosotros</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="tooth" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Procedimientos</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agendar</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("TablaUsuario")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="calendar-alt" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Citas</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("Ranking")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="trophy" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Ranking</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-check" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Especialistas</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="comments" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Contacto</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                  <Text>Contacto</Text>
+              </TouchableOpacity>
+
+              {/* <Button title='Salir' onPress={logout} /> */}
+
+            </View>
+          )}
+        </View>
 
                 <View style={styles.container}>
                     <Text style={styles.title}>Ranking</Text>
@@ -52,7 +145,7 @@ const Ranking = ({ navigation }) => {
                                 <Text style={styles.text}>Valoración</Text>
                             </View>
                         </View>
-                        {sortedData.map((item, index) => (
+                        {/* {sortedData.map((item, index) => (
                             <View key={item.id} style={index === 0 ? styles.firstPlace : null}>
                                 <View style={styles.rowContainer}>
                                     <Text>{index + 1}</Text>
@@ -72,7 +165,7 @@ const Ranking = ({ navigation }) => {
                                     <Text style={styles.text}>{calculateStars(item.valoracion)}</Text>
                                 </View>
                             </View>
-                        ))}
+                        ))} */}
                     </View>
                 </View>
 
@@ -84,6 +177,25 @@ const Ranking = ({ navigation }) => {
 };
 
 const styles = {
+    contentMenuCerrar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 300,
+        marginBottom: 5,
+    },
+    contentMenuItems: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'black',
+        padding: 10,
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    contentMenuText: {
+        marginLeft: 8,
+        color: 'white',
+        fontSize: 16,
+    },
     container: {
         backgroundColor: '#f5f5f5;',
         borderRadius: 8,

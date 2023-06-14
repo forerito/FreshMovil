@@ -269,11 +269,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TextInput, TouchableOpacity, Image, Alert, Button, ScrollView, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../Header";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import {
   ALERT_TYPE,
   Dialog,
@@ -281,7 +281,7 @@ import {
   Toast,
 } from "react-native-alert-notification";
 
-const PerfilAdmin = () => {
+const PerfilAdmin = ({ navigation }) => {
   const [Documento, setTipoDocumento] = useState("");
   const [nombre, setNombre] = useState("");
   const [Telefono, setTelefono] = useState("");
@@ -298,6 +298,15 @@ const PerfilAdmin = () => {
   const [editMode, setEditMode] = useState(false);
   const [identificacionEspecialista, setIdentificacionEspecialista] = useState("");
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handlePress = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleClose = () => {
+    setMenuOpen(false);
+  };
 
 
   const images = [
@@ -327,6 +336,10 @@ const PerfilAdmin = () => {
       console.log('Error fetching assigned image:', error);
     }
   };
+
+  useEffect(() => {
+    fetchAssignedImage();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -429,6 +442,65 @@ const PerfilAdmin = () => {
         <AlertNotificationRoot>
 
           <Header />
+
+          <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
+            <TouchableOpacity onPress={handlePress}>
+              <Icon name="bars" size={24} color="#5FFDFF" />
+            </TouchableOpacity>
+          </View>
+
+          {menuOpen && (
+            <View style={{ marginTop: 8 }}>
+              <TouchableOpacity onPress={handleClose}>
+                <View style={styles.contentMenuCerrar}>
+                  <Icon name="window-close" size={24} color="white" />
+                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="home" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Inicio</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="users" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nosotros</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="tooth" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Procedimientos</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agenda</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="star" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Valoraciones</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>   
+                  <Text>Contacto</Text>
+              </TouchableOpacity>
+
+            </View>
+          )}
+        </View>
 
           <View>
             {/* <View style={styles.bannerPrincipalAd}>
@@ -587,6 +659,25 @@ const PerfilAdmin = () => {
 };
 
 const styles = StyleSheet.create({
+  contentMenuCerrar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 300,
+    marginBottom: 5,
+  },
+  contentMenuItems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  contentMenuText: {
+    marginLeft: 8,
+    color: 'white',
+    fontSize: 16,
+  },
   containerUsuario: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -670,8 +761,9 @@ const styles = StyleSheet.create({
   },
   perfilValor: {
     flex: 1,
-    borderWidth: 1,
+    borderWidth: 2,
     padding: 10,
+    borderColor: 'gray',
     backgroundColor: 'white',
     borderRadius: 5,
   },
@@ -684,7 +776,8 @@ const styles = StyleSheet.create({
     width: '77%',
     backgroundColor: 'white',
     borderRadius: 5,
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: 'gray',
   },
   passwordToggleIcon: {
     position: 'absolute',

@@ -485,10 +485,11 @@ const RegistrationScreen = ({ navigation }) => {
   const handleContraseñaChange = (value) => {
     const contraseña = value;
 
-    if (contraseña.length <= 8) {
+    if (contraseña.length < 9) {
       setContraseña(contraseña);
     } else {
       // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
+      Alert.alert('Contraseña', '¡La contraseña no puede tener más de 8 caracteres!');
       console.log('La contraseña no puede tener más de 8 caracteres.');
     }
   };
@@ -530,6 +531,8 @@ const RegistrationScreen = ({ navigation }) => {
     // Navegar a la pantalla de login
     navigation.navigate('LoginScreen');
   };
+
+
 
   const validarCodigo = async () => {
     try {
@@ -574,6 +577,7 @@ const RegistrationScreen = ({ navigation }) => {
     if (!emailRegex.test(correo)) {
       // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
       console.log('La dirección de correo electrónico no es válida.');
+      Alert.alert('Correo', 'La dirección de correo electrónico no es válida.');
       return;
     }
 
@@ -629,6 +633,8 @@ const RegistrationScreen = ({ navigation }) => {
         console.log('¡Se ha registrado correctamente!');
         Alert.alert('Registro exitoso', '¡Se ha registrado correctamente!');
         
+        
+
         // Resetear los valores de los campos
         setTipoDocumento('');
         setNumeroDocumento('');
@@ -640,6 +646,7 @@ const RegistrationScreen = ({ navigation }) => {
         setContraseña('');
         setRol('');
         setCodigo('');
+
         navigation.navigate('LoginScreen');
       } else {
         // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native

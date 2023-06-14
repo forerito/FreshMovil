@@ -40,46 +40,43 @@ const NosotrosAdmin = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Inicio</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("NosotrosScreen")}>
+              <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="users" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Nosotros</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosScreen")}>
+              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="comments" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Contacto</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="calendar-alt" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Mis citas</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+              <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Agendamiento</Text>
+                  <Text style={styles.contentMenuText}>Agenda</Text>
                 </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="star" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Valoraciones</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <Text>Contacto</Text>
               </TouchableOpacity>
             </View>
           )}

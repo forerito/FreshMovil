@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet, Text } from 'react-native';
+import Header from '../Header';
 
-const TablaAdmin = () => {
+const TablaAdmin = ({ navigation }) => {
   return (
+
+    // <Header/>
     <ScrollView horizontal={true}>
       <View style={styles.table}>
         <View style={[styles.row, styles.headerRow]}>
