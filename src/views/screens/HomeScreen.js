@@ -8,7 +8,7 @@ import Footer from "../layouts/Footer";
 import ChatWhatsApp from "../layouts/ChatWhatsApp";
 import Header from "./Header";
 
-const HomeScreen = ({ navigation, isAuthenticated }) => {
+const HomeScreen = ({ navigation }) => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -20,38 +20,6 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
     setMenuOpen(false);
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState("");
-  const [name, setName] = useState("");
-
-  useEffect(() => {
-    generateAvatar();
-  }, []);
-
-
-  const generateAvatar = async () => {
-    try {
-      const accessToken = await AsyncStorage.getItem("accessToken");
-      const decodedToken = jwtDecode(accessToken);
-
-      const id = decodedToken.id;
-
-      const response = await fetch(`https://freshsmile.azurewebsites.net/FreshSmile/BuscarPacientes/${id}`);
-      const data = await response.json();
-      const name = data.nombre;
-      setName(name);
-
-      const apiUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
-      setAvatarUrl(apiUrl);
-    } catch (error) {
-      console.error("Error fetching patient data:", error);
-    }
-  };
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
   const handleLogoutClick = () => {
     logout();
   };
@@ -60,9 +28,12 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
     try {
 
       await AsyncStorage.removeItem("loggedIn");
+      await AsyncStorage.removeItem("assignedImage");
       await AsyncStorage.removeItem("rol");
 
-      navigation.navigate("RegistrationScreen");
+      console.log("Sesión cerrada")
+
+      navigation.navigate("LoginScreen");
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -74,40 +45,6 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
 
         <Header />
-
-
-        <View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 310, marginTop: -43 }}>
-            <TouchableOpacity style={styles.dropdownWrapper} onPress={toggleDropdown}>
-            <Icon name="user" size={24} color="#5FFDFF" />
-              {/* <View style={styles.iconContainer}>
-                {avatarUrl ? (
-                  <Image style={styles.iconoInicio} source={{ uri: avatarUrl }} />
-                ) : (
-                  <Image
-                    style={styles.iconoInicio}
-                    source={{
-                      uri: "https://res.cloudinary.com/dfvxujvf8/image/upload/v1683825569/Fresh_Smile_Cmills/icono_inicio_enxtjd.png",
-                    }}
-                  />
-                )}
-              </View> */}
-              {/* {isOpen && (
-                <View style={styles.dropdown}>
-                  <TouchableOpacity style={styles.dropdownLink} onPress={handleLogoutClick}>
-                    <Text>Cerrar sesión</Text>
-                  </TouchableOpacity>
-                  {isAuthenticated && (
-                    <TouchableOpacity style={styles.dropdownLink} onPress={() => navigation.navigate("Perfil")}>
-                      <Text>Ver perfil</Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
-              )} */}
-            </TouchableOpacity>
-          </View>
-        </View>
-
 
         <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
@@ -146,31 +83,31 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Agenda cita</Text>
+                  <Text style={styles.contentMenuText}>Agendar</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="calendar-alt" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Mis citas</Text>
+                  <Text style={styles.contentMenuText}>Citas</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="trophy" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Mi ranking</Text>
+                  <Text style={styles.contentMenuText}>Ranking</Text>
                 </View>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Nuestros especialistas</Text>
+                  <Text style={styles.contentMenuText}>Especialistas</Text>
                 </View>
               </TouchableOpacity>
 
@@ -182,6 +119,21 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
               </TouchableOpacity>
 
               {/* <Button title='Salir' onPress={logout} /> */}
+
+
+              <View style={styles.menu}>
+
+                <TouchableOpacity style={styles.menuOption} onPress={() => navigation.navigate("PerfilUsuario")}>
+                  <Icon name="user"  size={24} style={styles.menuIcon} />
+                  <Text>Ver Perfil</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.menuOption} onPress={handleLogoutClick}>
+                  <Icon name="sign-out-alt" size={24} style={styles.menuIcon} />
+                  <Text>Cerrar sesión</Text>
+                </TouchableOpacity>
+
+              </View>
 
             </View>
           )}
@@ -297,7 +249,7 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
 
           <View style={styles.containerBlog}>
             <Text>
-              <Text style={styles.tituloBlog}>Sobre Nosotros</Text>
+              <Text style={styles.tituloBlog}>Nuestros Especialistas</Text>
             </Text>
           </View>
 
@@ -335,6 +287,12 @@ const HomeScreen = ({ navigation, isAuthenticated }) => {
               <Text style={styles.specialistName}>María Rodríguez</Text>
             </View>
 
+          </View>
+
+          <View style={styles.containerBlog}>
+            <Text>
+              <Text style={styles.tituloBlog}>Sobre Nosotros</Text>
+            </Text>
           </View>
 
           <View style={{ backgroundColor: "#d3d3d3", borderRadius: 5, marginTop: 20 }}>
@@ -582,7 +540,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D3D3D3',
+    backgroundColor: '#249bad',
     shadowColor: 'rgba(0, 0, 0, 0.2)',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
@@ -602,8 +560,172 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
     marginBottom: 5,
+    color: 'white',
+  },
+  menu: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 5,
+    right: 10,
+    backgroundColor: '#249bad',
+    padding: 10,
+    borderRadius: 5,
+    elevation: 4,
+  },
+  menuOption: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+    marginVertical: 8,
+  },
+  menuIcon: {
+    marginRight: 10,
     color: 'black',
   },
 });
 
 export default HomeScreen;
+
+// import React, { useState, useEffect } from 'react';
+// import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { SafeAreaView } from "react-native-safe-area-context";
+
+// function HomeScreen({ navigation, isAuthenticated }) {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [avatarUrl, setAvatarUrl] = useState("");
+//   const [name, setName] = useState("");
+
+//   useEffect(() => {
+//     generateAvatar();
+//   }, []);
+
+//   const generateAvatar = () => {
+//     AsyncStorage.getItem("userId")
+//       .then((userId) => {
+//         if (!userId) {
+//           console.error("No se encontró el userId en AsyncStorage");
+//           // Manejar el caso en el que no se encuentre el userId, por ejemplo, redirigir al usuario a una página de inicio de sesión
+//           return;
+//         }
+
+//         fetch(`https://freshsmile.azurewebsites.net/FreshSmile/BuscarPacientes/${userId}`)
+//           .then((response) => response.json())
+//           .then((data) => {
+//             const fullName = data.nombre_completo;
+//             const names = fullName.split(" ");
+//             const firstName = names[0];
+//             const lastName = names.length > 1 ? names[1] : "";
+
+//             setName(`${firstName} ${lastName}`);
+
+//             const avatarStyle = "set4";
+//             const size = 600;
+//             const apiUrl = `https://robohash.org/${encodeURIComponent(firstName)}?set=${avatarStyle}&size=${size}x${size}`;
+
+//             fetch(apiUrl)
+//               .then((response) => {
+//                 if (!response.ok) {
+//                   throw new Error("Error al obtener el avatar");
+//                 }
+//                 return response.blob();
+//               })
+//               .then((blob) => {
+//                 const avatarUrl = URL.createObjectURL(blob);
+//                 setAvatarUrl(avatarUrl);
+//               })
+//               .catch((error) => {
+//                 console.error("Error al obtener el avatar:", error);
+//               });
+//           })
+//           .catch((error) => {
+//             console.error("Error al obtener los datos del paciente:", error);
+//             // Manejar el error de forma adecuada, por ejemplo, mostrar una notificación de error al usuario
+//           });
+//       })
+//       .catch((error) => {
+//         console.error("Error al obtener el userId de AsyncStorage:", error);
+//         // Manejar el error de forma adecuada
+//       });
+//   };
+
+//   const toggleDropdown = () => {
+//     setIsOpen(!isOpen);
+//   };
+
+//   const handleLogoutClick = () => {
+//     logout();
+//   };
+
+//   const handleLogoClick = () => {
+//     // Lógica adicional si es necesario
+//   };
+
+//   const logout = () => {
+//     // Eliminar la información de inicio de sesión de AsyncStorage
+//     AsyncStorage.removeItem("loggedIn");
+//     AsyncStorage.removeItem("rol");
+
+//     navigation.navigate('RegistrationScreen')
+
+//     // Redireccionar al usuario a la página de registro
+//     // Aquí debes implementar la navegación adecuada para tu aplicación en React Native
+//   };
+
+//   return (
+//     <SafeAreaView className="flex-1 ">
+//       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+//         <View>
+//           <View className="icono-inicio-wrapper">
+//             <Text style={styles.dropdownLink} to="/Inicio" onPress={handleLogoutClick}>
+
+//               Cerrar sesión
+
+//             </Text>
+//             <TouchableOpacity style={styles.dropdownWrapper} onPress={toggleDropdown}>
+//               <View style={styles.iconContainer}>
+//                 {avatarUrl ? (
+//                   <View>
+//                     <Image style={styles.iconoInicio} source={{ uri: avatarUrl }} alt="Avatar" />
+//                   </View>
+//                 ) : (
+//                   <Image
+//                     style={styles.iconoInicio}
+//                     source={{
+//                       uri:
+//                         'https://res.cloudinary.com/dfvxujvf8/image/upload/v1683825569/Fresh_Smile_Cmills/icono_inicio_enxtjd.png',
+//                     }}
+//                     alt=""
+//                   />
+//                 )}
+//               </View>
+//               {isOpen && (
+//                 <View style={styles.dropdown}>
+//                   <View>
+//             <TouchableOpacity style={styles.dropdownLink} to="/Inicio" onPress={handleLogoutClick}>
+
+//                     <Text >
+
+//                       Cerrar sesión
+
+//                     </Text>
+//             </TouchableOpacity>
+
+//                   </View>
+//                   {/* Agrega lógica adicional para mostrar otros enlaces de navegación según sea necesario */}
+//                 </View>
+//               )}
+//             </TouchableOpacity>
+//           </View>
+//         </View>
+//       </ScrollView>
+//     </SafeAreaView>
+//   );
+// }
+
+// const styles = ({
+// });
+
+// export default HomeScreen;

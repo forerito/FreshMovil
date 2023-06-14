@@ -6,7 +6,9 @@ import RegistrationScreen from "./src/views/screens/RegistrationScreen";
 import LoginScreen from "./src/views/screens/LoginScreen";
 import HomeScreen from "./src/views/screens/HomeScreen";
 import NosotrosScreen from "./src/views/screens/NosotrosScreen";
+import NosotrosAdmin from "./src/views/screens/Admin/NosotrosAdmin";
 import ProcedimientosScreen from "./src/views/screens/ProcedimientosScreen";
+import ProcedimientosAdmin from "./src/views/screens/Admin/ProcedimientosAdmin";
 import ContactoScreen from "./src/views/screens/ContactoScreen";
 import AgendarCita from "./src/views/screens/AgendarCita";
 import DoctorCard from "./src/views/screens/DoctorCard";
@@ -35,7 +37,9 @@ function App() {
       <Stack.Navigator initialRouteName="Prueba">
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NosotrosScreen" component={NosotrosScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="NosotrosAdmin" component={NosotrosAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="ProcedimientosScreen" component={ProcedimientosScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ProcedimientosAdmin" component={ProcedimientosAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="ContactoScreen" component={ContactoScreen} options={{ headerShown: false }} />
         <Stack.Screen name="AgendarCita" component={AgendarCita} options={{ headerShown: false }} />
         <Stack.Screen name="DoctorCard" component={DoctorCard} options={{ headerShown: false }} />

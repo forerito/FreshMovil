@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Text, Image, View, ScrollView, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-import Header from './Header';
+import Header from '../Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from "react-native-vector-icons/FontAwesome5";
-import Footer from '../layouts/Footer';
-import ChatWhatsApp from '../layouts/ChatWhatsApp';
+import Footer from '../../layouts/Footer';
+import ChatWhatsApp from '../../layouts/ChatWhatsApp';
 
-const NosotrosScreen = ({ navigation }) => {
+const NosotrosAdmin = ({ navigation }) => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -371,4 +371,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NosotrosScreen;
+export default NosotrosAdmin;

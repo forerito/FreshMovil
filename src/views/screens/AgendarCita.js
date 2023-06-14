@@ -314,6 +314,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, TouchableOpacity, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Picker } from '@react-native-picker/picker';
 import { isSameDay } from "date-fns";
 

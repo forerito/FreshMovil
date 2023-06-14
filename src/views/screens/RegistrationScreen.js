@@ -512,7 +512,7 @@ const RegistrationScreen = ({ navigation }) => {
 
   const handleRolChange = (value) => {
     setRol(value);
-    if (value === 'Especialista') {
+    if (value === "Especialista") {
       setShowModal(true);
     } else {
       setShowModal(false);
@@ -580,7 +580,7 @@ const RegistrationScreen = ({ navigation }) => {
     let apiEndpoint = '';
     let datosFormulario = {};
 
-    if (rol === 'Especialista') {
+    if (rol === "Especialista") {
       const codigoValido = await validarCodigo();
 
       if (!codigoValido) {
@@ -601,7 +601,7 @@ const RegistrationScreen = ({ navigation }) => {
         correo: correo,
         contraseña: contraseña,
       };
-    } else if (rol === 'Paciente') {
+    } else if (rol === "Paciente") {
       apiEndpoint =
         'https://freshsmile.azurewebsites.net/FreshSmile/CrearPacientes';
       datosFormulario = {
@@ -628,6 +628,7 @@ const RegistrationScreen = ({ navigation }) => {
         // Mostrar el mensaje de éxito utilizando una librería adecuada para la interfaz de usuario en React Native
         console.log('¡Se ha registrado correctamente!');
         Alert.alert('Registro exitoso', '¡Se ha registrado correctamente!');
+        
         // Resetear los valores de los campos
         setTipoDocumento('');
         setNumeroDocumento('');
@@ -645,6 +646,9 @@ const RegistrationScreen = ({ navigation }) => {
         console.log(
           'Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.'
         );
+
+        Alert.alert('Ha ocurrido un error durante el registro. Por favor, inténtalo de nuevo.');
+
       }
     } catch (error) {
       // Mostrar el mensaje de error utilizando una librería adecuada para la interfaz de usuario en React Native
@@ -725,9 +729,9 @@ const RegistrationScreen = ({ navigation }) => {
                     <Picker.Item label="Seleccionar especialidad" value="" />
                     {procedimientos.map((procedimiento) => (
                       <Picker.Item
-                        key={procedimiento.value}
-                        label={procedimiento.label}
-                        value={procedimiento.value}
+                        key={procedimiento.id}
+                        label={procedimiento.nombre}
+                        value={procedimiento.nombre}
                       />
                     ))}
                   </Picker>
