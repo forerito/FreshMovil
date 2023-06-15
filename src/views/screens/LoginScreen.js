@@ -330,6 +330,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleRegisterClick = () => {
@@ -337,6 +338,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
 
     try {
       let url;
@@ -349,6 +351,8 @@ const LoginScreen = ({ navigation }) => {
       }
 
       const response = await axios.post(url, { email, password });
+
+      setLoading(false);
 
       if (response.status === 200) {
         const { id, token } = response.data;
