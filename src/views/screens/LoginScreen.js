@@ -227,10 +227,9 @@
 // };
 
 
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, Image, Alert, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, Alert, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -243,25 +242,97 @@ import {
 } from "react-native-alert-notification";
 
 const LoginScreen = ({ navigation }) => {
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [role, setRole] = useState("");
+  // const [modalText, setModalText] = useState("");
+  // const [modalType, setModalType] = useState("success");
+
+  // const [showPassword, setShowPassword] = useState(false);
+
+  // useEffect(() => {
+  //   if (modalType === "success") {
+  //     setTimeout(() => {
+  //       setModalText("");
+  //       setModalType("");
+  //     }, 5000);
+  //   }
+  // }, [modalType]);
+
+  // const handleRegisterClick = () => {
+  //   // Handle navigation to the login screen
+  //   navigation.navigate('RegistrationScreen');
+  // };
+
+  // const handleSubmit = async () => {
+
+  //   try {
+  //     let url;
+  //     if (role === "paciente") {
+  //       url = "https://freshsmile.azurewebsites.net/login/paciente";
+  //     } else if (role === "especialista") {
+  //       url = "https://freshsmile.azurewebsites.net/login/especialista";
+  //     } else {
+  //       throw new Error("Rol no válido");
+  //     }
+
+  //     const response = await axios.post(url, { email, password });
+
+
+  //     if (response.status === 200) {
+  //       const { id, token } = response.data;
+  //       setModalText(response.data.message);
+
+  //       // Alert.alert("Inicio de sesión exitoso");
+  //       Alert.alert(
+  //         'ÉXITO',
+  //         'Inicio de sesión exitoso',
+  //         [
+  //           {
+  //             text: 'Cerrar',
+  //             onPress: () => {
+  //               if (role === 'paciente') {
+  //                 navigation.navigate('HomeScreen');
+  //               } else if (role === 'especialista') {
+  //                 navigation.navigate('HomeEspecialista');
+  //               }
+  //             },
+  //           },
+  //         ],
+  //         { type: 'success' } // Puedes personalizar el tipo de alerta dependiendo de la biblioteca que utilices
+  //       );
+
+  //       await AsyncStorage.setItem("accessToken", token);
+  //       await AsyncStorage.setItem("loggedIn", "true");
+  //       await AsyncStorage.setItem("rol", role);
+  //       // await AsyncStorage.setItem("userId", id);
+  //       await AsyncStorage.setItem("userId", JSON.stringify(id));
+
+  //       console.log("accessToken", token);
+  //       console.log("loggedIn", "true");
+  //       console.log("rol", role);
+  //       console.log("userId", id);
+
+
+
+  //     } else {
+  //       const errorData = response.data;
+  //       throw new Error(errorData.message);
+  //     }
+  //   } catch (error) {
+  //     setModalText(error.message);
+  //     setModalType("error");
+  //   }
+  // };
+
+
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const [modalText, setModalText] = useState("");
-  const [modalType, setModalType] = useState("success");
-
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    if (modalType === "success") {
-      setTimeout(() => {
-        setModalText("");
-        setModalType("");
-      }, 5000);
-    }
-  }, [modalType]);
-
   const handleRegisterClick = () => {
-    // Handle navigation to the login screen
     navigation.navigate('RegistrationScreen');
   };
 
@@ -279,58 +350,24 @@ const LoginScreen = ({ navigation }) => {
 
       const response = await axios.post(url, { email, password });
 
-
       if (response.status === 200) {
         const { id, token } = response.data;
-        setModalText(response.data.message);
 
-        // Alert.alert("Inicio de sesión exitoso");
-        Alert.alert(
-          'ÉXITO',
-          'Inicio de sesión exitoso',
-          [
-            {
-              text: 'Cerrar',
-              onPress: () => {
-                if (role === 'paciente') {
-                  navigation.navigate('HomeScreen');
-                } else if (role === 'especialista') {
-                  navigation.navigate('HomeEspecialista');
-                }
-              },
-            },
-          ],
-          { type: 'success' } // Puedes personalizar el tipo de alerta dependiendo de la biblioteca que utilices
-        );
+        Alert.alert("EXITO", "Inicio de sesión exitoso");
 
+        navigation.navigate("HomeScreen");
         await AsyncStorage.setItem("accessToken", token);
         await AsyncStorage.setItem("loggedIn", "true");
         await AsyncStorage.setItem("rol", role);
-        // await AsyncStorage.setItem("userId", id);
-        await AsyncStorage.setItem("userId", JSON.stringify(id));
-
-        console.log("accessToken", token);
-        console.log("loggedIn", "true");
-        console.log("rol", role);
-        console.log("userId", id);
-
-
-
+        await AsyncStorage.setItem("userId", id);
       } else {
         const errorData = response.data;
         throw new Error(errorData.message);
       }
     } catch (error) {
-      setModalText(error.message);
-      setModalType("error");
+      Alert.alert("Error", error.message);
     }
   };
-
-  useEffect(() => {
-    if (modalType === "error") {
-      Alert.alert("Error", modalText);
-    }
-  }, [modalType]);
 
   return (
     <SafeAreaView className="flex-1">

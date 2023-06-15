@@ -633,7 +633,6 @@ const RegistrationScreen = ({ navigation }) => {
         console.log('¡Se ha registrado correctamente!');
         Alert.alert('Registro exitoso', '¡Se ha registrado correctamente!');
         
-        
 
         // Resetear los valores de los campos
         setTipoDocumento('');

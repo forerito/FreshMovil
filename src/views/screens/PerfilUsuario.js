@@ -212,21 +212,21 @@ const PerfilUsuario = ({ navigation }) => {
                                     </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity onPress={() => navigation.navigate("CitasAgendadas")}>
+                                <TouchableOpacity onPress={() => navigation.navigate("TablaUsuario")}>
                                     <View style={styles.contentMenuItems}>
                                         <Icon name="calendar-alt" size={24} color="white" />
                                         <Text style={styles.contentMenuText}>Citas</Text>
                                     </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+                                <TouchableOpacity onPress={() => navigation.navigate("Ranking")}>
                                     <View style={styles.contentMenuItems}>
                                         <Icon name="trophy" size={24} color="white" />
                                         <Text style={styles.contentMenuText}>Ranking</Text>
                                     </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity onPress={() => navigation.navigate("CitasPendientes")}>
+                                <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
                                     <View style={styles.contentMenuItems}>
                                         <Icon name="user-check" size={24} color="white" />
                                         <Text style={styles.contentMenuText}>Especialistas</Text>
