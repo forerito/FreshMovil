@@ -300,7 +300,7 @@ const PerfilUsuario = ({ navigation }) => {
                                     style={styles.perfilValor}
                                     value={identificacionPaciente.toString()}
                                     onChangeText={setIdentificacionPaciente}
-                                    editable={editMode}
+                                    editable={false}
                                 />
                             </View>
 
@@ -310,7 +310,7 @@ const PerfilUsuario = ({ navigation }) => {
                                     style={styles.perfilValor}
                                     value={nombre}
                                     onChangeText={setNombre}
-                                    editable={editMode}
+                                    editable={false}
                                 />
                             </View>
 
@@ -498,6 +498,7 @@ const styles = StyleSheet.create({
     perfilValor: {
         flex: 1,
         borderWidth: 2,
+        width: '77%',
         padding: 10,
         borderColor: 'gray',
         backgroundColor: 'white',
@@ -509,7 +510,7 @@ const styles = StyleSheet.create({
     },
     passwordInput: {
         padding: 10,
-        width: '77%',
+        width: '76%',
         backgroundColor: 'white',
         borderRadius: 5,
         borderWidth: 2,

@@ -358,22 +358,7 @@ const LoginScreen = ({ navigation }) => {
       if (response.status === 200) {
         const { id, token } = response.data;
 
-        Alert.alert(
-          'ÉXITO',
-          'Inicio de sesión exitoso',
-          [
-            {
-              text: 'Cerrar',
-              onPress: () => {
-                if (role === "paciente") {
-                  navigation.navigate("HomeScreen");
-                } else if (role === "especialista") {
-                  navigation.navigate("HomeEspecialista");
-                }
-              },
-            },
-          ],
-        );
+        Alert.alert("ÉXITO", 'Inicio de sesión exitoso');
 
         await AsyncStorage.setItem("accessToken", token);
         await AsyncStorage.setItem("loggedIn", "true");

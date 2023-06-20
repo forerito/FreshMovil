@@ -260,7 +260,6 @@
 
 
 
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, Modal, Alert } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -311,6 +310,8 @@ const Prueba = () => {
     setIsModalVisible(true);
     getCitas();
   }, []);
+
+
 
   useEffect(() => {
     // Obtener el userId del AsyncStorage
@@ -402,17 +403,9 @@ const Prueba = () => {
     console.log(hour)
   };
 
-  const isSameDay = (date1, date2) => {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
-  };
 
-  const filterDates = () => {
-    // Implement your logic for date filtering
-  };
+  const currentDate = new Date();
+currentDate.setHours(0, 0, 0, 0);
 
   const handleModalButtonClick = forMe => {
     setShowModal(false); // Cerrar la ventana modal al hacer clic en un botón
@@ -514,6 +507,7 @@ const Prueba = () => {
           <DateTimePickerModal
             isVisible={calendarOpen}
             mode="date"
+            minimumDate={currentDate}
             onConfirm={date => {
               setSelectedDate(date);
               setCalendarOpen(false);
@@ -629,4 +623,3 @@ const styles = {
 }
 
 export default Prueba;
-

@@ -185,55 +185,45 @@ const TablaUsuario = ({ navigation }) => {
           <View style={styles.container}>
             <View style={styles.table}>
               <View style={styles.tableBody}>
-                {/* {data.map((item, index) => ( */}
-                <View style={styles.tableRow}>
-                  {/* <View key={index} style={styles.tableRow}> */}
-                  <View style={styles.titleColumn}>
-                    <Text style={styles.titleText}>IDENTIFICACIÓN DE LA CITA</Text>
-                    <Text style={styles.titleText}>NÚMERO DE DOCUMENTO</Text>
-                    <Text style={styles.titleText}>NOMBRE COMPLETO</Text>
-                    <Text style={styles.titleText}>TIPO DE DOCUMENTO</Text>
-                    <Text style={styles.titleText}>FECHA</Text>
-                    <Text style={styles.titleText}>HORA</Text>
-                    <Text style={styles.titleText}>ESPECIALISTA</Text>
-                    <Text style={styles.titleText}>IDENTIFICACIÓN PACIENTE</Text>
-                    <Text style={styles.titleText}>MOTIVO</Text>
-                    <Text style={styles.titleText}>FECHA DE CREACIÓN</Text>
-                    <Text style={styles.titleText}>ESTADO</Text>
-                    <Text style={styles.titleText}>ACCIONES</Text>
+                {data.map((item, index) => (
+                  <View key={index} style={styles.citaContainer}>
+                    <View key={index} style={styles.tableRow}>
+                      <View style={styles.titleColumn}>
+                        <Text style={styles.titleText}>IDENTIFICACIÓN DE LA CITA</Text>
+                        <Text style={styles.titleText}>NÚMERO DE DOCUMENTO</Text>
+                        <Text style={styles.titleText}>NOMBRE COMPLETO</Text>
+                        <Text style={styles.titleText}>TIPO DE DOCUMENTO</Text>
+                        <Text style={styles.titleText}>FECHA</Text>
+                        <Text style={styles.titleText}>HORA</Text>
+                        <Text style={styles.titleText}>ESPECIALISTA</Text>
+                        <Text style={styles.titleText}>IDENTIFICACIÓN PACIENTE</Text>
+                        <Text style={styles.titleText}>MOTIVO</Text>
+                        <Text style={styles.titleText}>FECHA DE CREACIÓN</Text>
+                        <Text style={styles.titleText}>ESTADO</Text>
+                        <Text style={styles.titleText}>ACCIONES</Text>
+                      </View>
+                      <View style={styles.textColumn}>
+                        <Text style={styles.titleText2}>{item.identificacion_citas}</Text>
+                        <Text style={styles.titleText2}>{item.numero_documento}</Text>
+                        <Text style={styles.titleText2}>{item.nombre_completo}</Text>
+                        <Text style={styles.titleText2}>{item.tipo_documento}</Text>
+                        <Text style={styles.titleText2}>{item.fecha}</Text>
+                        <Text style={styles.titleText2}>{item.hora}</Text>
+                        <Text style={styles.titleText2}>{especialistas[item.id_especialista]}</Text>
+                        <Text style={styles.titleText2}>{item.id_paciente}</Text>
+                        <Text style={styles.titleTextmotivo}>{procedimientos[item.id_procedimiento]}</Text>
+                        <Text style={styles.titleText2}>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
+                        <Text style={styles.titleText2}>{item.estado_cita}</Text>
+                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                          <View style={{ marginRight: 8, backgroundColor: '#249bad', borderRadius: 5 }}>
+                            <Icon name="trash" size={16} style={{ padding: 5, color: 'white' }} />
+                          </View>
+                          <Text style={{ fontSize: 15, }}>cancelar cita</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
                   </View>
-                  {/* <View style={styles.textColumn}>
-                      <Text>{item.identificacion_citas}</Text>
-                      <Text>{item.numero_documento}</Text>
-                      <Text>{item.nombre_completo}</Text>
-                      <Text>{item.tipo_documento}</Text>
-                      <Text>{item.fecha}</Text>
-                      <Text>{item.hora}</Text>
-                      <Text>{especialistas[item.id_especialista]}</Text>
-                      <Text>{item.id_paciente}</Text>
-                      <Text>{procedimientos[item.id_procedimiento]}</Text>
-                      <Text>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
-                      <Text>{item.estado}</Text>
-                    </View> */}
-                  <View style={styles.textColumn}>
-                    <Text style={styles.titleText2}>identificacion_citas</Text>
-                    <Text style={styles.titleText2}>numero_document</Text>
-                    <Text style={styles.titleText2}>item.nombre_complet</Text>
-                    <Text style={styles.titleText2}>item.tipo_documento</Text>
-                    <Text style={styles.titleText2}>item.fecha</Text>
-                    <Text style={styles.titleText2}>item.hora</Text>
-                    <Text style={styles.titleText2}>especialistas</Text>
-                    <Text style={styles.titleText2}>item.id_paciente</Text>
-                    <Text style={styles.titleText2}>procedimientos</Text>
-                    <Text style={styles.titleText2}>formatFechaCrea</Text>
-                    <Text style={styles.titleText2}>item.estado</Text>
-                    <TouchableOpacity style={styles.titleText2}>
-                    <Text>item.estado</Text>
-                <Icon name="pen" size={20} style={styles.icon} />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-                {/* ))} */}
+                ))}
               </View>
             </View>
           </View>
@@ -266,6 +256,8 @@ const styles = StyleSheet.create({
   tableBody: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 10,
   },
   tableRow: {
     flexDirection: 'row',
@@ -273,32 +265,46 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 10,
   },
+  citaContainer: {
+    width: "100%",
+    marginBottom: 20,
+    borderRadius: 15,
+    borderColor: "#249bad",
+    backgroundColor: "#D3D3D3",
+    borderWidth: 3,
+    padding: 10,
+  },
   titleColumn: {
     marginRight: 10,
   },
   textColumn: {
-    marginBottom: 10,
+    // marginBottom: 15,
   },
   titleText: {
     fontWeight: 'bold',
+    fontSize: 13,
     lineHeight: 25,
+  },
+  titleTextmotivo: {
+    fontSize: 12,
+    lineHeight: 25,
+    textAlign: 'center',
   },
   titleText2: {
     lineHeight: 25,
+    width: '100%',
+    textAlign: 'center',
   },
   container: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginLeft: 12,
+    marginTop: 10,
   },
   table: {
     width: "100%",
+    marginBottom: 10,
     borderRadius: 15,
-    borderColor: "#249bad",
-    backgroundColor: "#D3D3D3",
-    borderWidth: 3,
     padding: 10,
   },
   tableHeader: {
@@ -308,9 +314,3 @@ const styles = StyleSheet.create({
 });
 
 export default TablaUsuario;
-
-
-//         <View style={{width:100, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center',}}>
-//         <View style={{width:100, backgroundColor: 'blue',justifyContent: 'center', alignItems: 'center',}}>
-//         <View style={{width:100, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center',}}>
-//         <View style={{width:100, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center',}}>

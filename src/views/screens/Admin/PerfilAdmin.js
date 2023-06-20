@@ -444,63 +444,63 @@ const PerfilAdmin = ({ navigation }) => {
           <Header />
 
           <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
-            <TouchableOpacity onPress={handlePress}>
-              <Icon name="bars" size={24} color="#5FFDFF" />
-            </TouchableOpacity>
-          </View>
-
-          {menuOpen && (
-            <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
+              <TouchableOpacity onPress={handlePress}>
+                <Icon name="bars" size={24} color="#5FFDFF" />
               </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="home" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Inicio</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="users" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Nosotros</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="tooth" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Procedimientos</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="user-clock" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Agenda</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="star" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Valoraciones</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity>   
-                  <Text>Contacto</Text>
-              </TouchableOpacity>
-
             </View>
-          )}
-        </View>
+
+            {menuOpen && (
+              <View style={{ marginTop: 8 }}>
+                <TouchableOpacity onPress={handleClose}>
+                  <View style={styles.contentMenuCerrar}>
+                    <Icon name="window-close" size={24} color="white" />
+                    <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
+                  <View style={styles.contentMenuItems}>
+                    <Icon name="home" size={24} color="white" />
+                    <Text style={styles.contentMenuText}>Inicio</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
+                  <View style={styles.contentMenuItems}>
+                    <Icon name="users" size={24} color="white" />
+                    <Text style={styles.contentMenuText}>Nosotros</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
+                  <View style={styles.contentMenuItems}>
+                    <Icon name="tooth" size={24} color="white" />
+                    <Text style={styles.contentMenuText}>Procedimientos</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
+                  <View style={styles.contentMenuItems}>
+                    <Icon name="user-clock" size={24} color="white" />
+                    <Text style={styles.contentMenuText}>Agenda</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+                  <View style={styles.contentMenuItems}>
+                    <Icon name="star" size={24} color="white" />
+                    <Text style={styles.contentMenuText}>Valoraciones</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Text>Contacto</Text>
+                </TouchableOpacity>
+
+              </View>
+            )}
+          </View>
 
           <View>
             {/* <View style={styles.bannerPrincipalAd}>
@@ -554,7 +554,7 @@ const PerfilAdmin = ({ navigation }) => {
                   style={styles.perfilValor}
                   value={identificacionEspecialista.toString()}
                   onChangeText={setIdentificacionEspecialista}
-                  editable={editMode}
+                  editable={false}
                 />
               </View>
 
@@ -564,7 +564,7 @@ const PerfilAdmin = ({ navigation }) => {
                   style={styles.perfilValor}
                   value={nombre}
                   onChangeText={setNombre}
-                  editable={editMode}
+                  editable={false}
                 />
               </View>
 
@@ -707,7 +707,6 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   guardarBotonContainer: {
-    // flex: 1,
     width: '40%',
     alignItems: 'center',
     backgroundColor: '#249bad',
@@ -716,10 +715,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   guardarBoton: {
-    // flex: 1,
   },
   editarBotonContainer: {
-    // flex: 1,
     width: '40%',
     alignItems: 'center',
     backgroundColor: '#8fccd6',
@@ -728,7 +725,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   editarBoton: {
-    // flex: 1,
   },
   bannerPrincipalAd: {
     justifyContent: 'center',

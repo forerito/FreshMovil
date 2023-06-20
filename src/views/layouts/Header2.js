@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: 'black',
   },
   header2: {
     marginLeft: 20,
