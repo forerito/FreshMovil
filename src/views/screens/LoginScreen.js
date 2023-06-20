@@ -240,6 +240,7 @@ import {
   AlertNotificationRoot,
   Toast,
 } from "react-native-alert-notification";
+import Header2 from "../layouts/Header2";
 
 const LoginScreen = ({ navigation }) => {
   // const [email, setEmail] = useState("");
@@ -357,25 +358,49 @@ const LoginScreen = ({ navigation }) => {
       if (response.status === 200) {
         const { id, token } = response.data;
 
-        Alert.alert("EXITO", "Inicio de sesión exitoso");
+        Alert.alert(
+          'ÉXITO',
+          'Inicio de sesión exitoso',
+          [
+            {
+              text: 'Cerrar',
+              onPress: () => {
+                if (role === "paciente") {
+                  navigation.navigate("HomeScreen");
+                } else if (role === "especialista") {
+                  navigation.navigate("HomeEspecialista");
+                }
+              },
+            },
+          ],
+        );
 
-        navigation.navigate("HomeScreen");
         await AsyncStorage.setItem("accessToken", token);
         await AsyncStorage.setItem("loggedIn", "true");
-        await AsyncStorage.setItem("rol", role);
-        await AsyncStorage.setItem("userId", id);
+        await AsyncStorage.setItem("userId", JSON.stringify(id));
+
+        if (role === "paciente") {
+          navigation.navigate("HomeScreen");
+        } else if (role === "especialista") {
+          navigation.navigate("HomeEspecialista");
+        }
+
       } else {
         const errorData = response.data;
         throw new Error(errorData.message);
       }
     } catch (error) {
       Alert.alert("Error", error.message);
+      console.log("Error", error.message);
     }
   };
 
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+
+        <Header2 />
+
         <AlertNotificationRoot>
           <View style={styles.container}>
             <Text style={styles.titlePrincipal}>INICIAR SESIÓN</Text>

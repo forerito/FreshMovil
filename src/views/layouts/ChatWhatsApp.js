@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet, Image, Linking } from 'react-native';
 const ChatWhatsApp = () => {
 
   const handleWhatsAppPress = async () => {
-    await Linking.openURL("https://whatsApp.com/");
+    await Linking.openURL("https://api.whatsapp.com/send?phone=3204415807&text=Hola,%20me%20gustar%C3%ADa%20saber%20mas%20informaci%C3%B3n.");
   }
 
   return (

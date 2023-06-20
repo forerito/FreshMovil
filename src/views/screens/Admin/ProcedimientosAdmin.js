@@ -102,7 +102,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125232/blanqueamiento-dental_k79oav.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852202/Fresh_Smile_Cmills/carillas_hbazmk.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -118,7 +118,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125289/implante_m34lfe.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852210/Fresh_Smile_Cmills/implantes_keq38a.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -136,7 +136,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685126311/diente_iowcnf.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852210/Fresh_Smile_Cmills/implantesss_deur5s.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -154,7 +154,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685126397/medico_meiagz.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852212/Fresh_Smile_Cmills/cards1_s5fs46.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -170,7 +170,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127203/muela-del-juicio_gepql6.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268627/Fresh_Smile_Cmills/jonathan-borba-v_2FRXEba94-unsplash_cth93o.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -186,7 +186,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127204/limpieza-dental_yooh5t.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684269551/Fresh_Smile_Cmills/caroline-lm-8BkF0sTC6Uo-unsplash_efkumb.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -202,7 +202,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127203/corona-dental_j2kdj1.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268377/Fresh_Smile_Cmills/jonathan-borba-W9YEY6G8LVM-unsplash_qpfaed.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -218,7 +218,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685124831/ortodoncista_tlq9k3.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268332/Fresh_Smile_Cmills/enis-yavuz-4u2fG9mqGvQ-unsplash_saf7yd.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
@@ -234,61 +234,13 @@ const ProcedimientosAdmin = ({ navigation }) => {
           <View style={styles.viewcompleto}>
             <View style={styles.serviceItem}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125116/cepillo-de-dientes_1_d1q7ii.png" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Limpieza dental</Text>
-              <Text style={styles.serviceText}>
-                También conocida como profilaxis dental, es un procedimiento en el que se eliminan la placa y el sarro de los dientes para prevenir enfermedades dentales y mantener una buena salud bucal.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125346/endodoncia_n5itxb.png" }}
+                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852203/Fresh_Smile_Cmills/endodoncia_n1qzcw.png" }}
                 resizeMode={"stretch"}
                 style={styles.serviceImg}
               />
               <Text style={styles.serviceTitle}>Endodoncia</Text>
               <Text style={styles.serviceText}>
                 La endodoncia, o tratamiento de conducto, es un procedimiento para tratar y salvar dientes con pulpa dental dañada o infectada. Consiste en eliminar el tejido pulpar afectado, limpiar los conductos radiculares y sellarlos para prevenir futuras infecciones.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685125180/extraccion_jn5wxt.png" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Extracción dental</Text>
-              <Text style={styles.serviceText}>
-                Consiste en la remoción de un diente dañado, infectado o afectado por una enfermedad periodontal. Las extracciones dentales también se realizan en casos de dientes de sabiduría impactados o cuando hay una superpoblación dental en la boca.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1685127846/sonrisa_naagzz.png" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Diseño de sonrisa</Text>
-              <Text style={styles.serviceText}>
-                El diseño de sonrisa es un procedimiento estético que busca mejorar la apariencia de la sonrisa y los dientes. Consiste en un análisis detallado de la forma, el color, el tamaño y la posición de los dientes, así como de la armonía facial en general.
               </Text>
             </View>
           </View>
@@ -338,7 +290,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     marginVertical: 10,
-    color: 'black',
+    color: '#7DC3E8',
   },
   serviceText: {
     fontSize: 12,

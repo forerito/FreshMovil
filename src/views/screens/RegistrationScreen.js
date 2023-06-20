@@ -415,6 +415,7 @@ import { View, TextInput, Button, Alert, StyleSheet, ScrollView, Text, Modal, To
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from 'axios';
+import Header2 from "../layouts/Header2";
 import {
   ALERT_TYPE,
   Dialog,
@@ -632,7 +633,7 @@ const RegistrationScreen = ({ navigation }) => {
         // Mostrar el mensaje de éxito utilizando una librería adecuada para la interfaz de usuario en React Native
         console.log('¡Se ha registrado correctamente!');
         Alert.alert('Registro exitoso', '¡Se ha registrado correctamente!');
-        
+
 
         // Resetear los valores de los campos
         setTipoDocumento('');
@@ -668,6 +669,9 @@ const RegistrationScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="flex-1">
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+
+        <Header2 />
+
         <AlertNotificationRoot>
           <View style={styles.container}>
             <Text style={styles.titlePrincipal}>REGISTRO</Text>

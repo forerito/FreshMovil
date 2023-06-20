@@ -566,6 +566,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: 'white',
   },
+  specialistDescription: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 10,
+    marginBottom: 5,
+    color: 'white',
+  },
   menu: {
     justifyContent: 'center',
     alignItems: 'center',

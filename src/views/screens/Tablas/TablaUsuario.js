@@ -1,204 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-// import axios from 'axios';
-// import { SafeAreaView } from "react-native-safe-area-context";
-
-
-// const TablaUsuario = ({ navigation }) => {
-//   // const [data, setData] = useState([]);
-
-//   // useEffect(() => {
-//   //   fetchData();
-//   // }, []);
-
-//   // const fetchData = async () => {
-//   //   try {
-//   //     const response = await axios.get('https://freshsmile.azurewebsites.net/FreshSmile/paciente');
-//   //     setData(response.data);
-//   //   } catch (error) {
-//   //     console.error('Error al obtener los datos:', error);
-//   //     Alert.alert('Error al obtener los datos', 'Hubo un problema al obtener los datos de la API');
-//   //   }
-//   // };
-
-//   // const handleDelete = async (id) => {
-//   //   Alert.alert(
-//   //     'Eliminar cita',
-//   //     '¿Estás seguro que deseas eliminar esta cita?',
-//   //     [
-//   //       {
-//   //         text: 'No',
-//   //         style: 'cancel',
-//   //       },
-//   //       {
-//   //         text: 'Sí',
-//   //         onPress: async () => {
-//   //           try {
-//   //             await axios.delete(`URL_DE_TU_API/${id}`);
-//   //             fetchData();
-//   //             Alert.alert('Cita eliminada', 'Tu cita se ha eliminado correctamente');
-//   //           } catch (error) {
-//   //             console.error(error);
-//   //             Alert.alert('Error al eliminar la cita', 'Hubo un problema al eliminar la cita');
-//   //           }
-//   //         },
-//   //       },
-//   //     ],
-//   //     { cancelable: true }
-//   //   );
-//   // };
-
-//   return (
-//     <SafeAreaView className="flex-1">
-//       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
-//         <View style={styles.container}>
-//           <Text style={styles.title}>Mis citas</Text>
-//           <ScrollView horizontal={true} style={styles.tableContainer}>
-//             <View>
-//               <View style={styles.tableHeader}>
-//                 <Text style={styles.columnHeader}>ID</Text>
-//                 <Text style={styles.columnHeader}>Tipo de cita</Text>
-//                 <Text style={styles.columnHeader}>Nombre del doctor</Text>
-//                 <Text style={styles.columnHeader}>Fecha</Text>
-//                 <Text style={styles.columnHeader}>Hora</Text>
-//                 <Text style={styles.columnHeader}>Email</Text>
-//                 <Text style={styles.columnHeader}>Acciones</Text>
-//               </View>
-//               {/* {data.map((item) => ( */}
-
-//                 <View  style={styles.tableHeader}>
-//                   <Text style={styles.column}>1</Text>
-//                   <Text style={styles.column1}>Limpieza</Text>
-//                   <Text style={styles.column2}>Camilo A Forero</Text>
-//                   <Text style={styles.column3}>7/06/2023</Text>
-//                   <Text style={styles.column4}>12:28 p.m.</Text>
-//                   <Text style={styles.column5}>forero5515@gmail.com</Text>
-//                   {/* <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteButton}>
-//                     <Text style={styles.deleteButtonText}>Cancelar cita</Text>
-//                   </TouchableOpacity> */}
-//                 </View>
-
-//                 <View  style={styles.tableHeader}>
-//                   <Text style={styles.column}>1</Text>
-//                   <Text style={styles.column1}>Limpieza</Text>
-//                   <Text style={styles.column2}>Camilo A Forero</Text>
-//                   <Text style={styles.column3}>7/06/2023</Text>
-//                   <Text style={styles.column4}>12:28 p.m.</Text>
-//                   <Text style={styles.column5}>forero5515@gmail.com</Text>
-//                   {/* <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteButton}>
-//                     <Text style={styles.deleteButtonText}>Cancelar cita</Text>
-//                   </TouchableOpacity> */}
-//                 </View>
-
-//                 <View  style={styles.tableHeader}>
-//                   <Text style={styles.column}>10</Text>
-//                   <Text style={styles.column1}>Limpieza</Text>
-//                   <Text style={styles.column2}>Camilo A Forero</Text>
-//                   <Text style={styles.column3}>7/06/2023</Text>
-//                   <Text style={styles.column4}>12:28 p.m.</Text>
-//                   <Text style={styles.column5}>forero5515@gmail.com</Text>
-//                   <TouchableOpacity onPress={() => handleDelete(item.id)} style={styles.deleteButton}>
-//                     <Text style={styles.deleteButtonText}>Cancelar cita</Text>
-//                   </TouchableOpacity>
-//                 </View>
-//               {/* // ))} */}
-//             </View>
-//           </ScrollView>
-//         </View>
-//       </ScrollView>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     marginVertical: 20,
-//     paddingHorizontal: 10,
-//   },
-//   title: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//     marginTop: 10,
-//     marginBottom: 10,
-//   },
-//   tableContainer: {
-//     borderColor: 'black',
-//     borderWidth: 2,
-//     borderRadius: 5,
-//     padding: 10,
-//   },
-//   tableHeader: {
-//     color: 'black',
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#ccc',
-//     paddingVertical: 10,
-//   },
-//   columnHeader: {
-//     padding: 20,
-//     color: 'black',
-//     textAlign: 'center',
-//   },
-//   tableRow: {
-//     // flex: 1,
-//     color: 'black',
-//     flexDirection: 'row',
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#ccc',
-//     paddingVertical: 10,
-//   },
-//   column: {
-//     marginLeft: 25,
-//     color: 'black',
-//     textAlign: 'center',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-
-//   },
-//   column1: {
-//     marginLeft: 47,
-//     color: 'black',
-//     textAlign: 'center',
-//   },
-//   column2: {
-//     marginLeft: 60,
-//     color: 'black',
-//     textAlign: 'center',
-//   },
-//   column3: {
-//     marginLeft: 35,
-//     color: 'black',
-//     textAlign: 'center',
-//   },
-//   column4: {
-//     marginLeft: 15,
-//     color: 'black',
-//     textAlign: 'center',
-//   },
-//   column5: {
-//     marginLeft: 25,
-//     color: 'black',
-//     textAlign: 'center',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   deleteButton: {
-//     backgroundColor: 'red',
-//     paddingHorizontal: 10,
-//     paddingVertical: 5,
-//     borderRadius: 5,
-//   },
-//   deleteButtonText: {
-//     color: 'white',
-//     fontWeight: 'bold',
-//     textAlign: 'center',
-//   },
-// });
-
-// export default TablaUsuario;
-
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Alert } from 'react-native';
@@ -375,10 +174,8 @@ const TablaUsuario = ({ navigation }) => {
               </TouchableOpacity>
 
               <TouchableOpacity>
-                  <Text>Contacto</Text>
+                <Text>Contacto</Text>
               </TouchableOpacity>
-
-              {/* <Button title='Salir' onPress={logout} /> */}
 
             </View>
           )}
@@ -387,35 +184,56 @@ const TablaUsuario = ({ navigation }) => {
         <ScrollView horizontal>
           <View style={styles.container}>
             <View style={styles.table}>
-              <View style={styles.tableHeader}>
-                <Text style={styles.headerText}>IDENTIFICACIÓN DE LA CITA</Text>
-                <Text style={styles.headerTextNd}>NÚMERO DE DOCUMENTO</Text>
-                <Text style={styles.headerTextNombreComple}>NOMBRE COMPLETO	</Text>
-                <Text style={styles.headerTextTipodo}>TIPO DE DOCUMENTO</Text>
-                <Text style={styles.headerTextFecha}>FECHA</Text>
-                <Text style={styles.headerTextHora}>HORA</Text>
-                <Text style={styles.headerTextEspecialista}>ESPECIALISTA</Text>
-                <Text style={styles.headerTextIdPa}>IDENTIFICACIÓN PACIENTE</Text>
-                <Text style={styles.headerTextMotiv}>MOTIVO</Text>
-                <Text style={styles.headerTextFechacre}>FECHA DE CREACIÓN</Text>
-                <Text style={styles.headerTextEstado}>ESTADO</Text>
-              </View>
               <View style={styles.tableBody}>
-                {data.map((item, index) => (
-                  <View key={index} style={styles.tableRow}>
-                    <Text style={styles.tableCell1}>{item.identificacion_citas}</Text>
-                    <Text style={styles.tableCell2}>{item.numero_documento}</Text>
-                    <Text style={styles.tableCell3}>{item.nombre_completo}</Text>
-                    <Text style={styles.tableCell4}>{item.tipo_documento}</Text>
-                    <Text style={styles.tableCell5}>{item.fecha}</Text>
-                    <Text style={styles.tableCell6}>{item.hora}</Text>
-                    <Text style={styles.tableCell7}>{especialistas[item.id_especialista]}</Text>
-                    <Text style={styles.tableCell8}>{item.id_paciente}</Text>
-                    <Text style={styles.tableCell9}>{procedimientos[item.id_procedimiento]}</Text>
-                    <Text style={styles.tableCell10}>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
-                    <Text style={styles.tableCell11}>{item.estado}</Text>
+                {/* {data.map((item, index) => ( */}
+                <View style={styles.tableRow}>
+                  {/* <View key={index} style={styles.tableRow}> */}
+                  <View style={styles.titleColumn}>
+                    <Text style={styles.titleText}>IDENTIFICACIÓN DE LA CITA</Text>
+                    <Text style={styles.titleText}>NÚMERO DE DOCUMENTO</Text>
+                    <Text style={styles.titleText}>NOMBRE COMPLETO</Text>
+                    <Text style={styles.titleText}>TIPO DE DOCUMENTO</Text>
+                    <Text style={styles.titleText}>FECHA</Text>
+                    <Text style={styles.titleText}>HORA</Text>
+                    <Text style={styles.titleText}>ESPECIALISTA</Text>
+                    <Text style={styles.titleText}>IDENTIFICACIÓN PACIENTE</Text>
+                    <Text style={styles.titleText}>MOTIVO</Text>
+                    <Text style={styles.titleText}>FECHA DE CREACIÓN</Text>
+                    <Text style={styles.titleText}>ESTADO</Text>
+                    <Text style={styles.titleText}>ACCIONES</Text>
                   </View>
-                ))}
+                  {/* <View style={styles.textColumn}>
+                      <Text>{item.identificacion_citas}</Text>
+                      <Text>{item.numero_documento}</Text>
+                      <Text>{item.nombre_completo}</Text>
+                      <Text>{item.tipo_documento}</Text>
+                      <Text>{item.fecha}</Text>
+                      <Text>{item.hora}</Text>
+                      <Text>{especialistas[item.id_especialista]}</Text>
+                      <Text>{item.id_paciente}</Text>
+                      <Text>{procedimientos[item.id_procedimiento]}</Text>
+                      <Text>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
+                      <Text>{item.estado}</Text>
+                    </View> */}
+                  <View style={styles.textColumn}>
+                    <Text style={styles.titleText2}>identificacion_citas</Text>
+                    <Text style={styles.titleText2}>numero_document</Text>
+                    <Text style={styles.titleText2}>item.nombre_complet</Text>
+                    <Text style={styles.titleText2}>item.tipo_documento</Text>
+                    <Text style={styles.titleText2}>item.fecha</Text>
+                    <Text style={styles.titleText2}>item.hora</Text>
+                    <Text style={styles.titleText2}>especialistas</Text>
+                    <Text style={styles.titleText2}>item.id_paciente</Text>
+                    <Text style={styles.titleText2}>procedimientos</Text>
+                    <Text style={styles.titleText2}>formatFechaCrea</Text>
+                    <Text style={styles.titleText2}>item.estado</Text>
+                    <TouchableOpacity style={styles.titleText2}>
+                    <Text>item.estado</Text>
+                <Icon name="pen" size={20} style={styles.icon} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {/* ))} */}
               </View>
             </View>
           </View>
@@ -445,176 +263,54 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
-  container: {
-    marginTop: 100,
-    marginLeft: 5,
-    marginRight: 5,
-  },
-  table: {
-    flexDirection: 'column',
-    borderWidth: 1,
-    borderColor: 'black',
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-  tableHeader: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    backgroundColor: '#D3D3D3',
-    borderColor: 'black',
-  },
-  headerText: {
-    padding: 10,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextNd: {
-    padding: 10,
-    marginLeft: 80,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextNombreComple: {
-    padding: 10,
-    marginLeft: 100,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextTipodo: {
-    padding: 10,
-    marginLeft: 70,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextFecha: {
-    padding: 10,
-    marginLeft: 100,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextHora: {
-    padding: 10,
-    marginLeft: 100,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextEspecialista: {
-    padding: 10,
-    marginLeft: 120,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextIdPa: {
-    padding: 10,
-    marginLeft: 100,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextMotiv: {
-    padding: 10,
-    marginLeft: 100,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextFechacre: {
-    padding: 10,
-    marginLeft: 80,
-    fontWeight: 'bold',
-    // flex: 1,
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
-  headerTextEstado: {
-    padding: 10,
-    marginLeft: 80,
-    fontWeight: 'bold',
-    backgroundColor: '#D3D3D3',
-    textAlign: 'center',
-  },
   tableBody: {
-    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   tableRow: {
-    flexDirection: 'row', // Agregado
-    borderBottomWidth: 1,
-    borderColor: 'black',
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
-
-    textAlign: 'center',
+    marginBottom: 10,
   },
-  tableCell1: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 90,
+  titleColumn: {
+    marginRight: 10,
   },
-  tableCell2: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 235,
+  textColumn: {
+    marginBottom: 10,
   },
-  tableCell3: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 200,
+  titleText: {
+    fontWeight: 'bold',
+    lineHeight: 25,
   },
-  tableCell4: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 110,
+  titleText2: {
+    lineHeight: 25,
   },
-  tableCell5: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 85,
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    marginLeft: 12,
   },
-  tableCell6: {
+  table: {
+    width: "100%",
+    borderRadius: 15,
+    borderColor: "#249bad",
+    backgroundColor: "#D3D3D3",
+    borderWidth: 3,
     padding: 10,
-    flex: 1,
-    marginLeft: 70,
   },
-  tableCell7: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 110,
-  },
-  tableCell8: {
-    padding: 10,
-    // flex: 1,
-    marginLeft: 140,
-  },
-  tableCell9: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 160,
-  },
-  tableCell10: {
-    padding: 10,
-    flex: 1,
-    marginLeft: 50,
-  },
-  tableCell11: {
-    padding: 10,
-    // flex: 1,
-    marginLeft: 80,
+  tableHeader: {
+    flexDirection: 'column',
+    backgroundColor: 'lightgray',
   },
 });
 
 export default TablaUsuario;
+
+
+//         <View style={{width:100, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center',}}>
+//         <View style={{width:100, backgroundColor: 'blue',justifyContent: 'center', alignItems: 'center',}}>
+//         <View style={{width:100, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center',}}>
+//         <View style={{width:100, backgroundColor: 'blue', justifyContent: 'center', alignItems: 'center',}}>
