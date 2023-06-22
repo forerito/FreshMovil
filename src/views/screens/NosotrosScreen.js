@@ -61,7 +61,7 @@ const NosotrosScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
+              <TouchableOpacity onPress={() => navigation.navigate("AgendarCita")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agendar</Text>
@@ -82,7 +82,7 @@ const NosotrosScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Especialistas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Especialistas</Text>
@@ -114,13 +114,11 @@ const NosotrosScreen = ({ navigation }) => {
 
         </View>
 
-
         <View style={styles.containerBlog}>
           <Text style={styles.containerBlog}>
             <Text style={styles.tituloBlog}>Nos caracterizamos por ser un consultorio de alta responsabilidad</Text>
           </Text>
         </View>
-
 
         <View style={styles.container}>
           <View style={styles.borderImage}>

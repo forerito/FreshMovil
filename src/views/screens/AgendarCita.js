@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Modal, Alert, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Modal, Alert, ScrollView, StyleSheet } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Picker } from '@react-native-picker/picker';
 import Header from './Header';
 import Footer from '../layouts/Footer';
 import axios from 'axios';
-
-
 
 const tiposDocumento = [
   "Cédula de ciudadanía",
@@ -17,7 +16,7 @@ const tiposDocumento = [
   "Pasaporte",
 ];
 
-const Prueba = () => {
+const AgendarCita = ({ navigation }) => {
   const [tipoDocumento, setTipoDocumento] = useState("");
   const [numeroDocumento, setNumeroDocumento] = useState("");
   const [nombre, setNombre] = useState("");
@@ -39,13 +38,12 @@ const Prueba = () => {
 
   const [availableHours, setAvailableHours] = useState(["08:30:00", "09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "14:30:00", "15:00:00", "15:30:00", "16:00:00", "17:00:00", "17:30:00"]);
 
-
   useEffect(() => {
     axios.get('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarProcedimientos')
       .then(response => {
         const procedimientos = response.data;
 
-        // Guardar los procedimientos en el estado del componente
+
         setEspecialistas(procedimientos);
       })
       .catch(error => {
@@ -66,26 +64,20 @@ const Prueba = () => {
     currentDateWithoutTime.setHours(0, 0, 0, 0);
 
 
-
-    // Encontrar el índice de la hora seleccionada
     const selectedIndex = availableHours.findIndex(hour => hour === selectedHour);
 
-    // Eliminar la hora seleccionada del array de horas disponibles
     if (selectedIndex !== -1) {
       availableHours.splice(selectedIndex, 1);
     }
 
-    // Actualizar el estado con las horas disponibles actualizadas
+
     setAvailableHours([...availableHours])
 
-    // Obtener el procedimiento seleccionado
     const selectedProcedimiento = procedimientos.find((procedimiento) => procedimiento.nombre === tipoCita);
 
-    // Obtener el identificador y el identificacion_especialistas del procedimiento seleccionado
     const identificacionProcedimiento = selectedProcedimiento ? selectedProcedimiento.identificacion_procedimientos : '';
     const identificacionEspecialistas = selectedProcedimiento ? selectedProcedimiento.identificacion_especialistas : '';
 
-    // Obtener los valores del formulario
     const formData = {
       numero_documento: numeroDocumento,
       nombre_completo: nombre,
@@ -95,10 +87,9 @@ const Prueba = () => {
       estado_cita: 'Programada',
       id_paciente: userId,
       id_procedimiento: identificacionProcedimiento,
-      id_especialista: identificacionEspecialistas, // Agregar el identificacion_especialistas al objeto formData
+      id_especialista: identificacionEspecialistas,
     };
 
-    // Realizar la solicitud POST a la API
     axios
       .post('https://freshsmile.azurewebsites.net/FreshSmile/CrearCita', formData, {
         headers: {
@@ -106,14 +97,12 @@ const Prueba = () => {
         },
       })
       .then((response) => {
-        // Aquí puedes manejar la respuesta de la API después de crear la cita
-        console.log('Cita creada:', response.data);
 
-        // Mostrar la alerta de SweetAlert
-        Alert.alert('Cita', 'creada.');
+        console.log('Cita agendada:', response.data);
+
+        Alert.alert('Cita Agendada', 'La cita ha sido agendada exitosamente.');
 
 
-        // Reiniciar los campos del formulario
         setTipoDocumento("");
         setNumeroDocumento("");
         setNombre("");
@@ -126,20 +115,19 @@ const Prueba = () => {
         console.error('Error al crear la cita:', error);
       });
 
-
   };
 
   const isDateAvailable = (date) => {
     const selectedDateWithoutTime = new Date(date);
-    selectedDateWithoutTime.setHours(0, 0, 0, 0); // Establecer la hora, minutos, segundos y milisegundos a cero
+    selectedDateWithoutTime.setHours(0, 0, 0, 0);
 
     return !unavailableDates.includes(selectedDateWithoutTime.toISOString().split("T")[0]);
   };
 
-  // Genera una lista de fechas no disponibles de manera aleatoria o mediante una llamada al servidor
+
   useEffect(() => {
     const generateUnavailableDates = () => {
-      // Replace this code with your logic to generate unavailable dates randomly or fetch them from the server
+
       const dates = [
         "2023-01-01", "2023-01-10", "2023-01-15", "2023-01-20", "2023-01-25",
         "2023-02-05", "2023-02-12", "2023-02-18", "2023-02-22", "2023-02-28",
@@ -160,20 +148,18 @@ const Prueba = () => {
     generateUnavailableDates();
   }, []);
 
-  // Función para filtrar las fechas y deshabilitar las no disponibles
   const filterDates = (date) => {
     const formattedDate = date.toISOString().split("T")[0];
     return !unavailableDates.includes(formattedDate);
   };
 
 
-  // Actualiza la fecha seleccionada
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
   useEffect(() => {
-    // Abrir el selector de fecha al cargar el componente
+
     setIsModalVisible(true);
     getCitas();
   }, []);
@@ -192,7 +178,7 @@ const Prueba = () => {
   };
 
   useEffect(() => {
-    console.log(filteredCitas);
+    // console.log(filteredCitas);
   }, [filteredCitas]);
 
   useEffect(() => {
@@ -206,7 +192,7 @@ const Prueba = () => {
 
 
   useEffect(() => {
-    console.log(actualCitas);
+    // console.log(actualCitas);
   }, [actualCitas]);
 
   useEffect(() => {
@@ -216,7 +202,7 @@ const Prueba = () => {
 
 
   useEffect(() => {
-    // Obtener el userId del AsyncStorage
+
     const obtenerUserId = async () => {
       try {
         const userId = await AsyncStorage.getItem('userId');
@@ -225,7 +211,7 @@ const Prueba = () => {
           return;
         }
 
-        // Realizar la solicitud HTTP para obtener los datos de la persona
+
         axios
           .get(`https://freshsmile.azurewebsites.net/FreshSmile/BuscarPacientes/${userId}`)
           .then((response) => {
@@ -248,15 +234,15 @@ const Prueba = () => {
   }, []);
 
   useEffect(() => {
-    // Realizar la solicitud HTTP para obtener los procedimientos
+
     axios
       .get("https://freshsmile.azurewebsites.net/FreshSmile/ConsultarProcedimientos")
       .then((response) => {
-        // Guardar los procedimientos en el estado
+
         setProcedimientos(response.data);
       })
       .catch((error) => {
-        // Manejar el error en caso de que la solicitud falle
+
         console.error("Error al obtener los procedimientos:", error);
       });
   }, []);
@@ -287,12 +273,11 @@ const Prueba = () => {
       setFieldsDisabled(true); // Bloquear los campos
     } else {
       // Aquí puedes establecer los valores predeterminados para tu propia cita
-      // utilizando los datos del usuario actual o algún valor por defecto
-      setTipoDocumento(""); // Limpiar los campos para evitar valores incorrectos
+      setTipoDocumento("");
       setNumeroDocumento("");
       setNombre("");
       // Realizar acciones para permitir al usuario ingresar los datos de otra persona
-      setFieldsDisabled(false); // Desbloquear los campos
+      setFieldsDisabled(false);
     }
   };
 
@@ -307,26 +292,121 @@ const Prueba = () => {
   };
 
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handlePress = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleClose = () => {
+    setMenuOpen(false);
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+
         <Header />
+
+        <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
+            <TouchableOpacity onPress={handlePress}>
+              <Icon name="bars" size={24} color="#5FFDFF" />
+            </TouchableOpacity>
+          </View>
+
+          {menuOpen && (
+            <View style={{ marginTop: 8 }}>
+              <TouchableOpacity onPress={handleClose}>
+                <View style={styles.contentMenuCerrar}>
+                  <Icon name="window-close" size={24} color="white" />
+                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="home" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Inicio</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("NosotrosScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="users" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nosotros</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="tooth" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Procedimientos</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("AgendarCita")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agendar</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("TablaUsuario")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="calendar-alt" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Citas</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("Ranking")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="trophy" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Ranking</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("Especialistas")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-check" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Especialistas</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
+                <View style={styles.contentMenuItems}>
+                  <Icon name="comments" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Contacto</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <Text>Contacto</Text>
+              </TouchableOpacity>
+
+            </View>
+          )}
+        </View>
 
         <View style={styles.container}>
           <Text style={styles.titlePrincipal}>Agenda tu cita</Text>
 
           <View style={styles.formGroup}>
             <Text style={styles.label}>Tipo de documento:</Text>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                value={tipoDocumento}
-                onChangeText={setTipoDocumento}
-                placeholder="Seleccione un tipo de documento"
+
+            <View style={styles.inputContainer1}>
+              <Picker
+                style={styles.text}
+                selectedValue={tipoDocumento}
+                onValueChange={(itemValue) => setTipoDocumento(itemValue)}
                 required
-                editable={!fieldsDisabled}
-              />
+                enabled={!fieldsDisabled}
+              >
+                <Picker.Item label="Seleccione un tipo de documento" value="" />
+                {tiposDocumento.map((tipo) => (
+                  <Picker.Item key={tipo} label={tipo} value={tipo} />
+                ))}
+              </Picker>
             </View>
           </View>
 
@@ -380,7 +460,6 @@ const Prueba = () => {
             </View>
           </View>
 
-
           <View style={styles.formGroup}>
             <Text style={styles.label}>Fecha disponible:</Text>
             <TouchableOpacity onPress={() => setCalendarOpen(true)}>
@@ -426,11 +505,9 @@ const Prueba = () => {
             </View>
           </View>
 
-
           <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit} activeOpacity={0.7}>
             <Text style={styles.title}>Agendar cita</Text>
           </TouchableOpacity>
-
 
         </View>
 
@@ -460,7 +537,6 @@ const Prueba = () => {
 
         <Footer />
 
-
       </ScrollView>
     </SafeAreaView>
 
@@ -468,6 +544,25 @@ const Prueba = () => {
 };
 
 const styles = StyleSheet.create({
+  contentMenuCerrar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 300,
+    marginBottom: 5,
+  },
+  contentMenuItems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  contentMenuText: {
+    marginLeft: 8,
+    color: 'white',
+    fontSize: 16,
+  },
   safeArea: {
     flex: 1,
   },
@@ -525,7 +620,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     height: 60,
-
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 3,
@@ -633,9 +727,8 @@ const styles = StyleSheet.create({
     maxHeight: '80%',
   },
   selected: {
-    // Estilos para la hora seleccionada
     backgroundColor: '#249bad',
   },
 });
 
-export default Prueba;
+export default AgendarCita;

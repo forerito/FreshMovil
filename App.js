@@ -21,10 +21,8 @@ import PerfilUsuario from "./src/views/screens/PerfilUsuario";
 
 import SpecialistCards from "./src/views/screens/Admin/Valoraciones";
 
-import CitasAgendadas from "./src/views/screens/CitasAgendadas";
 
-
-import Prueba from "./src/views/screens/Prueba";
+import AgendarCita from "./src/views/screens/AgendarCita";
 
 
 const Stack = createNativeStackNavigator();
@@ -34,7 +32,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SpecialistCards">
+      <Stack.Navigator initialRouteName="TablaUsuario">
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NosotrosScreen" component={NosotrosScreen} options={{ headerShown: false }} />
         <Stack.Screen name="NosotrosAdmin" component={NosotrosAdmin} options={{ headerShown: false }} />
@@ -49,7 +47,6 @@ function App() {
         <Stack.Screen name="HomeEspecialista" component={HomeEspecialista} options={{ headerShown: false }} />
         <Stack.Screen name="PerfilAdmin" component={PerfilAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="PerfilUsuario" component={PerfilUsuario} options={{ headerShown: false }} />
-        <Stack.Screen name="CitasAgendadas" component={CitasAgendadas} options={{ headerShown: false }} />
         <Stack.Screen name="SpecialistCards" component={SpecialistCards} options={{ headerShown: false }} />
         <Stack.Screen
           name="RegistrationScreen"
@@ -57,7 +54,7 @@ function App() {
         />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
 
-        <Stack.Screen name="Prueba" component={Prueba} options={{ headerShown: false }} />
+        <Stack.Screen name="AgendarCita" component={AgendarCita} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

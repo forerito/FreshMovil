@@ -91,7 +91,7 @@ const Ranking = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
+              <TouchableOpacity onPress={() => navigation.navigate("AgendarCita")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agendar</Text>
@@ -112,7 +112,7 @@ const Ranking = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Especialistas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Especialistas</Text>
@@ -159,13 +159,8 @@ const Ranking = ({ navigation }) => {
                       source={{ uri: item.foto || "https://fresh-smile.netlify.app/assets/user-d6ab4092.webp" }}
                       style={styles.profilePic}
                     />
-                    {index === 0 && (
-                      <Image
-                        source={{
-                          uri: "https://png.pngtree.com/png-clipart/20220206/original/pngtree-crown-vector-png-image_7263860.png",
-                        }}
-                        style={styles.crownIcon}
-                      />
+                    {index < 3 && (
+                      <Icon name="crown" style={styles.crownIcon} />
                     )}
                   </View>
 
@@ -174,10 +169,8 @@ const Ranking = ({ navigation }) => {
                   </View>
 
                   <View style={styles.starsContainer}>
-
                     <Text style={styles.stars}>{calculateStars(item.valoracion)}</Text>
                   </View>
-
                 </View>
               ))}
           </View>
@@ -259,7 +252,7 @@ const styles = {
     fontWeight: 'bold',
   },
   firstPlaceRow: {
-    backgroundColor: '#FFFB72',
+    backgroundColor: '#8C8C8C',
   },
   position: {
     width: 30,
@@ -283,6 +276,11 @@ const styles = {
     borderRadius: 25,
   },
   crownIcon: {
+    position: 'absolute',
+    top: 0,
+    width: 30,
+    height: 30,
+    color: 'gold',
   },
   nameContainer: {
     flex: 1,

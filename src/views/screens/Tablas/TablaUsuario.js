@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from 'axios';
@@ -8,82 +7,111 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Header';
 
 const TablaUsuario = ({ navigation }) => {
+
   const [data, setData] = useState([]);
   const [especialistas, setEspecialistas] = useState({});
   const [procedimientos, setProcedimientos] = useState({});
   const [userId, setUserId] = useState('');
 
   useEffect(() => {
-    // Alert.alert('Hola', '¡Aquí puedes ver tus citas!', [
-    //   { text: 'OK', onPress: () => { } }
-    // ]);
+    const fetchData = async () => {
+      try {
+        const storedUserId = await AsyncStorage.getItem('userId');
+        setUserId(storedUserId);
 
-    AsyncStorage.getItem('userId')
-      .then(value => {
-        if (value) {
-          setUserId(value);
-          fetchCitasUsuario(value);
-        }
-      })
-      .catch(error => console.error(error));
-  }, []);
+        const response = await fetch('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarCitas');
+        const citasData = await response.json();
 
-  const fetchCitasUsuario = (userId) => {
-    axios.get('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarCitas')
-      .then(response => response.data)
-      .then(data => {
-        // Filtrar las citas por el id_paciente que coincida con userId
-        const citasUsuario = data.filter(cita => cita.id_paciente === parseInt(userId));
+        const citasUsuario = citasData.filter(cita => cita.id_paciente === parseInt(storedUserId));
         setData(citasUsuario);
 
-        // Obtener una lista de identificaciones de especialistas únicos en las citas
         const especialistasIds = [...new Set(citasUsuario.map(cita => cita.id_especialista))];
 
-        // Realizar una solicitud para obtener los nombres de los especialistas
-        Promise.all(
+        const especialistasResponses = await Promise.all(
           especialistasIds.map(id =>
-            axios.get(`https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/BuscarEspecialista/${id}`)
-              .then(response => response.data)
+            fetch(`https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/BuscarEspecialista/${id}`)
+              .then(response => response.json())
           )
-        )
-          .then(especialistasData => {
-            // Crear un objeto con las identificaciones de los especialistas como clave y sus nombres como valor
-            const especialistasMap = {};
-            especialistasData.forEach(especialista => {
-              especialistasMap[especialista.identificacion_especialista] = especialista.nombre_completo;
-            });
-            setEspecialistas(especialistasMap);
-          })
-          .catch(error => console.error(error));
+        );
 
-        // Obtener una lista de identificaciones de procedimientos únicos en las citas
+        const especialistasMap = {};
+        especialistasResponses.forEach(especialista => {
+          especialistasMap[especialista.identificacion_especialista] = especialista.nombre_completo;
+        });
+        setEspecialistas(especialistasMap);
+
         const procedimientosIds = [...new Set(citasUsuario.map(cita => cita.id_procedimiento))];
 
-        // Realizar una solicitud para obtener los procedimientos
-        axios.get('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarProcedimientos')
-          .then(response => response.data)
-          .then(procedimientosData => {
-            // Filtrar los procedimientos por los ids coincidentes
-            const procedimientosFiltrados = procedimientosData.filter(procedimiento =>
-              procedimientosIds.includes(procedimiento.identificacion_procedimientos)
-            );
+        const procedimientosResponse = await fetch('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarProcedimientos');
+        const procedimientosData = await procedimientosResponse.json();
 
-            // Crear un objeto con las identificaciones de los procedimientos como clave y sus nombres como valor
-            const procedimientosMap = {};
-            procedimientosFiltrados.forEach(procedimiento => {
-              procedimientosMap[procedimiento.identificacion_procedimientos] = procedimiento.nombre;
-            });
-            setProcedimientos(procedimientosMap);
-          })
-          .catch(error => console.error(error));
-      })
-      .catch(error => console.error(error));
-  };
+        const procedimientosFiltrados = procedimientosData.filter(procedimiento =>
+          procedimientosIds.includes(procedimiento.identificacion_procedimientos)
+        );
 
-  const formatFechaCreacion = (fecha) => {
+
+        const procedimientosMap = {};
+        procedimientosFiltrados.forEach(procedimiento => {
+          procedimientosMap[procedimiento.identificacion_procedimientos] = {
+            nombre: procedimiento.nombre,
+            costo: procedimiento.costo
+          };
+        });
+        setProcedimientos(procedimientosMap);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const formatFechaCreacion = fecha => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(fecha).toLocaleDateString(undefined, options);
   };
+
+  const modificarEstadoCita = async (idCita) => {
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+
+      const updatedData = data.map(cita => {
+        if (cita.identificacion_citas === idCita) {
+          // Actualizar el estado_cita localmente a "Cancelada"
+          return { ...cita, estado_cita: 'Cancelada' };
+        }
+        return cita;
+      });
+
+      setData(updatedData);
+
+      // Realizar la solicitud PUT a la API para actualizar el estado de la cita
+      const response = await fetch(`https://freshsmile.azurewebsites.net/FreshSmile/ModificarCita/${idCita}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ estado_cita: 'Cancelada' }) // Enviar el nuevo estado en el cuerpo de la solicitud
+      });
+
+      if (response.ok) {
+        // Mostrar mensaje de éxito si la solicitud es exitosa
+        Alert.alert('Cita cancelada', 'La cita ha sido cancelada exitosamente');
+      } else {
+        // Mostrar mensaje de error si la solicitud no es exitosa
+        Alert.alert('Error', 'Ocurrió un error al cancelar la cita');
+        // Revertir los cambios locales en caso de error
+        setData(data);
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Ocurrió un error al cancelar la cita');
+      // Revertir los cambios locales en caso de error
+      setData(data);
+    }
+  };
+
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -138,7 +166,7 @@ const TablaUsuario = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
+              <TouchableOpacity onPress={() => navigation.navigate("AgendarCita")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agendar</Text>
@@ -159,7 +187,7 @@ const TablaUsuario = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Especialistas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Especialistas</Text>
@@ -199,7 +227,8 @@ const TablaUsuario = ({ navigation }) => {
                         <Text style={styles.titleText}>IDENTIFICACIÓN PACIENTE</Text>
                         <Text style={styles.titleText}>MOTIVO</Text>
                         <Text style={styles.titleText}>FECHA DE CREACIÓN</Text>
-                        <Text style={styles.titleText}>ESTADO</Text>
+                        <Text style={styles.titleText}>ESTADO CITA</Text>
+                        <Text style={styles.titleText}>VALOR CITA</Text>
                         <Text style={styles.titleText}>ACCIONES</Text>
                       </View>
                       <View style={styles.textColumn}>
@@ -211,15 +240,24 @@ const TablaUsuario = ({ navigation }) => {
                         <Text style={styles.titleText2}>{item.hora}</Text>
                         <Text style={styles.titleText2}>{especialistas[item.id_especialista]}</Text>
                         <Text style={styles.titleText2}>{item.id_paciente}</Text>
-                        <Text style={styles.titleTextmotivo}>{procedimientos[item.id_procedimiento]}</Text>
+                        <Text style={styles.titleTextmotivo}>{procedimientos[item.id_procedimiento]?.nombre}</Text>
                         <Text style={styles.titleText2}>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
                         <Text style={styles.titleText2}>{item.estado_cita}</Text>
-                        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                          <View style={{ marginRight: 8, backgroundColor: '#249bad', borderRadius: 5 }}>
-                            <Icon name="trash" size={16} style={{ padding: 5, color: 'white' }} />
-                          </View>
-                          <Text style={{ fontSize: 15, }}>cancelar cita</Text>
-                        </TouchableOpacity>
+                        <Text style={styles.titleText2}>{procedimientos[item.id_procedimiento]?.costo?.toFixed(3)}</Text>
+
+                        <View>
+                          {item.estado_cita === 'Programada' ? (
+                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={() => modificarEstadoCita(item.identificacion_citas)}>
+                              <View style={{ marginRight: 8, backgroundColor: '#249bad', borderRadius: 5 }}>
+                                <Icon name="trash" size={16} style={{ padding: 5, color: 'white' }} />
+                              </View>
+                              <Text style={{ fontSize: 15 }}>cancelar cita</Text>
+                            </TouchableOpacity>
+                          ) : (
+                            <Text style={styles.titleText2}>No hay acciones</Text>
+                          )}
+                        </View>
+
                       </View>
                     </View>
                   </View>

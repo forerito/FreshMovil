@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, ImageBackg
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import jwtDecode from "jwt-decode";
 import Footer from "../layouts/Footer";
 import ChatWhatsApp from "../layouts/ChatWhatsApp";
 import Header from "./Header";
@@ -83,7 +82,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
+              <TouchableOpacity onPress={() => navigation.navigate("AgendarCita")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agendar</Text>
@@ -104,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Especialistas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Especialistas</Text>
@@ -119,16 +118,14 @@ const HomeScreen = ({ navigation }) => {
               </TouchableOpacity>
 
               <TouchableOpacity>
-                  <Text>Contacto</Text>
+                <Text>Contacto</Text>
               </TouchableOpacity>
-
-              {/* <Button title='Salir' onPress={logout} /> */}
 
 
               <View style={styles.menu}>
 
                 <TouchableOpacity style={styles.menuOption} onPress={() => navigation.navigate("PerfilUsuario")}>
-                  <Icon name="user"  size={24} style={styles.menuIcon} />
+                  <Icon name="user" size={24} style={styles.menuIcon} />
                   <Text>Ver Perfil</Text>
                 </TouchableOpacity>
 
@@ -175,42 +172,6 @@ const HomeScreen = ({ navigation }) => {
               <Text style={styles.tituloBlog}>Nuestros procedimientos</Text>
             </Text>
           </View>
-
-          {/* <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white', width: 100 }}>Limpieza dental</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268377/Fresh_Smile_Cmills/jonathan-borba-W9YEY6G8LVM-unsplash_qpfaed.jpg' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white' }}>Endodoncia</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View> */}
 
           <View style={styles.containerProcedimientos}>
             <View style={styles.card}>

@@ -61,7 +61,7 @@ const ProcedimientosScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
+              <TouchableOpacity onPress={() => navigation.navigate("AgendarCita")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agendar</Text>
@@ -82,7 +82,7 @@ const ProcedimientosScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Especialistas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Especialistas</Text>
@@ -99,6 +99,7 @@ const ProcedimientosScreen = ({ navigation }) => {
               <TouchableOpacity>
                 <Text>Contacto</Text>
               </TouchableOpacity>
+
             </View>
           )}
         </View>

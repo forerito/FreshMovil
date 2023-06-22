@@ -93,7 +93,7 @@ const ContactoScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
+              <TouchableOpacity onPress={() => navigation.navigate("AgendarCita")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agendar</Text>
@@ -114,7 +114,7 @@ const ContactoScreen = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity onPress={() => navigation.navigate("Especialistas")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-check" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Especialistas</Text>
@@ -131,9 +131,6 @@ const ContactoScreen = ({ navigation }) => {
               <TouchableOpacity>
                 <Text>Contacto</Text>
               </TouchableOpacity>
-
-              {/* <Button title='Salir' onPress={logout} /> */}
-
 
             </View>
           )}
@@ -224,7 +221,6 @@ const ContactoScreen = ({ navigation }) => {
                   </View>
 
                   <Text style={styles.paragraph}>
-                    {/* Si desea solicitar más información, por favor contáctenos. */}
                   </Text>
                 </View>
               </View>
@@ -372,7 +368,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#249bad",
     padding: 10,
-    borderRadius: 30,
+    borderRadius: 10,
     margin: 10,
     width: '40%',
     alignItems: "center",
