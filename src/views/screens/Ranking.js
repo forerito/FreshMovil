@@ -1,54 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import Header from "./Header";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import Footer from "../layouts/Footer";
 
 const Ranking = ({ navigation }) => {
+  const [especialistasData, setEspecialistasData] = useState([]);
+  const [especialistasVC, setEspecialistasVC] = useState([]);
 
-    const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    const handlePress = () => {
-        setMenuOpen(!menuOpen);
-    };
+  const handlePress = () => {
+    setMenuOpen(!menuOpen);
+  };
 
-    const handleClose = () => {
-        setMenuOpen(false);
-    };
+  const handleClose = () => {
+    setMenuOpen(false);
+  };
 
-    // const [data, setData] = useState([]);
+  const fetchEspecialistasData = async () => {
+    try {
+      const response = await axios.get("https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarEspecialista");
+      setEspecialistasData(response.data);
+    } catch (error) {
+      console.error("Error al obtener los datos desde la API:", error);
+    }
+  };
 
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
+  const fetchEspecialistasVC = async () => {
+    try {
+      const response = await axios.get("https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarRating");
+      setEspecialistasVC(response.data.sort((a, b) => b.valoracion - a.valoracion).slice(0, 5));
+    } catch (error) {
+      console.error("Error al obtener los datos desde la API:", error);
+    }
+  };
 
-    // const fetchData = async () => {
-    //     try {
-    //         const response = await fetch('https://freshsmile.azurewebsites.net/FreshSmile/CrearAdministradores');
-    //         const json = await response.json();
-    //         setData(json);
-    //     } catch (error) {
-    //         console.error("Error fetching data:", error);
-    //     }
-    // };
+  useEffect(() => {
+    fetchEspecialistasVC();
+    fetchEspecialistasData();
+  }, []);
 
-    // const calculateStars = (valoracion) => {
-    //     const roundedValoracion = Math.round(valoracion);
-    //     return "⭐".repeat(roundedValoracion);
-    // };
+  const calculateStars = (valoracion) => {
+    const roundedValoracion = Math.round(valoracion);
+    return "⭐".repeat(roundedValoracion);
+  };
 
-    // const sortedData = data
-    //     .sort((a, b) => b.valoracion - a.valoracion)
-    //     .slice(0, 5);
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
 
-    return (
-        <SafeAreaView className="flex-1 ">
-            <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+        <Header />
 
-                <Header />
-
-                <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
+        <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
@@ -121,138 +127,183 @@ const Ranking = ({ navigation }) => {
               </TouchableOpacity>
 
               <TouchableOpacity>
-                  <Text>Contacto</Text>
+                <Text>Contacto</Text>
               </TouchableOpacity>
-
-              {/* <Button title='Salir' onPress={logout} /> */}
 
             </View>
           )}
         </View>
 
-                <View style={styles.container}>
-                    <Text style={styles.title}>Ranking</Text>
-                    <Text style={styles.subtitle}>Fresh Smile Cmills</Text>
-                    <View>
-                        <View style={styles.rowContainer}>
-                            <View style={styles.titleContainer}>
-                                <Text style={styles.text}>Puesto</Text>
-                            </View>
-                            <View style={styles.titleContainer}>
-                                <Text style={styles.text}>Nombre</Text>
-                            </View>
-                            <View style={styles.titleContainer}>
-                                <Text style={styles.text}>Valoración</Text>
-                            </View>
-                        </View>
-                        {/* {sortedData.map((item, index) => (
-                            <View key={item.id} style={index === 0 ? styles.firstPlace : null}>
-                                <View style={styles.rowContainer}>
-                                    <Text>{index + 1}</Text>
-                                    <View>
-                                        <Image source={{ uri: item.foto }} style={styles.profilePic} />
-                                        {index === 0 && (
-                                            <Image
-                                                source={{
-                                                    uri:
-                                                        'https://res.cloudinary.com/dexfjrgyw/image/upload/v1685893707/corona_ysuxhw.png',
-                                                }}
-                                                style={styles.crownIcon}
-                                            />
-                                        )}
-                                    </View>
-                                    <Text style={styles.text}>{item.nombre}</Text>
-                                    <Text style={styles.text}>{calculateStars(item.valoracion)}</Text>
-                                </View>
-                            </View>
-                        ))} */}
-                    </View>
+        <View style={styles.rankingContainer}>
+          <Text style={styles.title}>Ranking</Text>
+          <View style={styles.hr} />
+          <View style={styles.rankingTable}>
+            <View style={styles.tableRow}>
+              <Text style={styles.tableHeadingLeft}>PUESTO</Text>
+              <Text style={styles.tableHeadingCenter}>NOMBRE</Text>
+              <Text style={styles.tableHeadingRight}>VALORACIÓN</Text>
+            </View>
+            {especialistasData.length > 0 &&
+              especialistasVC.length > 0 &&
+              especialistasVC.map((item, index) => (
+                <View
+                  key={item.id}
+                  style={[
+                    styles.tableRow,
+                    index === 0 ? styles.firstPlaceRow : null,
+                  ]}
+                >
+                  <Text style={styles.position}>{index + 1}</Text>
+                  <View style={styles.profilePicContainer}>
+                    <Image
+                      source={{ uri: item.foto || "https://fresh-smile.netlify.app/assets/user-d6ab4092.webp" }}
+                      style={styles.profilePic}
+                    />
+                    {index === 0 && (
+                      <Image
+                        source={{
+                          uri: "https://png.pngtree.com/png-clipart/20220206/original/pngtree-crown-vector-png-image_7263860.png",
+                        }}
+                        style={styles.crownIcon}
+                      />
+                    )}
+                  </View>
+
+                  <View style={styles.nameContainer}>
+                    <Text style={styles.name}>{especialistasData.find((elem) => elem.identificacion_especialista === item.identificacion_especialista).nombre_completo}</Text>
+                  </View>
+
+                  <View style={styles.starsContainer}>
+
+                    <Text style={styles.stars}>{calculateStars(item.valoracion)}</Text>
+                  </View>
+
                 </View>
+              ))}
+          </View>
+        </View>
 
-                <Footer />
+        <Footer />
 
-            </ScrollView>
-        </SafeAreaView>
-    );
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 const styles = {
-    contentMenuCerrar: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 300,
-        marginBottom: 5,
-    },
-    contentMenuItems: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: 'black',
-        padding: 10,
-        marginLeft: 5,
-        marginRight: 5,
-    },
-    contentMenuText: {
-        marginLeft: 8,
-        color: 'white',
-        fontSize: 16,
-    },
-    container: {
-        backgroundColor: '#f5f5f5;',
-        borderRadius: 8,
-        marginTop: 25,
-        marginBottom: 25,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: 'rgba(0, 0, 0, 0.2)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 1,
-        shadowRadius: 10,
-        elevation: 2,
-        padding: 10,
-        marginLeft: 10,
-        marginRight: 10,
-    },
-    title: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: '#5FFDFF',
-        textAlign: 'center',
-        marginBottom: 10,
-    },
-    subtitle: {
-        fontSize: 24,
-        color: 'black',
-        textAlign: 'center',
-        marginBottom: 10,
-    },
-    rowContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 10,
-        marginLeft: 10,
-    },
-    profilePic: {
-        width: 50,
-        height: 50,
-        marginRight: 10,
-    },
-    crownIcon: {
-        width: 20,
-        height: 20,
-    },
-    text: {
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-        padding: 20,
-        fontWeight: 'bold',
-    },
-    titleContainer: {
-        padding: 5,
-        marginRight: 10,
-    },
+  contentMenuCerrar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 300,
+    marginBottom: 5,
+  },
+  contentMenuItems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  contentMenuText: {
+    marginLeft: 8,
+    color: 'white',
+    fontSize: 16,
+  },
+  safeArea: {
+    flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  rankingContainer: {
+    marginBottom: 20,
+    padding: 10,
+  },
+  title: {
+    fontSize: 35,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  hr: {
+    height: 1,
+    backgroundColor: 'gray',
+    marginBottom: 10,
+  },
+  rankingTable: {
+    width: '100%',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
+  },
+  tableHeadingLeft: {
+    marginLeft: 10,
+    textAlign: 'left',
+    fontWeight: 'bold',
+  },
+  tableHeadingCenter: {
+    marginLeft: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  tableHeadingRight: {
+    marginRight: 8,
+    textAlign: 'right',
+    fontWeight: 'bold',
+  },
+  firstPlaceRow: {
+    backgroundColor: '#FFFB72',
+  },
+  position: {
+    width: 30,
+    fontWeight: 'bold',
+  },
+  tableHeading: {
+    flex: 1,
+    fontWeight: "bold",
+    marginRight: 10,
+    width: '100%',
+    textAlign: 'center',
+  },
+  profilePicContainer: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+  },
+  profilePic: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 25,
+  },
+  crownIcon: {
+  },
+  nameContainer: {
+    flex: 1,
+    marginLeft: 60,
+    justifyContent: 'center',
+  },
+  name: {
+    alignItems: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  starsContainer: {
+    flex: 1,
+    marginLeft: 30,
+    justifyContent: 'center',
+  },
+  stars: {
+    textAlign: 'center',
+    alignItems: 'center',
+    fontWeight: 'bold',
+  },
 };
 
 export default Ranking;

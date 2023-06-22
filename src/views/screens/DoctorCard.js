@@ -1,266 +1,420 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import Header from './Header';
+import { ComentarioComponent } from '../layouts/ComentarioComponent';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const defaultPhoto =
-  'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852209/Fresh_Smile_Cmills/cards4_r5phfs.jpg';
+const DoctorCard = ({ valoracion, votos, comentarios, data, ratingId }) => {
+  const [userId, setUserId] = useState("");
+  const [isCommenting, setIsCommenting] = useState(false);
+  const [commentsCant, setCantComments] = useState(1);
+  const [actualComments, setActualComments] = useState(comentarios);
+  const [actualVotos, setActualVotos] = useState(votos);
+  const [actualValoration, setActualValoration] = useState(valoracion);
+  const commentInput = useRef(null);
+  const commentButton = useRef(null);
 
-const DoctorCard = ({ name, specialty, photo, navigation }) => {
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [comment, setComment] = useState('');
+  const handleVote = async (value) => {
+    if (actualVotos.some(elem => elem.userId === userId)) {
+      Alert.alert(
+        'Usted ya votó en este especialista',
+        '',
+        [{ text: 'Cerrar', onPress: () => { } }],
+        { cancelable: true }
+      );
+      return;
+    }
 
-  const handleRatingClick = (value) => {
-    setRating(value);
+    const accessToken = await AsyncStorage.getItem('accessToken');
+
+    Alert.alert(
+      'Quiere votar por este especialista?',
+      `Su voto: ${value}`,
+      [
+        {
+          text: 'Votar',
+          onPress: () => {
+            const headers = {
+              Authorization: `Bearer ${accessToken}`
+            };
+            console.log(headers);
+            axios.patch(`https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/añadirVoto/${ratingId}?vote=${value}`, null, {
+              headers: headers
+            }).then(res => {
+              Alert.alert(
+                'Su voto fue registrado correctamente',
+                '',
+                [
+                  {
+                    text: 'Cerrar',
+                    onPress: () => {
+                      setActualVotos(res.data.votos);
+                      setActualValoration(res.data.valoracion);
+                    }
+                  }
+                ],
+                { cancelable: true }
+              );
+            }).catch(err => {
+              Alert.alert(
+                'Hubo un error, intentelo más tarde',
+                '',
+                [{ text: 'Cerrar', onPress: () => { } }],
+                { cancelable: true }
+              );
+            });
+          }
+        },
+        {
+          text: 'No votar',
+          onPress: () => { }
+        }
+      ],
+      { cancelable: true }
+    );
   };
 
-  const handleRatingHover = (value) => {
-    setHoverRating(value);
+  const handleComment = async () => {
+    if (commentInput.current && commentButton.current) {
+      const comment = commentInput.current.value;
+      commentInput.current.setNativeProps({ editable: false });
+      commentButton.current.setNativeProps({ disabled: true });
+
+      try {
+        const accessToken = await AsyncStorage.getItem('accessToken');
+        const headers = {
+          Authorization: `Bearer ${accessToken}`
+        };
+
+        const response = await axios.patch(
+          `https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/comentar/${ratingId}`,
+          { Comentario: comment },
+          { headers: headers }
+        );
+
+        setActualComments(response.data.comentarios);
+        alert("Especialista comentado correctamente");
+        setIsCommenting(false);
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
-  const handleRatingLeave = () => {
-    setHoverRating(0);
-  };
-
-  const handleCommentChange = (text) => {
-    setComment(text);
-  };
-
-  const handleSubmit = () => {
-    // Aquí puedes enviar la valoración y el comentario al servidor
-    // y realizar cualquier lógica adicional
-    console.log('Valoración:', rating);
-    console.log('Comentario:', comment);
-    setRating(0);
-    setComment('');
-  };
-
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const handlePress = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const handleClose = () => {
-    setMenuOpen(false);
-  };
+  useEffect(() => {
+    setUserId(AsyncStorage.getItem('userId'));
+  }, [])
 
   return (
-    <SafeAreaView className="flex-1 ">
+    <SafeAreaView className="flex-1">
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
 
-      <Header/>
-
-      <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
-            <TouchableOpacity onPress={handlePress}>
-              <Icon name="bars" size={24} color="#5FFDFF" />
-            </TouchableOpacity>
-          </View>
-
-          {menuOpen && (
-            <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
+        {/* <View style={styles.doctorCard}>
+          <View style={styles.doctorSection1}>
+            <View style={styles.divPictureRating}>
+              <Image source={{ uri: "https://fresh-smile.netlify.app/assets/user-d6ab4092.webp" }} style={styles.doctorImage} />
+              <View style={styles.doctorRating}>
+                <View style={styles.starRating}>
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <TouchableOpacity
+                      key={value}
+                      onPress={() => handleVote(value)}
+                      style={[styles.star, value <= actualValoration ? styles.selected : null]}
+                    >
+                      <Text style={[styles.starText, value <= actualValoration ? styles.selectedText : null]}>
+                        {value % 1 === 0.5 ? '★½' : '★'}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
                 </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="home" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Inicio</Text>
+                <View>
+                  <Text>{actualVotos.length} votos</Text>
+                  {
+                    actualVotos.some(elem => elem.userId === userId) &&
+                    <Text style={styles.voteAdvise}>Usted ya votó en este especialista</Text>
+                  }
                 </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("NosotrosScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="users" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Nosotros</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="tooth" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Procedimientos</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("Prueba")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="user-clock" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Agendar</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("TablaUsuario")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="calendar-alt" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Citas</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("Ranking")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="trophy" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Ranking</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="user-check" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Especialistas</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => navigation.navigate("ContactoScreen")}>
-                <View style={styles.contentMenuItems}>
-                  <Icon name="comments" size={24} color="white" />
-                  <Text style={styles.contentMenuText}>Contacto</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                  <Text>Contacto</Text>
-              </TouchableOpacity>
-
-              {/* <Button title='Salir' onPress={logout} /> */}
-
-            </View>
-          )}
-        </View>
-
-        <View style={styles.container}>
-          <View style={styles.card}>
-            <Image source={{ uri: photo || defaultPhoto }} style={styles.photo} />
-            <View style={styles.details}>
-              <Text style={styles.name}>{name}</Text>
-              <Text>Especialidad: {specialty}</Text>
-            </View>
-            <View style={styles.rating}>
-              <Text>Valoración:</Text>
-              <View style={styles.starRating}>
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <TouchableOpacity
-                    key={value}
-                    style={[
-                      styles.star,
-                      value <= (hoverRating || rating) ? styles.selectedStar : null,
-                    ]}
-                    onPress={() => handleRatingClick(value)}
-                    onMouseEnter={() => handleRatingHover(value)}
-                    onMouseLeave={handleRatingLeave}
-                  >
-                    <Text>{value % 1 === 0.5 ? '★½' : '★'}</Text>
-                  </TouchableOpacity>
-                ))}
               </View>
             </View>
-            <View style={styles.comments}>
-              <Text>Comentario:</Text>
-              <TextInput
-                value={comment}
-                onChangeText={handleCommentChange}
-                style={styles.commentInput}
-                // multiline
-              />
+            <View style={styles.div2Details}>
+              <View style={styles.doctorDetails}>
+                <Text style={styles.doctorName}>{data.nombre_completo}</Text>
+                <Text>Especialidad: <Text style={styles.span}>{data.especialidad}</Text></Text>
+                <Text>Correo electronico: <Text style={styles.spanEmail}>{data.correo}</Text></Text>
+                <Text>Descripcion: <Text style={styles.span}>{data.descripcion || 'El especialista no tiene una descripción registrada'}</Text></Text>
+              </View>
             </View>
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text>Enviar</Text>
-            </TouchableOpacity>
+          </View>
+          <View style={styles.doctorSection2}>
+            <View style={styles.div1Coment}>
+              <Text>Comentarios:</Text>
+              {!actualComments.some(elem => elem.userId === userId) ?
+                <TouchableOpacity onPress={() => setIsCommenting(!isCommenting)}>
+                  <Text>Comentar</Text>
+                </TouchableOpacity>
+                :
+                <Text>Usted ya comentó acá</Text>
+              }
+            </View>
+            {isCommenting &&
+              <View style={styles.commentForm}>
+                <Text>Ingresa tu comentario</Text>
+                <TextInput ref={commentInput} name='Comentario' type='text' style={styles.commentInput} />
+                <TouchableOpacity onPress={handleComment}>
+                  <Text style={styles.commentButton}>Comentar</Text>
+                </TouchableOpacity>
+              </View>}
+            {
+              actualComments.length > 0 ?
+                actualComments.map((coment, i) =>
+                  i < commentsCant && <ComentarioComponent key={i} comentario={coment.comentario} />)
+                :
+                <Text>El especialista no tiene comentarios aún</Text>
+            }
+            <View style={styles.commentsButtons}>
+              {commentsCant > 1 && <TouchableOpacity onPress={() => setCantComments(commentsCant - 2)}><Text style={styles.btnComm}>Ver menos</Text></TouchableOpacity>}
+              {actualComments.length >= commentsCant && <TouchableOpacity onPress={() => setCantComments(commentsCant + 2)}><Text style={[styles.btnComm, styles.alwaysEnd]}>Ver mas</Text></TouchableOpacity>}
+            </View>
+          </View>
+        </View> */}
+
+        <View style={styles.doctorCard}>
+          <View style={styles.doctorSection1}>
+            <View style={styles.divPictureRating}>
+              <View style={styles.pictureContainer}>
+                <Image
+                  source={{ uri: "https://fresh-smile.netlify.app/assets/user-d6ab4092.webp" }}
+                  style={styles.doctorImage}
+                />
+              </View>
+              <View style={styles.doctorRating}>
+                <View style={styles.starRating}>
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <TouchableOpacity
+                      key={value}
+                      onPress={() => handleVote(value)}
+                      style={[styles.star, value <= actualValoration ? styles.selected : null]}
+                    >
+                      <Text style={[styles.starText, value <= actualValoration ? styles.selectedText : null]}>
+                        {value % 1 === 0.5 ? "★½" : "★"}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <View style={styles.votesContainer}>
+                  <Text>{actualVotos.length} votos</Text>
+                  {actualVotos.some((elem) => elem.userId === userId) && (
+                    <Text style={styles.voteAdvise}>Usted ya votó en este especialista</Text>
+                  )}
+                </View>
+              </View>
+            </View>
+            <View style={styles.div2Details}>
+              <View style={styles.doctorDetails}>
+                <Text style={styles.doctorName}>{data.nombre_completo}</Text>
+                <Text style={styles.detailText}>
+                  Especialidad: <Text style={styles.span}>{data.especialidad}</Text>
+                </Text>
+                <Text style={styles.detailText}>
+                  Correo electrónico: <Text style={styles.spanEmail}>{data.correo}</Text>
+                </Text>
+                <Text style={styles.detailText}>
+                  Descripción:{" "}
+                  <Text style={styles.span}>
+                    {data.descripcion || "El especialista no tiene una descripción registrada"}
+                  </Text>
+                </Text>
+                <View style={styles.div1Coment}>
+                  <Text style={styles.comentariosTitle}>Comentarios:</Text>
+                  {!actualComments.some((elem) => elem.userId === userId) ? (
+                    <TouchableOpacity onPress={() => setIsCommenting(!isCommenting)}>
+                      <Text style={styles.comentarButton}>Comentar</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <Text style={styles.yaComentoText}>Usted ya comentó aquí</Text>
+                  )}
+                </View>
+                {isCommenting && (
+                  <View style={styles.commentForm}>
+                    <Text style={styles.commentLabel}>Ingresa tu comentario</Text>
+                    <TextInput ref={commentInput} name="Comentario" type="text" style={styles.commentInput} />
+                    <TouchableOpacity onPress={handleComment}>
+                      <Text style={styles.commentButton}>Comentar</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {actualComments.length > 0 ? (
+                  actualComments.map((coment, i) => i < commentsCant && <ComentarioComponent key={i} comentario={coment.comentario} />)
+                ) : (
+                  <Text style={styles.noCommentsText}>El especialista no tiene comentarios aún</Text>
+                )}
+                <View style={styles.commentsButtons}>
+                  {commentsCant > 1 && (
+                    <TouchableOpacity onPress={() => setCantComments(commentsCant - 2)}>
+                      <Text style={styles.btnComm}>Ver menos</Text>
+                    </TouchableOpacity>
+                  )}
+                  {actualComments.length >= commentsCant && (
+                    <TouchableOpacity onPress={() => setCantComments(commentsCant + 2)}>
+                      <Text style={[styles.btnComm, styles.alwaysEnd]}>Ver más</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+            </View>
           </View>
         </View>
+
+
 
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const styles = {
-  contentMenuCerrar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 300,
-    marginBottom: 5,
-  },
-  contentMenuItems: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'black',
+const styles = StyleSheet.create({
+  // starRating: {
+  //   flexDirection: 'row',
+  // },
+  // star: {
+  //   padding: 5,
+  // },
+  // selected: {
+  //   // backgroundColor: 'red',
+  // },
+  // selectedText: {
+  //   color: 'yellow',
+  // },
+  // starText: {
+  //   fontSize: 20,
+  // },
+  // doctorImage: {
+  //   padding: 5,
+  //   width: 100,
+  //   height: 100,
+  // },
+
+  doctorCard: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "gray",
     padding: 10,
-    marginLeft: 5,
-    marginRight: 5,
+    borderRadius: 5,
+    margin: 10, // Agregar margen de 10 unidades en todos los lados
   },
-  contentMenuText: {
-    marginLeft: 8,
-    color: 'white',
-    fontSize: 16,
+  doctorSection1: {
+    flexDirection: "column", // Cambiado a "column" para apilar la foto y el texto
   },
-  container: {
-    marginTop: 20,
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  divPictureRating: {
+    marginBottom: 10,
+    alignItems: "center", // Añadido para centrar la foto y las estrellas horizontalmente
   },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  photo: {
+  pictureContainer: {},
+  doctorImage: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginBottom: 8,
   },
-  details: {
-    marginBottom: 8,
-  },
-  name: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  rating: {
-    marginBottom: 8,
+  doctorRating: {
+    alignItems: "center",
+    marginBottom: 10,
   },
   starRating: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   star: {
-    marginRight: 4,
+    marginHorizontal: 2,
   },
-  selectedStar: {
-    color: 'gold',
+  selected: {
+    // backgroundColor: "yellow",
   },
-  comments: {
-    marginBottom: 8,
+  starText: {
+    fontSize: 20,
+  },
+  selectedText: {
+    fontWeight: "bold",
+    color: "gold",
+  },
+  votesContainer: {
+    alignItems: "center",
+  },
+  voteAdvise: {
+    color: "red",
+  },
+  div2Details: {},
+  doctorDetails: {
+    marginLeft: 10,
+  },
+  doctorName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  detailText: {
+    marginBottom: 5,
+  },
+  span: {
+    fontWeight: "bold",
+  },
+  spanEmail: {
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
+  doctorSection2: {
+    marginLeft: 20, // Añadido margen izquierdo para separar la sección de comentarios del texto
+  },
+  div1Coment: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  comentariosTitle: {
+    fontWeight: "bold",
+  },
+  comentarButton: {
+    color: "blue",
+  },
+  yaComentoText: {
+    fontStyle: "italic",
+  },
+  commentForm: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  commentLabel: {
+    fontWeight: "bold",
   },
   commentInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    padding: 8,
-    height: 80,
-    textAlignVertical: 'top',
+    borderColor: "gray",
+    marginBottom: 10,
+    padding: 5,
   },
-  button: {
-    backgroundColor: '#ccc',
-    borderRadius: 4,
-    padding: 8,
-    alignItems: 'center',
+  commentButton: {
+    backgroundColor: "blue",
+    color: "white",
+    padding: 10,
+    textAlign: "center",
+    borderRadius: 5,
   },
-};
+  noCommentsText: {
+    fontStyle: "italic",
+  },
+  commentsButtons: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  btnComm: {
+    color: "blue",
+    marginLeft: 5,
+  },
+  alwaysEnd: {
+    alignSelf: "flex-end",
+  },
+});
+
 
 export default DoctorCard;
