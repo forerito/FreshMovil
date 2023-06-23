@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, TouchableOpacity, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Alert, TouchableOpacity, Text, ScrollView, Button, TextInput, StyleSheet } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,38 +32,39 @@ const TableAdmin = ({ navigation }) => {
   };
 
   useEffect(() => {
-    const fetchCitas = async () => {
+    const fetchData = async () => {
       try {
+        const storedUserId = await AsyncStorage.getItem('userId');
+
         const response = await fetch('https://freshsmile.azurewebsites.net/FreshSmile/ConsultarCitas');
         const data = await response.json();
 
         // Filtrar las citas por el id_paciente que coincida con userId
-        const citasUsuario = data.filter(cita => cita.id_especialista === parseInt(userId));
+        const citasUsuario = data.filter(cita => cita.id_especialista === parseInt(storedUserId));
 
         // Ordenar las citas por mes y día
         const citasOrdenadas = sortCitas(citasUsuario);
 
         setData(citasOrdenadas);
 
+
         // Obtener una lista de identificaciones de especialistas únicos en las citas
         const especialistasIds = [...new Set(citasUsuario.map(cita => cita.id_especialista))];
 
         // Realizar una solicitud para obtener los nombres de los especialistas
-        Promise.all(
+        const especialistasData = await Promise.all(
           especialistasIds.map(id =>
             fetch(`https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/BuscarEspecialista/${id}`)
               .then(response => response.json())
           )
-        )
-          .then(especialistasData => {
-            // Crear un objeto con las identificaciones de los especialistas como clave y sus nombres como valor
-            const especialistasMap = {};
-            especialistasData.forEach(especialista => {
-              especialistasMap[especialista.identificacion_especialista] = especialista.nombre_completo;
-            });
-            setEspecialistas(especialistasMap);
-          })
-          .catch(error => console.error(error));
+        );
+
+        // Crear un objeto con las identificaciones de los especialistas como clave y sus nombres como valor
+        const especialistasMap = {};
+        especialistasData.forEach(especialista => {
+          especialistasMap[especialista.identificacion_especialista] = especialista.nombre_completo;
+        });
+        setEspecialistas(especialistasMap);
 
         // Obtener una lista de identificaciones de procedimientos únicos en las citas
         const procedimientosIds = [...new Set(citasUsuario.map(cita => cita.id_procedimiento))];
@@ -76,7 +77,7 @@ const TableAdmin = ({ navigation }) => {
           procedimientosIds.includes(procedimiento.identificacion_procedimientos)
         );
 
-        // Crear un objeto con las identificaciones de los procedimientos como clave, 
+        // Crear un objeto con las identificaciones de los procedimientos como clave,
         // sus nombres y costos como valores
         const procedimientosMap = {};
         procedimientosFiltrados.forEach(procedimiento => {
@@ -86,22 +87,13 @@ const TableAdmin = ({ navigation }) => {
           };
         });
         setProcedimientos(procedimientosMap);
+
       } catch (error) {
         console.error(error);
       }
     };
 
-    const getUserId = async () => {
-      try {
-        const userId = await AsyncStorage.getItem('userId');
-        setUserId(userId);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getUserId();
-    fetchCitas();
+    fetchData();
   }, []);
 
   const sortCitas = (citas) => {
@@ -121,6 +113,7 @@ const TableAdmin = ({ navigation }) => {
     return new Date(fecha).toLocaleDateString(undefined, options);
   };
 
+
   const handleEditarCita = async (citaEditada) => {
     try {
       const accessToken = await AsyncStorage.getItem('accessToken');
@@ -129,13 +122,14 @@ const TableAdmin = ({ navigation }) => {
       const horaCita = new Date(`${citaEditada.fecha}T${citaEditada.hora}`);
 
       if (fechaCita > currentDate) {
-        Alert.alert('Error', 'No puedes cambiar la fecha de una cita que aún no ha llegado');
+        Alert.alert('Error', 'No puedes cambiar la fecha de una cita que aún no ha llegado', [{ text: 'OK' }]);
         return;
       }
       if (
         citaEditada.estado_cita === EstadoCitaEnum.PROGRAMADA &&
         isFechaPasada // Verificar si la fecha de la cita ha pasado
       ) {
+        // Mostrar una alerta con botón de cancelar
         Alert.alert(
           'Error',
           'No puedes establecer el estado como "Programada" si la fecha de la cita ya ha pasado',
@@ -143,6 +137,7 @@ const TableAdmin = ({ navigation }) => {
             {
               text: 'Cancelar',
               onPress: () => {
+                // El usuario ha cancelado, no se realiza ningún cambio
                 setIsEditing(false);
                 setCitaEditando(null);
               },
@@ -172,17 +167,18 @@ const TableAdmin = ({ navigation }) => {
       if (response.status === 200) {
         setIsEditing(false);
         setCitaEditando(null);
-        Alert.alert('Cita actualizada', 'La cita ha sido actualizada correctamente');
+        Alert.alert('Cita actualizada', 'La cita ha sido actualizada correctamente', [{ text: 'OK' }]);
       } else {
-        Alert.alert('Error', 'Hubo un problema al actualizar la cita');
+        Alert.alert('Error', 'Hubo un problema al actualizar la cita', [{ text: 'OK' }]);
       }
     } catch (error) {
       console.error(error);
       setError(true);
       setShowError(true);
-      Alert.alert('Error', 'Hubo un problema al actualizar la cita');
+      Alert.alert('Error', 'Hubo un problema al actualizar la cita', [{ text: 'OK' }]);
     }
   };
+
 
   const actualizarEstadoCita = () => {
     const currentDate = new Date();
@@ -192,17 +188,14 @@ const TableAdmin = ({ navigation }) => {
       const fechaCita = new Date(cita.fecha);
       const horaCita = new Date(`${cita.fecha}T${cita.hora}`);
 
-      
+      // Verificar si ha pasado un día completo después de la fecha y hora programadas
       if (
         cita.estado_cita !== EstadoCitaEnum.REALIZADA &&
         currentDate > fechaCita &&
         currentDate.getTime() - fechaCita.getTime() >= 24 * 60 * 60 * 1000 &&
         currentDate > horaCita
       ) {
-        return {
-          ...cita,
-          estado_cita: EstadoCitaEnum.AUSENCIA
-        };
+        // Actualizar el estado de la cita aquí
       }
 
       return cita;
@@ -212,8 +205,9 @@ const TableAdmin = ({ navigation }) => {
   };
 
   useEffect(() => {
+    // Llamar a la función actualizarEstadoCita cada vez que se renderice el componente
     actualizarEstadoCita();
-  }, []);
+  }, [userId]);
 
   const getEstadoCita = (cita) => {
     const currentDate = currentDateTime;
@@ -221,10 +215,8 @@ const TableAdmin = ({ navigation }) => {
     const horaCita = new Date(`${cita.fecha}T${cita.hora}`);
 
     if (currentDate > fechaCita && currentDate.getDate() - fechaCita.getDate() === 1) {
-      if (cita.estado_cita === EstadoCitaEnum.AUSENCIA || cita.estado_cita === EstadoCitaEnum.REALIZADA) {
+      if (cita.estado_cita === EstadoCitaEnum.REALIZADA) {
         return cita.estado_cita;
-      } else {
-        return EstadoCitaEnum.AUSENCIA;
       }
     }
 
@@ -242,32 +234,27 @@ const TableAdmin = ({ navigation }) => {
 
   const handleGuardarCitaClick = async (cita) => {
     try {
-      const accessToken = localStorage.getItem('accessToken');
+      const accessToken = AsyncStorage.getItem('accessToken');
       const currentDate = new Date();
       const fechaCita = new Date(cita.fecha);
       const horaCita = new Date(`${cita.fecha}T${cita.hora}`);
 
       if (fechaCita > currentDate) {
-        swal('Error', 'No puedes cambiar la fecha de una cita que aún no ha llegado', 'error');
+        Alert.alert('Error', 'No puedes cambiar la fecha de una cita que aún no ha llegado', [
+          { text: 'OK' },
+        ]);
         return;
       }
+
       if (
         cita.estado_cita === EstadoCitaEnum.PROGRAMADA &&
-        currentDate > fechaCita // Verificar si la fecha de la cita ha pasado
+        isFechaPasada // Verificar si la fecha de la cita ha pasado
       ) {
-        swal({
-          title: 'Error',
-          text: 'No puedes establecer el estado como "Programada" si la fecha de la cita ya ha pasado',
-          icon: 'error',
-          buttons: {
-            cancel: {
-              text: 'Cancelar',
-              value: null,
-              visible: true,
-              closeModal: true,
-            },
-          },
-        }).then((value) => {
+        Alert.alert(
+          'Error',
+          'No puedes establecer el estado como "Programada" si la fecha de la cita ya ha pasado',
+          [{ text: 'Cancelar' }]
+        ).then((value) => {
           if (value === null) {
             setIsEditing(false);
             setCitaEditando(null);
@@ -279,7 +266,7 @@ const TableAdmin = ({ navigation }) => {
 
       const estadoCitaActual = cita.estado_cita;
 
-      if (estadoCitaActual !== EstadoCitaEnum.REALIZADA && estadoCitaActual !== EstadoCitaEnum.AUSENCIA) {
+      if (estadoCitaActual !== EstadoCitaEnum.REALIZADA && estadoCitaActual) {
         cita.estado_cita = EstadoCitaEnum.REALIZADA; // Establecer el estado como "Realizada"
       }
 
@@ -297,19 +284,22 @@ const TableAdmin = ({ navigation }) => {
       if (response.status === 200) {
         setIsEditing(false);
         setCitaEditando(null);
-        swal('Cita actualizada', 'La cita ha sido actualizada correctamente', 'success');
+        Alert.alert('Cita actualizada', 'La cita ha sido actualizada correctamente', [
+          { text: 'OK' },
+        ]);
       } else {
-        swal('Error', 'Hubo un problema al actualizar la cita', 'error');
+        Alert.alert('Error', 'Hubo un problema al actualizar la cita', [{ text: 'OK' }]);
       }
     } catch (error) {
       console.error(error);
-      swal('Error', 'Hubo un problema al actualizar la cita', 'error');
+      Alert.alert('Error', 'Hubo un problema al actualizar la cita', [{ text: 'OK' }]);
     }
   };
 
   useEffect(() => {
     if (showError) {
-      window.location.reload();
+      // Reemplaza esta línea por la lógica que necesites en React Native para recargar la pantalla.
+      // Por ejemplo, puedes utilizar una función para actualizar los datos en la pantalla.
     }
   }, [showError]);
 
@@ -398,44 +388,53 @@ const TableAdmin = ({ navigation }) => {
           )}
         </View>
 
-        <View style={styles.container}>
-          {data.length === 0 ? (
-            <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 20, textAlign: 'center' }}>No tienes citas programadas</Text>
-          ) : (
-            <View>
-              <Text>Identificación de la cita</Text>
-              <Text>Número de Documento</Text>
-              <Text>Nombre del Paciente</Text>
-              <Text>Tipo de Documento Paciente</Text>
-              <Text>Fecha</Text>
-              <Text>Hora</Text>
-              <Text>Especialista</Text>
-              <Text>Identificacion Paciente</Text>
-              <Text>Motivo</Text>
-              <Text>Fecha de Creacion</Text>
-              <Text>Estado</Text>
-              <Text>Valor cita</Text>
-              <Text>Acciones</Text>
-              {data.map((item, index) => (
-                <View key={index} style={styles.row}>
-                  <Text>{item.identificacion_citas}</Text>
-                  <Text>{item.numero_documento}</Text>
-                  <Text>{item.nombre_completo}</Text>
-                  <Text>{item.tipo_documento}</Text>
-                  <Text>{item.fecha}</Text>
-                  <Text>{item.hora}</Text>
-                  <Text>{especialistas[item.id_especialista]}</Text>
-                  <Text>{item.id_paciente}</Text>
-                  <Text>{procedimientos[item.id_procedimiento]?.nombre}</Text>
-                  <Text>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
-                  <Text>
+
+<View style={styles.container}> 
+
+<Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 20 }}>No tiene citas programadas</Text>
+
+</View>
+
+        {/* <View style={styles.container}>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <Text style={styles.title}>Identificación de la cita</Text>
+              <Text style={styles.title}>Número de Documento</Text>
+              <Text style={styles.title}>Nombre del Paciente</Text>
+              <Text style={styles.title}>Tipo de Documento Paciente</Text>
+              <Text style={styles.title}>Fecha</Text>
+              <Text style={styles.title}>Hora</Text>
+              <Text style={styles.title}>Especialista</Text>
+              <Text style={styles.title}>Identificacion Paciente</Text>
+              <Text style={styles.title}>Motivo</Text>
+              <Text style={styles.title}>Fecha de Creacion</Text>
+              <Text style={styles.title}>Estado</Text>
+              <Text style={styles.title}>Valor cita</Text>
+              <Text style={styles.title}>Acciones</Text>
+            </View>
+            {data.map((item, index) => (
+              <View key={index} style={styles.tableRow2}>
+                <View style={styles.tableRow1}>
+                  <Text style={styles.item}>{item.identificacion_citas}</Text>
+                  <Text style={styles.item}>{item.numero_documento}</Text>
+                  <Text style={styles.item}>{item.nombre_completo}</Text>
+                  <Text style={styles.item}>{item.tipo_documento}</Text>
+                  <Text style={styles.item}>{item.fecha}</Text>
+                  <Text style={styles.item}>{item.hora}</Text>
+                  <Text style={styles.item}>{especialistas[item.id_especialista]}</Text>
+                  <Text style={styles.item}>{item.id_paciente}</Text>
+                  <Text style={styles.item}>{procedimientos[item.id_procedimiento]?.nombre}</Text>
+                  <Text style={styles.item}>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
+                </View>
+                <View style={styles.tableRow2}>
+                  <Text style={styles.item}>
                     {isEditing && citaEditando === item.identificacion_citas ? (
                       campoEditando === 'estado_cita' ? (
                         <TextInput
                           value={item.estado_cita}
-                          onChangeText={(text) => {
+                          onChangeText={(value) => {
                             const newState = [...data];
-                            newState[index].estado_cita = text;
+                            newState[index].estado_cita = value;
                             setData(newState);
                           }}
                         />
@@ -446,43 +445,41 @@ const TableAdmin = ({ navigation }) => {
                       getEstadoCita(item)
                     )}
                   </Text>
-                  <Text>{procedimientos[item.id_procedimiento]?.costo?.toFixed(3)}</Text>
-                  {item.estado_cita && !isEditing && !error ? (
-                    <TouchableOpacity
-                      style={styles.buttonEdit}
-                      onPress={() => {
-                        setIsEditing(true);
-                        setCampoEditando('estado_cita');
-                        setCitaEditando(item.identificacion_citas);
-                      }}
-                    >
-                      <Text>Editar</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <View>
-                      <TouchableOpacity
-                        style={styles.buttonEdit}
+                  <Text style={styles.item}>{procedimientos[item.id_procedimiento]?.costo?.toFixed(3)}</Text>
+                  <View>
+                    {item.estado_cita && !isEditing && !error ? (
+                      <Button
+                        title="Editar"
                         onPress={() => {
-                          handleGuardarCitaClick(item);
+                          setIsEditing(true);
+                          setCampoEditando('estado_cita');
+                          setCitaEditando(item.identificacion_citas);
                         }}
-                      >
-                        <Text>Guardar</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.buttonCancel}
-                        onPress={() => {
-                          handleCancelarEdicion();
-                        }}
-                      >
-                        <Text>Cancelar</Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
+                      />
+                    ) : (
+                      <View>
+                        <Button
+                          title="Guardar"
+                          onPress={() => {
+                            handleGuardarCitaClick(item);
+                          }}
+                        />
+                        <Button
+                          title="Cancelar"
+                          onPress={() => {
+                            handleCancelarEdicion();
+                          }}
+                        />
+                      </View>
+                    )}
+                  </View>
                 </View>
-              ))}
-            </View>
-          )}
-        </View>
+              </View>
+            ))}
+          </View>
+        </View> */}
+
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -509,25 +506,37 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   container: {
+    // flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  table: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 10,
+  },
+  tableRow: {
+    backgroundColor: 'lightgray',
+  },
+  tableRow1: {
     flex: 1,
-    padding: 16,
+    borderRightWidth: 1,
+    borderColor: 'black',
+    padding: 5,
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
+  tableRow2: {
+    flex: 1,
+    padding: 5,
   },
-  buttonEdit: {
-    backgroundColor: 'blue',
-    padding: 8,
-    borderRadius: 5,
-    marginTop: 8,
+  title: {
+    flex: 1,
+    fontWeight: 'bold',
+    padding: 5,
   },
-  buttonCancel: {
-    backgroundColor: 'red',
-    padding: 8,
-    borderRadius: 5,
-    marginTop: 8,
+  item: {
+    flex: 1,
+    padding: 5,
   },
 });
 
