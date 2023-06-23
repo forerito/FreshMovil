@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Alert, StyleSheet, ScrollView, Text, Modal, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from "react-native-safe-area-context";
-import axios from 'axios';
 import Header2 from "../layouts/Header2";
 import {
   ALERT_TYPE,

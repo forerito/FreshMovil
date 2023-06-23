@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Button, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../Header";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -37,11 +37,10 @@ const PerfilAdmin = ({ navigation }) => {
   };
 
   const images = [
-    "https://img.freepik.com/free-vector/cute-girl-gaming-holding-joystick-with-hand-peace-cartoon-icon-illustration-people-technology-icon-concept-isolated-flat-cartoon-style_138676-2168.jpg?w=740&t=st=1686703355~exp=1686703955~hmac=c2666eef056d68fb3cf25e50dd516cec520f2ea66bcee38aff1dea8a3fd481ab",
-    "https://img.freepik.com/free-vector/cute-gorilla-playing-game-virtual-reality-with-joystick-cartoon-vector-icon-illustration-animal_138676-6743.jpg?w=740&t=st=1686703668~exp=1686704268~hmac=f7c14344a573bfbc51293a459eea06f80ae7c48c82f168e79cbec4aa495439f9",
     "https://i.pinimg.com/564x/63/52/77/6352774cefd5f7d2450b120c2af1bcaa.jpg",
-    "https://img.freepik.com/free-vector/cute-astronaut-with-rocket-bag-cartoon-vector-icon-illustration-technology-education-icon-isolated_138676-5828.jpg?w=740&t=st=1686703712~exp=1686704312~hmac=46d2c66efedb34251d87a12eb587577e6985622760112de67d666370e7bd16d9",
-    "https://img.freepik.com/free-psd/samurai-online-video-games-3d-illustration_1419-2618.jpg?w=740&t=st=1686703405~exp=1686704005~hmac=b7d72099acf8b34e8e3e2bfb075bd9d0b7a357db5d9b3ef26490de684898cbe5",
+    "https://i.pinimg.com/564x/63/52/77/6352774cefd5f7d2450b120c2af1bcaa.jpg",
+    "https://i.pinimg.com/564x/63/52/77/6352774cefd5f7d2450b120c2af1bcaa.jpg",
+    "https://i.pinimg.com/564x/63/52/77/6352774cefd5f7d2450b120c2af1bcaa.jpg",
   ];
 
   const [assignedImage, setAssignedImage] = useState(null);

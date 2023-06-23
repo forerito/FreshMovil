@@ -3,7 +3,7 @@ import axios from "axios";
 import moment from "moment";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, TextInput, TouchableOpacity, Image, Alert, Button, ScrollView, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert, ScrollView, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "./Header";
 import {
@@ -33,7 +33,6 @@ const PerfilUsuario = ({ navigation }) => {
     const handlePress = () => {
         setMenuOpen(!menuOpen);
     };
-
 
     const images = [
         "https://img.freepik.com/free-vector/cute-girl-gaming-holding-joystick-with-hand-peace-cartoon-icon-illustration-people-technology-icon-concept-isolated-flat-cartoon-style_138676-2168.jpg?w=740&t=st=1686703355~exp=1686703955~hmac=c2666eef056d68fb3cf25e50dd516cec520f2ea66bcee38aff1dea8a3fd481ab",
