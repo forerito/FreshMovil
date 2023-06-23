@@ -235,9 +235,7 @@ const NosotrosScreen = ({ navigation }) => {
               <View style={styles.specialistCard} key={index}>
                 <Image
                   style={styles.specialistImage}
-                  source={{ uri:
-                    
-                    "https://i.pinimg.com/564x/51/f6/fb/51f6fb256629fc755b8870c801092942.jpg" }}
+                  source={{ uri: especialista.foto_perfil }}
                   alt={`Imagen ${index + 1}`}
                   resizeMode="stretch"
                 />

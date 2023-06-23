@@ -19,12 +19,12 @@ const ContactoScreen = ({ navigation }) => {
 
   const handleSendEmail = () => {
     if (!nombre || !telefono || !correo || !motivo) {
-      // Mostrar alerta de campos incompletos
+      
       alert('Por favor, complete todos los campos obligatorios.');
       return;
     }
 
-    // Construir el cuerpo del correo electrónico
+    
     const subject = encodeURIComponent('Me gustaría comunicarme con ustedes Fresh Smile Cmills');
     const body = encodeURIComponent(`
     Mi nombre es : ${nombre}
@@ -39,7 +39,7 @@ const ContactoScreen = ({ navigation }) => {
       alert('No se pudo abrir la aplicación de correo electrónico.');
     });
 
-    // Limpia los campos del formulario
+    
     setNombre('');
     setTelefono('');
     setCorreo('');
@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     flexDirection: 'column',
     marginBottom: 5,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "gray",
     borderRadius: 5,
     padding: 5,

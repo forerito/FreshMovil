@@ -150,9 +150,7 @@ const ProcedimientosAdmin = ({ navigation }) => {
                   {!imageLoaded ? (
                     <ActivityIndicator size="large" color="#249bad" />
                   ) : (
-                    <Image source={{ uri:
-                    
-                      "https://i.pinimg.com/564x/51/f6/fb/51f6fb256629fc755b8870c801092942.jpg" }} style={styles.serviceImg} />
+                    <Image source={{ uri: procedimiento.foto }} style={styles.serviceImg} />
                   )}
                   <Text style={styles.serviceTitle}>{procedimiento.nombre}</Text>
                   <Text style={styles.serviceText}>{procedimiento.descripcion}</Text>

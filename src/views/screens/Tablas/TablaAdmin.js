@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, TouchableOpacity, Text, } from 'react-native';
+import { View, Alert, TouchableOpacity, Text, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/FontAwesome5";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Header from '../Header';
 import axios from 'axios';
 
-const TableAdmin = () => {
+const TableAdmin = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [especialistas, setEspecialistas] = useState({});
   const [procedimientos, setProcedimientos] = useState({});
@@ -189,7 +192,7 @@ const TableAdmin = () => {
       const fechaCita = new Date(cita.fecha);
       const horaCita = new Date(`${cita.fecha}T${cita.hora}`);
 
-      // Verificar si ha pasado un día completo después de la fecha y hora programadas
+      
       if (
         cita.estado_cita !== EstadoCitaEnum.REALIZADA &&
         currentDate > fechaCita &&
@@ -310,97 +313,201 @@ const TableAdmin = () => {
     }
   }, [showError]);
 
-  return (
-    <View style={styles.container}>
-      {data.length === 0 ? (
-        <Text>No hay citas</Text>
-      ) : (
-        <>
-          <Text>Identificación de la cita</Text>
-          <Text>Número de Documento</Text>
-          <Text>Nombre del Paciente</Text>
-          <Text>Tipo de Documento Paciente</Text>
-          <Text>Fecha</Text>
-          <Text>Hora</Text>
-          <Text>Especialista</Text>
-          <Text>Identificacion Paciente</Text>
-          <Text>Motivo</Text>
-          <Text>Fecha de Creacion</Text>
-          <Text>Estado</Text>
-          <Text>Valor cita</Text>
-          <Text>Acciones</Text>
-          {data.map((item, index) => (
-            <View key={index} style={styles.row}>
-              <Text>{item.identificacion_citas}</Text>
-              <Text>{item.numero_documento}</Text>
-              <Text>{item.nombre_completo}</Text>
-              <Text>{item.tipo_documento}</Text>
-              <Text>{item.fecha}</Text>
-              <Text>{item.hora}</Text>
-              <Text>{especialistas[item.id_especialista]}</Text>
-              <Text>{item.id_paciente}</Text>
-              <Text>{procedimientos[item.id_procedimiento]?.nombre}</Text>
-              <Text>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
-              <Text>
-                {isEditing && citaEditando === item.identificacion_citas ? (
-                  campoEditando === 'estado_cita' ? (
-                    <TextInput
-                      value={item.estado_cita}
-                      onChangeText={(text) => {
-                        const newState = [...data];
-                        newState[index].estado_cita = text;
-                        setData(newState);
-                      }}
-                    />
-                  ) : (
-                    getEstadoCita(item)
-                  )
-                ) : (
-                  getEstadoCita(item)
-                )}
-              </Text>
-              <Text>{procedimientos[item.id_procedimiento]?.costo?.toFixed(3)}</Text>
-              {item.estado_cita && !isEditing && !error ? (
-                <TouchableOpacity
-                  style={styles.buttonEdit}
-                  onPress={() => {
-                    setIsEditing(true);
-                    setCampoEditando('estado_cita');
-                    setCitaEditando(item.identificacion_citas);
-                  }}
-                >
-                  <Text>Editar</Text>
-                </TouchableOpacity>
-              ) : (
-                <View>
-                  <TouchableOpacity
-                    style={styles.buttonEdit}
-                    onPress={() => {
-                      handleGuardarCitaClick(item);
-                    }}
-                  >
-                    <Text>Guardar</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.buttonCancel}
-                    onPress={() => {
-                      handleCancelarEdicion();
-                    }}
-                  >
-                    <Text>Cancelar</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-          ))}
-        </>
-      )}
-    </View>
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handlePress = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  return (
+    <SafeAreaView className="flex-1 ">
+      <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+
+        <Header />
+
+        <View
+          style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: 340,
+              marginTop: -43,
+            }}
+          >
+            <TouchableOpacity onPress={handlePress}>
+              <Icon name="bars" size={24} color="#5FFDFF" />
+            </TouchableOpacity>
+          </View>
+
+          {menuOpen && (
+            <View style={{ marginTop: 8 }}>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HomeEspecialista")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="home" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Inicio</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NosotrosAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="users" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nosotros</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="tooth" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Procedimientos</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("TablaAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agenda</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SpecialistCards")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="star" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Valoraciones</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <Text>Contacto</Text>
+              </TouchableOpacity>
+
+            </View>
+          )}
+        </View>
+
+        <View style={styles.container}>
+          {data.length === 0 ? (
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginTop: 20, textAlign: 'center' }}>No tienes citas programadas</Text>
+          ) : (
+            <View>
+              <Text>Identificación de la cita</Text>
+              <Text>Número de Documento</Text>
+              <Text>Nombre del Paciente</Text>
+              <Text>Tipo de Documento Paciente</Text>
+              <Text>Fecha</Text>
+              <Text>Hora</Text>
+              <Text>Especialista</Text>
+              <Text>Identificacion Paciente</Text>
+              <Text>Motivo</Text>
+              <Text>Fecha de Creacion</Text>
+              <Text>Estado</Text>
+              <Text>Valor cita</Text>
+              <Text>Acciones</Text>
+              {data.map((item, index) => (
+                <View key={index} style={styles.row}>
+                  <Text>{item.identificacion_citas}</Text>
+                  <Text>{item.numero_documento}</Text>
+                  <Text>{item.nombre_completo}</Text>
+                  <Text>{item.tipo_documento}</Text>
+                  <Text>{item.fecha}</Text>
+                  <Text>{item.hora}</Text>
+                  <Text>{especialistas[item.id_especialista]}</Text>
+                  <Text>{item.id_paciente}</Text>
+                  <Text>{procedimientos[item.id_procedimiento]?.nombre}</Text>
+                  <Text>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
+                  <Text>
+                    {isEditing && citaEditando === item.identificacion_citas ? (
+                      campoEditando === 'estado_cita' ? (
+                        <TextInput
+                          value={item.estado_cita}
+                          onChangeText={(text) => {
+                            const newState = [...data];
+                            newState[index].estado_cita = text;
+                            setData(newState);
+                          }}
+                        />
+                      ) : (
+                        getEstadoCita(item)
+                      )
+                    ) : (
+                      getEstadoCita(item)
+                    )}
+                  </Text>
+                  <Text>{procedimientos[item.id_procedimiento]?.costo?.toFixed(3)}</Text>
+                  {item.estado_cita && !isEditing && !error ? (
+                    <TouchableOpacity
+                      style={styles.buttonEdit}
+                      onPress={() => {
+                        setIsEditing(true);
+                        setCampoEditando('estado_cita');
+                        setCitaEditando(item.identificacion_citas);
+                      }}
+                    >
+                      <Text>Editar</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <View>
+                      <TouchableOpacity
+                        style={styles.buttonEdit}
+                        onPress={() => {
+                          handleGuardarCitaClick(item);
+                        }}
+                      >
+                        <Text>Guardar</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.buttonCancel}
+                        onPress={() => {
+                          handleCancelarEdicion();
+                        }}
+                      >
+                        <Text>Cancelar</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
+  contentMenuCerrar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 300,
+    marginBottom: 5,
+  },
+  contentMenuItems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  contentMenuText: {
+    marginLeft: 8,
+    color: 'white',
+    fontSize: 16,
+  },
   container: {
     flex: 1,
     padding: 16,
@@ -422,6 +529,6 @@ const styles = {
     borderRadius: 5,
     marginTop: 8,
   },
-};
+});
 
 export default TableAdmin;

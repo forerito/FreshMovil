@@ -27,7 +27,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginScreen">
+      <Stack.Navigator initialRouteName="Especialistas">
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="HomeEspecialista" component={HomeEspecialista} options={{ headerShown: false }} />
         <Stack.Screen name="NosotrosScreen" component={NosotrosScreen} options={{ headerShown: false }} />
@@ -35,9 +35,9 @@ function App() {
         <Stack.Screen name="ProcedimientosScreen" component={ProcedimientosScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ProcedimientosAdmin" component={ProcedimientosAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="ContactoScreen" component={ContactoScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Especialistas" component={Especialistas} options={{ headerShown: false }} />
         <Stack.Screen name="AgendarCita" component={AgendarCita} options={{ headerShown: false }} />
         <Stack.Screen name="Ranking" component={Ranking} options={{ headerShown: false }} />
+        <Stack.Screen name="Especialistas" component={Especialistas} options={{ headerShown: false }} />
         <Stack.Screen name="TablaUsuario" component={TablaUsuario} options={{ headerShown: false }} />
         <Stack.Screen name="TablaAdmin" component={TablaAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="PerfilAdmin" component={PerfilAdmin} options={{ headerShown: false }} />

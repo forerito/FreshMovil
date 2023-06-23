@@ -209,7 +209,7 @@ const TablaUsuario = ({ navigation }) => {
 
               <View style={styles.tableBody}>
                 {data.length === 0 ? (
-                  <Text style={styles.titleText1}>No tienes citas</Text>
+                  <Text style={styles.titleText1}>No tienes citas agendadas</Text>
                 ) : (
                   data.map((item, index) => (
                     <View key={index} style={styles.citaContainer}>
@@ -320,8 +320,9 @@ const styles = StyleSheet.create({
     // marginBottom: 15,
   },
   titleText1: {
+    marginLeft: 30,
     fontWeight: 'bold',
-    fontSize: 33,
+    fontSize: 23,
     textAlign: 'center',
   },
   titleText: {

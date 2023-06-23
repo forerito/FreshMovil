@@ -238,9 +238,7 @@ const PerfilUsuario = ({ navigation }) => {
                     </View>
 
                     <View>
-                        {/* <View style={styles.bannerPrincipalAd}>
-              <Text style={styles.tituloBanner}>¡Bienvenido a tu perfil!</Text>
-            </View> */}
+                       
                         <View style={styles.containerUsuario}>
                             <View style={styles.tarjetaPerfilU}>
 
@@ -499,7 +497,7 @@ const styles = StyleSheet.create({
     },
     passwordInput: {
         padding: 10,
-        width: '76%',
+        width: '77%',
         backgroundColor: 'white',
         borderRadius: 5,
         borderWidth: 2,
