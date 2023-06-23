@@ -11,7 +11,6 @@ import ProcedimientosAdmin from "./src/views/screens/Admin/ProcedimientosAdmin";
 import ContactoScreen from "./src/views/screens/ContactoScreen";
 import Especialistas from "./src/views/screens/Especialistas";
 import Ranking from "./src/views/screens/Ranking";
-import MapaArmenia from "./src/views/screens/MapasArmenia";
 import TablaUsuario from "./src/views/screens/Tablas/TablaUsuario";
 import TablaAdmin from "./src/views/screens/Tablas/TablaAdmin";
 import HomeEspecialista from "./src/views/screens/Admin/HomeEspecialista";
@@ -39,7 +38,6 @@ function App() {
         <Stack.Screen name="Especialistas" component={Especialistas} options={{ headerShown: false }} />
         <Stack.Screen name="AgendarCita" component={AgendarCita} options={{ headerShown: false }} />
         <Stack.Screen name="Ranking" component={Ranking} options={{ headerShown: false }} />
-        <Stack.Screen name="MapaArmenia" component={MapaArmenia} options={{ headerShown: false }} />
         <Stack.Screen name="TablaUsuario" component={TablaUsuario} options={{ headerShown: false }} />
         <Stack.Screen name="TablaAdmin" component={TablaAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="PerfilAdmin" component={PerfilAdmin} options={{ headerShown: false }} />

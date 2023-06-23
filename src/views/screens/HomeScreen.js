@@ -149,11 +149,6 @@ const HomeScreen = ({ navigation }) => {
                   <Text style={styles.buttonText}>Agendar Cita</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button}
-                  onPress={() => navigation.navigate("MapaArmenia")}
-                >
-                  <Text style={styles.buttonText}>Buscar Clinica</Text>
-                </TouchableOpacity>
               </View>
             </View>
           </ImageBackground>
