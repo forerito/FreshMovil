@@ -15,9 +15,9 @@ const Footer = () => {
     <View>
       <View style={styles.footerContainer}>
         <Text style={styles.title}>
-        <Text style={styles.titleblue}>FRESH</Text>
-        <Text style={styles.title}> SMILE </Text>
-        <Text style={styles.titleblue}>CMILLS</Text>
+          <Text style={styles.titleblue}>FRESH</Text>
+          <Text style={styles.title}> SMILE </Text>
+          <Text style={styles.titleblue}>CMILLS</Text>
         </Text>
         <View style={styles.iconsContainer}>
           <View style={styles.icon}>

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Alert, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { Picker } from '@react-native-picker/picker';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Picker } from '@react-native-picker/picker';
 import {
   ALERT_TYPE,
   Dialog,
@@ -17,6 +17,7 @@ const LoginScreen = ({ navigation }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -28,34 +29,13 @@ const LoginScreen = ({ navigation }) => {
     setLoading(true);
 
     try {
-      const especialistasResponse = await axios.get(
-        "https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarEspecialista"
-      );
-      const pacientesResponse = await axios.get(
-        "https://freshsmile.azurewebsites.net/FreshSmile/ConsultarPacientes"
-      );
-
-      const especialistas = especialistasResponse.data;
-      const pacientes = pacientesResponse.data;
-
-      const matchedEspecialista = especialistas.find(
-        (especialista) => especialista.correo === email
-      );
-      const matchedPaciente = pacientes.find(
-        (paciente) => paciente.correo === email
-      );
-
       let url;
-      let rol;
-
-      if (matchedEspecialista) {
-        url = "https://freshsmile.azurewebsites.net/login/especialista";
-        rol = "especialista";
-      } else if (matchedPaciente) {
-        url = "https://freshsmile.azurewebsites.net/login/paciente";
-        rol = "paciente";
+      if (role === 'paciente') {
+        url = 'https://freshsmile.azurewebsites.net/login/paciente';
+      } else if (role === 'especialista') {
+        url = 'https://freshsmile.azurewebsites.net/login/especialista';
       } else {
-        throw new Error("Correo no válido");
+        throw new Error('Rol no válido');
       }
 
       const response = await axios.post(url, { email, password });
@@ -71,9 +51,9 @@ const LoginScreen = ({ navigation }) => {
         await AsyncStorage.setItem("loggedIn", "true");
         await AsyncStorage.setItem("userId", JSON.stringify(id));
 
-        if (rol === "paciente") {
+        if (role === "paciente") {
           navigation.navigate("HomeScreen");
-        } else if (rol === "especialista") {
+        } else if (role === "especialista") {
           navigation.navigate("HomeEspecialista");
         }
 
@@ -131,6 +111,23 @@ const LoginScreen = ({ navigation }) => {
                     color="black"
                   />
                 </TouchableOpacity>
+              </View>
+            </View>
+
+
+            <View style={styles.formGroup}>
+              <Text style={styles.label}>Rol</Text>
+              <View style={styles.inputContainer}>
+                <Icon name="user-tag" size={24} style={styles.icon} />
+                <Picker
+                  selectedValue={role}
+                  onValueChange={(itemValue) => setRole(itemValue)}
+                  style={styles.input}
+                >
+                  <Picker.Item label="Seleccione un rol" value="" />
+                  <Picker.Item label="Paciente" value="paciente" />
+                  <Picker.Item label="Especialista" value="especialista" />
+                </Picker>
               </View>
             </View>
 

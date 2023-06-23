@@ -1,271 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-// import moment from "moment";
-// import Icon from "react-native-vector-icons/FontAwesome5";
-// import { SafeAreaView } from "react-native-safe-area-context";
-// import { View, Text, TextInput, TouchableOpacity, Image, Alert, Button, ScrollView } from "react-native";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// const PerfilAdmin = () => {
-//   const [Documento, setTipoDocumento] = useState("");
-//   const [nombre, setNombre] = useState("");
-//   const [Telefono, setTelefono] = useState("");
-//   const [Direccion, setDireccion] = useState("");
-//   const [Especialidad, setEspecialidad] = useState("");
-//   const [Descripcion, setDescripcion] = useState("");
-//   const [estado, setEstado] = useState("");
-//   const [Correo, setCorreo] = useState("");
-//   const [Contraseña, setContraseña] = useState("");
-//   const [fechaRegistro, setFechaRegistro] = useState("");
-//   const [especialista, setEspecialista] = useState({});
-//   const [loading, setLoading] = useState(true);
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [editMode, setEditMode] = useState(false);
-//   const [identificacionEspecialista, setIdentificacionEspecialista] = useState("");
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const userId = await AsyncStorage.getItem("userId");
-
-//         const response = await axios.get(
-//           `https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/BuscarEspecialista/${userId}`
-//         );
-//         setEspecialista(response.data);
-//         setLoading(false);
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   useEffect(() => {
-//     if (!loading) {
-//       setTipoDocumento(especialista.tipo_documento);
-//       setNombre(especialista.nombre_completo);
-//       setTelefono(especialista.telefono);
-//       setDireccion(especialista.direccion);
-//       setEspecialidad(especialista.especialidad);
-//       setCorreo(especialista.correo);
-//       setContraseña(especialista.contraseña);
-//       setFechaRegistro(especialista.fecha_registro);
-//       setDescripcion(especialista.descripcion);
-//       setEstado(especialista.estado);
-//       setIdentificacionEspecialista(especialista.identificacion_especialista);
-//     }
-//   }, [loading, especialista]);
-
-//   const formattedFechaRegistro = moment(fechaRegistro).format(
-//     "DD/MM/YYYY HH:mm:ss"
-//   );
-
-//   const togglePasswordVisibility = () => {
-//     setShowPassword(!showPassword);
-//   };
-
-//   const handleSaveButtonClick = async () => {
-//     try {
-//       const datosEspecialista = {
-//         tipo_documento: Documento,
-//         identificacion_especialista: identificacionEspecialista,
-//         nombre_completo: nombre,
-//         telefono: Telefono,
-//         direccion: Direccion,
-//         especialidad: Especialidad,
-//         descripcion: Descripcion,
-//         correo: Correo,
-//         contraseña: Contraseña,
-//       };
-
-//       const accessToken = await AsyncStorage.getItem("accessToken");
-
-//       const config = {
-//         headers: {
-//           Authorization: `Bearer ${accessToken}`,
-//         },
-//       };
-
-//       await axios.put(
-//         "https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ModificarEspecialista",
-//         datosEspecialista,
-//         config
-//       );
-
-//       setEditMode(false);
-//       setLoading(true);
-//       // Cambiar la alerta por una que funcione en React Native
-//       Alert.alert("¡Éxito! Datos modificados con éxito");
-//     } catch (error) {
-//       console.error(error.response);
-//       // Cambiar la alerta por una que funcione en React Native
-//       Alert.alert("¡Error! Ocurrió un error al modificar los datos");
-//     }
-//   };
-
-//   return (
-//     <SafeAreaView className="flex-1 ">
-//       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
-//         <View>
-//           <View style={styles.containerUsuario}>
-//             <View style={styles.tarjetaPerfilU}>
-//               <Image
-//                 style={styles.imagePerfilUsuario}
-//                 source={{
-//                   uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1686197632/usuario_fitvn6.png",
-//                 }}
-//                 alt="Inicio"
-//               />
-//               <Text style={styles.perfilTitulo}>Mi Perfil</Text>
-//               <Text style={styles.perfilInfo}>freshSmileCmills</Text>
-//               <Text style={styles.perfilInfo}>Revisa tu perfil</Text>
-//               {editMode ? (
-//                 <Button
-//                   title="Guardar"
-//                   onPress={handleSaveButtonClick}
-//                   style={styles.guardarBoton}
-//                 />
-//               ) : (
-//                 <Button
-//                   title="Editar"
-//                   onPress={() => setEditMode(true)}
-//                   style={styles.editarBoton}
-//                 />
-//               )}
-//             </View>
-//             <View style={styles.bannerPrincipalAd}>
-//               <Text style={styles.tituloBanner}>¡Bienvenido A Tu Perfil!</Text>
-//             </View>
-//           </View>
-
-//           <View style={styles.perfilTabla}>
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Tipo de documento:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={Documento}
-//                 onChangeText={setTipoDocumento}
-//                 editable={false}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>
-//                 Identificación del Especialista:
-//               </Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={identificacionEspecialista.toString()}
-//                 onChangeText={setIdentificacionEspecialista}
-//                 editable={editMode}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Nombre:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={nombre}
-//                 onChangeText={setNombre}
-//                 editable={editMode}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Teléfono:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={Telefono}
-//                 onChangeText={setTelefono}
-//                 editable={editMode}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Dirección:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={Direccion}
-//                 onChangeText={setDireccion}
-//                 editable={editMode}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Especialidad:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={Especialidad}
-//                 onChangeText={setEspecialidad}
-//                 editable={editMode}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Correo:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={Correo}
-//                 onChangeText={setCorreo}
-//                 editable={editMode}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Contraseña:</Text>
-//               <View style={styles.passwordInputContainer}>
-//                 <TextInput
-//                   style={styles.passwordInput}
-//                   secureTextEntry={!showPassword}
-//                   value={Contraseña}
-//                   onChangeText={setContraseña}
-//                   editable={editMode}
-//                 />
-//                 <TouchableOpacity onPress={togglePasswordVisibility}>
-//                   <Icon
-//                     name={showPassword ? "eye-slash" : "eye"}
-//                     style={styles.passwordToggleIcon}
-//                   />
-//                 </TouchableOpacity>
-//               </View>
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Fecha de registro:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={formattedFechaRegistro}
-//                 onChangeText={setFechaRegistro}
-//                 editable={false}
-//               />
-//             </View>
-
-//             <View style={styles.perfilRow}>
-//               <Text style={styles.perfilDescripcion}>Estado:</Text>
-//               <TextInput
-//                 style={styles.perfilValor}
-//                 value={estado}
-//                 onChangeText={setEstado}
-//                 editable={false}
-//               />
-//             </View>
-//           </View>
-//         </View>
-//       </ScrollView>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = ({
-
-// });
-
-// export default PerfilAdmin;
-
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
@@ -303,11 +35,6 @@ const PerfilAdmin = ({ navigation }) => {
   const handlePress = () => {
     setMenuOpen(!menuOpen);
   };
-
-  const handleClose = () => {
-    setMenuOpen(false);
-  };
-
 
   const images = [
     "https://img.freepik.com/free-vector/cute-girl-gaming-holding-joystick-with-hand-peace-cartoon-icon-illustration-people-technology-icon-concept-isolated-flat-cartoon-style_138676-2168.jpg?w=740&t=st=1686703355~exp=1686703955~hmac=c2666eef056d68fb3cf25e50dd516cec520f2ea66bcee38aff1dea8a3fd481ab",
@@ -443,69 +170,80 @@ const PerfilAdmin = ({ navigation }) => {
 
           <Header />
 
-          <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
-              <TouchableOpacity onPress={handlePress}>
-                <Icon name="bars" size={24} color="#5FFDFF" />
-              </TouchableOpacity>
-            </View>
-
-            {menuOpen && (
-              <View style={{ marginTop: 8 }}>
-                <TouchableOpacity onPress={handleClose}>
-                  <View style={styles.contentMenuCerrar}>
-                    <Icon name="window-close" size={24} color="white" />
-                    <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
-                  <View style={styles.contentMenuItems}>
-                    <Icon name="home" size={24} color="white" />
-                    <Text style={styles.contentMenuText}>Inicio</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
-                  <View style={styles.contentMenuItems}>
-                    <Icon name="users" size={24} color="white" />
-                    <Text style={styles.contentMenuText}>Nosotros</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
-                  <View style={styles.contentMenuItems}>
-                    <Icon name="tooth" size={24} color="white" />
-                    <Text style={styles.contentMenuText}>Procedimientos</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
-                  <View style={styles.contentMenuItems}>
-                    <Icon name="user-clock" size={24} color="white" />
-                    <Text style={styles.contentMenuText}>Agenda</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
-                  <View style={styles.contentMenuItems}>
-                    <Icon name="star" size={24} color="white" />
-                    <Text style={styles.contentMenuText}>Valoraciones</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <Text>Contacto</Text>
-                </TouchableOpacity>
-
-              </View>
-            )}
+          <View
+          style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: 340,
+              marginTop: -43,
+            }}
+          >
+            <TouchableOpacity onPress={handlePress}>
+              <Icon name="bars" size={24} color="#5FFDFF" />
+            </TouchableOpacity>
           </View>
 
+          {menuOpen && (
+            <View style={{ marginTop: 8 }}>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HomeEspecialista")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="home" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Inicio</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NosotrosAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="users" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nosotros</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="tooth" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Procedimientos</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("TablaAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agenda</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SpecialistCards")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="star" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Valoraciones</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <Text>Contacto</Text>
+              </TouchableOpacity>
+
+            </View>
+          )}
+        </View>
+
           <View>
-            {/* <View style={styles.bannerPrincipalAd}>
-              <Text style={styles.tituloBanner}>¡Bienvenido a tu perfil!</Text>
-            </View> */}
+            
             <View style={styles.containerUsuario}>
               <View style={styles.tarjetaPerfilU}>
                 <Image

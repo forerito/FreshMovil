@@ -15,9 +15,6 @@ const HomeScreen = ({ navigation }) => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleClose = () => {
-    setMenuOpen(false);
-  };
 
   const handleLogoutClick = () => {
     logout();
@@ -54,12 +51,6 @@ const HomeScreen = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
@@ -176,7 +167,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.card}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
+                source={{ uri: 'https://res.cloudinary.com/smilecmills/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
                 style={styles.imagecard}
                 resizeMode={'stretch'}
               />
@@ -189,7 +180,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.card}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852202/Fresh_Smile_Cmills/carillas_hbazmk.jpg' }}
+                source={{ uri: 'https://res.cloudinary.com/smilecmills/image/upload/v1683852202/Fresh_Smile_Cmills/carillas_hbazmk.jpg' }}
                 style={styles.imagecard}
                 resizeMode={'stretch'}
               />
@@ -202,7 +193,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.card}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852210/Fresh_Smile_Cmills/implantes_keq38a.jpg' }}
+                source={{ uri: 'https://res.cloudinary.com/smilecmills/image/upload/v1683852210/Fresh_Smile_Cmills/implantes_keq38a.jpg' }}
                 style={styles.imagecard}
                 resizeMode={'stretch'}
               />
@@ -224,10 +215,10 @@ const HomeScreen = ({ navigation }) => {
                 style={styles.specialistImage}
                 resizeMode="stretch"
                 source={{
-                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505008/doctora1_ng31ar.jpg',
+                  uri: 'https://res.cloudinary.com/smilecmills/image/upload/v1687464814/retrato-hombre-dentista-sonriendo-brazos-cruzados-clinica-dental_158595-7723_xtkeb5.jpg',
                 }}
               />
-              <Text style={styles.specialistName}>Karen Sanchez</Text>
+              <Text style={styles.specialistName}>Carlos Ospina</Text>
             </View>
 
             <View style={styles.specialistCard}>
@@ -235,10 +226,10 @@ const HomeScreen = ({ navigation }) => {
                 style={styles.specialistImage}
                 resizeMode="stretch"
                 source={{
-                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505071/doctor4_qet252.jpg',
+                  uri: 'https://res.cloudinary.com/smilecmills/image/upload/v1686505033/doctora3_x4tvyn.jpg',
                 }}
               />
-              <Text style={styles.specialistName}>Juan González</Text>
+              <Text style={styles.specialistName}>Juliana Muñoz</Text>
             </View>
 
             <View style={styles.specialistCard}>
@@ -246,10 +237,10 @@ const HomeScreen = ({ navigation }) => {
                 style={styles.specialistImage}
                 resizeMode="stretch"
                 source={{
-                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505033/doctora3_x4tvyn.jpg',
+                  uri: 'https://res.cloudinary.com/smilecmills/image/upload/v1687464813/dentista-sonriente-clinica_1098-533_sdfr5m.jpg',
                 }}
               />
-              <Text style={styles.specialistName}>María Rodríguez</Text>
+              <Text style={styles.specialistName}>Martha Ardila</Text>
             </View>
 
           </View>
@@ -263,7 +254,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={{ backgroundColor: "#d3d3d3", borderRadius: 5, marginTop: 20 }}>
             <View style={styles.itemContainerBlog}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465241/nosotros_iwn5ht.jpg" }}
+                source={{ uri: "https://res.cloudinary.com/smilecmills/image/upload/v1683852217/Fresh_Smile_Cmills/nosotros_ax9xkz.jpg" }}
                 resizeMode={"stretch"}
                 style={styles.imageSomos}
               />

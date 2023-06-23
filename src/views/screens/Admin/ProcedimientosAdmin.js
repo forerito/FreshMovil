@@ -1,12 +1,36 @@
-import React, { useState } from "react";
-import { View, Text, Image, ImageBackground, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, ImageBackground, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Header from "../Header";
+import axios from "axios";
 import Footer from "../../layouts/Footer";
 import ChatWhatsApp from "../../layouts/ChatWhatsApp";
 
 const ProcedimientosAdmin = ({ navigation }) => {
+
+  const [procedimientos, setProcedimientos] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://freshsmile.azurewebsites.net/FreshSmile/ConsultarProcedimientos");
+        setProcedimientos(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+
+    const interval = setInterval(() => {
+      fetchData();
+    }, 120000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -14,9 +38,15 @@ const ProcedimientosAdmin = ({ navigation }) => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleClose = () => {
-    setMenuOpen(false);
-  };
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      setImageLoaded(true);
+    }, 2000);
+  }, []);
+
 
   return (
     <SafeAreaView className="flex-1 ">
@@ -24,8 +54,17 @@ const ProcedimientosAdmin = ({ navigation }) => {
 
         <Header />
 
-        <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
+        <View
+          style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: 340,
+              marginTop: -43,
+            }}
+          >
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -33,42 +72,46 @@ const ProcedimientosAdmin = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HomeEspecialista")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Inicio</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NosotrosAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="users" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Nosotros</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("TablaAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agenda</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SpecialistCards")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="star" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Valoraciones</Text>
@@ -78,13 +121,14 @@ const ProcedimientosAdmin = ({ navigation }) => {
               <TouchableOpacity>
                 <Text>Contacto</Text>
               </TouchableOpacity>
+
             </View>
           )}
         </View>
 
         <View style={styles.containerBanner} >
 
-          <ImageBackground source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684601807/Fresh_Smile_Cmills/Procedimientos_-fondo_j3w4lj.jpg" }} resizeMode={'stretch'} style={styles.fondoContainer}>
+          <ImageBackground source={{ uri: "https://res.cloudinary.com/smilecmills/image/upload/v1684601807/Fresh_Smile_Cmills/Procedimientos_-fondo_j3w4lj.jpg" }} resizeMode={'stretch'} style={styles.fondoContainer}>
             <View style={styles.containerHome}>
               <Text style={styles.heading}>CONOCE UN POCO SOBRE NUESTROS PROCEDIMIENTOS</Text>
             </View>
@@ -98,152 +142,22 @@ const ProcedimientosAdmin = ({ navigation }) => {
           </Text>
         </View>
 
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852202/Fresh_Smile_Cmills/carillas_hbazmk.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Blanqueamiento dental</Text>
-              <Text style={styles.serviceText}>
-                Es un procedimiento estético que busca aclarar el color de los dientes y eliminar las manchas y decoloraciones. Se puede realizar en el consultorio del dentista o mediante el uso de kits de blanqueamiento dental en el hogar bajo la supervisión del dentista.
-              </Text>
+        <View>
+          {procedimientos.map((procedimiento) => (
+            <View style={styles.containercompleto} key={procedimiento.nombre}>
+              <View style={styles.viewcompleto}>
+                <View style={styles.serviceItem}>
+                  {!imageLoaded ? (
+                    <ActivityIndicator size="large" color="#249bad" />
+                  ) : (
+                    <Image source={{ uri: procedimiento.foto }} style={styles.serviceImg} />
+                  )}
+                  <Text style={styles.serviceTitle}>{procedimiento.nombre}</Text>
+                  <Text style={styles.serviceText}>{procedimiento.descripcion}</Text>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852210/Fresh_Smile_Cmills/implantes_keq38a.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>
-                Implantes dentales
-              </Text>
-              <Text style={styles.serviceText}>
-                Son dispositivos utilizados para reemplazar las raíces de los dientes perdidos. Los implantes dentales se colocan en el hueso maxilar o mandibular y luego se colocan coronas dentales artificiales sobre ellos para restaurar la función y la apariencia de los dientes perdidos.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852210/Fresh_Smile_Cmills/implantesss_deur5s.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>
-                Prótesis dental
-              </Text>
-              <Text style={styles.serviceText}>
-                Las prótesis dentales son reemplazos artificiales de uno o varios dientes perdidos. Pueden ser parciales o completas, removibles o fijas. Incluyen opciones como puentes y dentaduras postizas, así como implantes dentales.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852212/Fresh_Smile_Cmills/cards1_s5fs46.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Cirugía oral</Text>
-              <Text style={styles.serviceText}>
-                La cirugía oral incluye una variedad de procedimientos quirúrgicos en la boca y los maxilares. Puede involucrar extracciones complejas, colocación de implantes dentales, cirugía de mandíbula y corrección de deformidades faciales.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268627/Fresh_Smile_Cmills/jonathan-borba-v_2FRXEba94-unsplash_cth93o.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Extracción de muelas del juicio</Text>
-              <Text style={styles.serviceText}>
-                La extracción de las muelas del juicio es un procedimiento común para eliminar las muelas que no tienen suficiente espacio para emerger o están causando problemas como dolor, infecciones o daños a los dientes adyacentes. Se realiza bajo anestesia local.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684269551/Fresh_Smile_Cmills/caroline-lm-8BkF0sTC6Uo-unsplash_efkumb.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Limpieza dental profunda</Text>
-              <Text style={styles.serviceText}>
-                La limpieza dental profunda, también conocida como raspado y alisado radicular, es un procedimiento para eliminar la placa bacteriana, el sarro y las toxinas de las superficies de los dientes y las raíces. Ayuda a prevenir la enfermedad periodontal y mantener las encías saludables.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268377/Fresh_Smile_Cmills/jonathan-borba-W9YEY6G8LVM-unsplash_qpfaed.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Coronas dentales</Text>
-              <Text style={styles.serviceText}>
-                Las coronas dentales son fundas que se colocan sobre dientes dañados, debilitados o restaurados. Proporcionan protección y mejoran la apariencia de los dientes. Las coronas pueden ser de metal, porcelana, porcelana fusionada a metal o materiales cerámicos de alta resistencia.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268332/Fresh_Smile_Cmills/enis-yavuz-4u2fG9mqGvQ-unsplash_saf7yd.jpg" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Ortodoncia</Text>
-              <Text style={styles.serviceText}>
-                Tratamiento utilizado para corregir la posición de los dientes y la mandíbula, mejorando la estética y la función de la dentadura. Puede incluir el uso de brackets, alineadores transparentes u otros dispositivos para alinear los dientes correctamente.
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.containercompleto}>
-          <View style={styles.viewcompleto}>
-            <View style={styles.serviceItem}>
-              <Image
-                source={{ uri: "https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852203/Fresh_Smile_Cmills/endodoncia_n1qzcw.png" }}
-                resizeMode={"stretch"}
-                style={styles.serviceImg}
-              />
-              <Text style={styles.serviceTitle}>Endodoncia</Text>
-              <Text style={styles.serviceText}>
-                La endodoncia, o tratamiento de conducto, es un procedimiento para tratar y salvar dientes con pulpa dental dañada o infectada. Consiste en eliminar el tejido pulpar afectado, limpiar los conductos radiculares y sellarlos para prevenir futuras infecciones.
-              </Text>
-            </View>
-          </View>
+          ))}
         </View>
 
         <View style={styles.footer}></View>
@@ -280,7 +194,7 @@ const styles = StyleSheet.create({
   },
   serviceImg: {
     marginTop: 2,
-    width: "60%",
+    width: "80%",
     height: 160,
     borderRadius: 10,
   },

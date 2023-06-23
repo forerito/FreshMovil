@@ -34,10 +34,6 @@ const PerfilUsuario = ({ navigation }) => {
         setMenuOpen(!menuOpen);
     };
 
-    const handleClose = () => {
-        setMenuOpen(false);
-    };
-
 
     const images = [
         "https://img.freepik.com/free-vector/cute-girl-gaming-holding-joystick-with-hand-peace-cartoon-icon-illustration-people-technology-icon-concept-isolated-flat-cartoon-style_138676-2168.jpg?w=740&t=st=1686703355~exp=1686703955~hmac=c2666eef056d68fb3cf25e50dd516cec520f2ea66bcee38aff1dea8a3fd481ab",
@@ -177,12 +173,6 @@ const PerfilUsuario = ({ navigation }) => {
 
                         {menuOpen && (
                             <View style={{ marginTop: 8 }}>
-                                <TouchableOpacity onPress={handleClose}>
-                                    <View style={styles.contentMenuCerrar}>
-                                        <Icon name="window-close" size={24} color="white" />
-                                        <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                                    </View>
-                                </TouchableOpacity>
 
                                 <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                                     <View style={styles.contentMenuItems}>

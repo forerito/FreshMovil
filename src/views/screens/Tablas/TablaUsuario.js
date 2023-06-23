@@ -64,6 +64,12 @@ const TablaUsuario = ({ navigation }) => {
     };
 
     fetchData();
+
+    
+    const interval = setInterval(fetchData, 120000);
+
+    
+    return () => clearInterval(interval);
   }, []);
 
   const formatFechaCreacion = fecha => {
@@ -77,7 +83,7 @@ const TablaUsuario = ({ navigation }) => {
 
       const updatedData = data.map(cita => {
         if (cita.identificacion_citas === idCita) {
-          // Actualizar el estado_cita localmente a "Cancelada"
+          
           return { ...cita, estado_cita: 'Cancelada' };
         }
         return cita;
@@ -92,35 +98,30 @@ const TablaUsuario = ({ navigation }) => {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ estado_cita: 'Cancelada' }) // Enviar el nuevo estado en el cuerpo de la solicitud
+        body: JSON.stringify({ estado_cita: 'Cancelada' })
       });
 
       if (response.ok) {
-        // Mostrar mensaje de éxito si la solicitud es exitosa
+
         Alert.alert('Cita cancelada', 'La cita ha sido cancelada exitosamente');
       } else {
-        // Mostrar mensaje de error si la solicitud no es exitosa
+
         Alert.alert('Error', 'Ocurrió un error al cancelar la cita');
-        // Revertir los cambios locales en caso de error
+
         setData(data);
       }
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Ocurrió un error al cancelar la cita');
-      // Revertir los cambios locales en caso de error
+
       setData(data);
     }
   };
-
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handlePress = () => {
     setMenuOpen(!menuOpen);
-  };
-
-  const handleClose = () => {
-    setMenuOpen(false);
   };
 
   return (
@@ -138,12 +139,6 @@ const TablaUsuario = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
@@ -212,57 +207,63 @@ const TablaUsuario = ({ navigation }) => {
         <ScrollView horizontal>
           <View style={styles.container}>
             <View style={styles.table}>
+
               <View style={styles.tableBody}>
-                {data.map((item, index) => (
-                  <View key={index} style={styles.citaContainer}>
-                    <View key={index} style={styles.tableRow}>
-                      <View style={styles.titleColumn}>
-                        <Text style={styles.titleText}>IDENTIFICACIÓN DE LA CITA</Text>
-                        <Text style={styles.titleText}>NÚMERO DE DOCUMENTO</Text>
-                        <Text style={styles.titleText}>NOMBRE COMPLETO</Text>
-                        <Text style={styles.titleText}>TIPO DE DOCUMENTO</Text>
-                        <Text style={styles.titleText}>FECHA</Text>
-                        <Text style={styles.titleText}>HORA</Text>
-                        <Text style={styles.titleText}>ESPECIALISTA</Text>
-                        <Text style={styles.titleText}>IDENTIFICACIÓN PACIENTE</Text>
-                        <Text style={styles.titleText}>MOTIVO</Text>
-                        <Text style={styles.titleText}>FECHA DE CREACIÓN</Text>
-                        <Text style={styles.titleText}>ESTADO CITA</Text>
-                        <Text style={styles.titleText}>VALOR CITA</Text>
-                        <Text style={styles.titleText}>ACCIONES</Text>
-                      </View>
-                      <View style={styles.textColumn}>
-                        <Text style={styles.titleText2}>{item.identificacion_citas}</Text>
-                        <Text style={styles.titleText2}>{item.numero_documento}</Text>
-                        <Text style={styles.titleText2}>{item.nombre_completo}</Text>
-                        <Text style={styles.titleText2}>{item.tipo_documento}</Text>
-                        <Text style={styles.titleText2}>{item.fecha}</Text>
-                        <Text style={styles.titleText2}>{item.hora}</Text>
-                        <Text style={styles.titleText2}>{especialistas[item.id_especialista]}</Text>
-                        <Text style={styles.titleText2}>{item.id_paciente}</Text>
-                        <Text style={styles.titleTextmotivo}>{procedimientos[item.id_procedimiento]?.nombre}</Text>
-                        <Text style={styles.titleText2}>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
-                        <Text style={styles.titleText2}>{item.estado_cita}</Text>
-                        <Text style={styles.titleText2}>{procedimientos[item.id_procedimiento]?.costo?.toFixed(3)}</Text>
-
-                        <View>
-                          {item.estado_cita === 'Programada' ? (
-                            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={() => modificarEstadoCita(item.identificacion_citas)}>
-                              <View style={{ marginRight: 8, backgroundColor: '#249bad', borderRadius: 5 }}>
-                                <Icon name="trash" size={16} style={{ padding: 5, color: 'white' }} />
-                              </View>
-                              <Text style={{ fontSize: 15 }}>cancelar cita</Text>
-                            </TouchableOpacity>
-                          ) : (
-                            <Text style={styles.titleText2}>No hay acciones</Text>
-                          )}
+                {data.length === 0 ? (
+                  <Text style={styles.titleText1}>No tienes citas</Text>
+                ) : (
+                  data.map((item, index) => (
+                    <View key={index} style={styles.citaContainer}>
+                      <View key={index} style={styles.tableRow}>
+                        <View style={styles.titleColumn}>
+                          {/* <Text style={styles.titleText}>IDENTIFICACIÓN DE LA CITA</Text> */}
+                          <Text style={styles.titleText}>NÚMERO DE DOCUMENTO</Text>
+                          <Text style={styles.titleText}>NOMBRE COMPLETO</Text>
+                          <Text style={styles.titleText}>TIPO DE DOCUMENTO</Text>
+                          <Text style={styles.titleText}>FECHA</Text>
+                          <Text style={styles.titleText}>HORA</Text>
+                          <Text style={styles.titleText}>ESPECIALISTA</Text>
+                          <Text style={styles.titleText}>IDENTIFICACIÓN PACIENTE</Text>
+                          <Text style={styles.titleText}>MOTIVO</Text>
+                          <Text style={styles.titleText}>FECHA DE CREACIÓN</Text>
+                          <Text style={styles.titleText}>ESTADO CITA</Text>
+                          <Text style={styles.titleText}>VALOR CITA</Text>
+                          <Text style={styles.titleText}>ACCIONES</Text>
                         </View>
+                        <View style={styles.textColumn}>
+                          {/* <Text style={styles.titleText2}>{item.identificacion_citas}</Text> */}
+                          <Text style={styles.titleText2}>{item.numero_documento}</Text>
+                          <Text style={styles.titleText2}>{item.nombre_completo}</Text>
+                          <Text style={styles.titleText2}>{item.tipo_documento}</Text>
+                          <Text style={styles.titleText2}>{item.fecha}</Text>
+                          <Text style={styles.titleText2}>{item.hora}</Text>
+                          <Text style={styles.titleText2}>{especialistas[item.id_especialista]}</Text>
+                          <Text style={styles.titleText2}>{item.id_paciente}</Text>
+                          <Text style={styles.titleTextmotivo}>{procedimientos[item.id_procedimiento]?.nombre}</Text>
+                          <Text style={styles.titleText2}>{formatFechaCreacion(item.fecha_de_creacion)}</Text>
+                          <Text style={styles.titleText2}>{item.estado_cita}</Text>
+                          <Text style={styles.titleText2}>{procedimientos[item.id_procedimiento]?.costo?.toFixed(3)}</Text>
 
+                          <View>
+                            {item.estado_cita === 'Programada' ? (
+                              <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={() => modificarEstadoCita(item.identificacion_citas)}>
+                                <View style={{ marginRight: 8, backgroundColor: '#249bad', borderRadius: 5 }}>
+                                  <Icon name="trash" size={16} style={{ padding: 5, color: 'white' }} />
+                                </View>
+                                <Text style={{ fontSize: 15 }}>cancelar cita</Text>
+                              </TouchableOpacity>
+                            ) : (
+                              <Text style={styles.titleText2}>No hay acciones</Text>
+                            )}
+                          </View>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                ))}
+                  ))
+                )}
               </View>
+
+
             </View>
           </View>
         </ScrollView>
@@ -295,6 +296,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
+    marginLeft: 7,
     marginBottom: 10,
   },
   tableRow: {
@@ -317,6 +319,11 @@ const styles = StyleSheet.create({
   },
   textColumn: {
     // marginBottom: 15,
+  },
+  titleText1: {
+    fontWeight: 'bold',
+    fontSize: 33,
+    textAlign: 'center',
   },
   titleText: {
     fontWeight: 'bold',

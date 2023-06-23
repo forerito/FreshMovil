@@ -12,10 +12,6 @@ const ContactoScreen = ({ navigation }) => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleClose = () => {
-    setMenuOpen(false);
-  };
-
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
   const [correo, setCorreo] = useState('');
@@ -65,13 +61,7 @@ const ContactoScreen = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
-
+          
               <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />

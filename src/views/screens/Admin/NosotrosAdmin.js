@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, Image, View, ScrollView, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import Header from '../Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,15 +7,31 @@ import Footer from '../../layouts/Footer';
 import ChatWhatsApp from '../../layouts/ChatWhatsApp';
 
 const NosotrosAdmin = ({ navigation }) => {
+  const [especialistas, setEspecialistas] = useState([]);
+
+  useEffect(() => {
+    const fetchEspecialistas = async () => {
+      try {
+        const response = await fetch(
+          "https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarEspecialista"
+        );
+        const data = await response.json();
+        const filteredEspecialistas = data.filter(
+          (_, index) => index === 1 || index === 2 || index === 5 || index === 4
+        );
+        setEspecialistas(filteredEspecialistas);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchEspecialistas();
+  }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handlePress = () => {
     setMenuOpen(!menuOpen);
-  };
-
-  const handleClose = () => {
-    setMenuOpen(false);
   };
 
   return (
@@ -24,8 +40,17 @@ const NosotrosAdmin = ({ navigation }) => {
 
         <Header />
 
-        <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
+        <View
+          style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: 340,
+              marginTop: -43,
+            }}
+          >
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -33,42 +58,46 @@ const NosotrosAdmin = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HomeEspecialista")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Inicio</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NosotrosAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="users" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Nosotros</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("TablaAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agenda</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SpecialistCards")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="star" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Valoraciones</Text>
@@ -78,6 +107,7 @@ const NosotrosAdmin = ({ navigation }) => {
               <TouchableOpacity>
                 <Text>Contacto</Text>
               </TouchableOpacity>
+
             </View>
           )}
         </View>
@@ -142,63 +172,23 @@ const NosotrosAdmin = ({ navigation }) => {
           </View>
         </View>
 
-
         <View style={styles.specialistContainer}>
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              resizeMode="stretch"
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505008/doctora1_ng31ar.jpg',
-              }}
-            />
-            <Text style={styles.specialistName}>Nicole Robin</Text>
-            <Text style={styles.specialistDescription}>
-              La Dra. Nicole es una destacada especialista en Odontología Estética con amplia experiencia en el campo del blanqueamiento dental. Su dedicación y pasión por mejorar la apariencia estética de las sonrisas la convierten en una experta en este procedimiento.
-            </Text>
+
+          <View>
+            {especialistas.map((especialista, index) => (
+              <View style={styles.specialistCard} key={index}>
+                <Image
+                  style={styles.specialistImage}
+                  source={{ uri: especialista.foto_perfil }}
+                  alt={`Imagen ${index + 1}`}
+                  resizeMode="stretch"
+                />
+                <Text style={styles.specialistName}>{especialista.nombre_completo}</Text>
+                <Text style={styles.specialistDescription}>{especialista.descripcion}</Text>
+              </View>
+            ))}
           </View>
 
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              resizeMode="stretch"
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505071/doctor4_qet252.jpg',
-              }}
-            />
-            <Text style={styles.specialistName}>Adalberto Perez</Text>
-            <Text style={styles.specialistDescription}>
-              El Dr. Adalberto es un reconocido especialista en Implantología Dental con amplia experiencia en el campo de los implantes dentales. Su dedicación y habilidad en el manejo de estos procedimientos lo convierten en un experto en la restauración y reemplazo de dientes perdidos.
-            </Text>
-          </View>
-
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              resizeMode="stretch"
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505033/doctora3_x4tvyn.jpg',
-              }}
-            />
-            <Text style={styles.specialistName}>Laura Sepulveda</Text>
-            <Text style={styles.specialistDescription}>
-              La Dra. Laura es una especialista en Endodoncia con amplia experiencia en el diagnóstico y tratamiento de enfermedades y trastornos que afectan la pulpa dental y los tejidos internos de los dientes. Su dedicación y habilidad en el campo de la endodoncia la convierten en una experta en el alivio del dolor dental y la preservación de los dientes naturales.
-            </Text>
-          </View>
-
-          <View style={styles.specialistCard}>
-            <Image
-              style={styles.specialistImage}
-              resizeMode="stretch"
-              source={{
-                uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505021/doctora2_ldgdmn.jpg',
-              }}
-            />
-            <Text style={styles.specialistName}>Kamilo Lopez</Text>
-            <Text style={styles.specialistDescription}>
-              El Dr. Kamilo es un destacado especialista en Periodoncia con una amplia experiencia en el diagnóstico, tratamiento y prevención de enfermedades periodontales. Su pasión por la salud bucal y su compromiso con el bienestar de sus pacientes lo convierten en un experto en el cuidado de las encías y los tejidos de soporte dental.
-            </Text>
-          </View>
         </View>
 
         <View style={styles.footer}></View>

@@ -34,7 +34,6 @@ const AgendarCita = ({ navigation }) => {
   const [citasAgendadas, setCitasAgendadas] = useState([]);
   const [noHayHorasDisponibles, setNoHayHorasDisponibles] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isCitaParaMi, setIsCitaParaMi] = useState(true);
 
   const [availableHours, setAvailableHours] = useState(["08:30:00", "09:00:00", "09:30:00", "10:00:00", "10:30:00", "11:00:00", "14:30:00", "15:00:00", "15:30:00", "16:00:00", "17:00:00", "17:30:00"]);
 
@@ -177,9 +176,6 @@ const AgendarCita = ({ navigation }) => {
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => {
-    // console.log(filteredCitas);
-  }, [filteredCitas]);
 
   useEffect(() => {
     const selectedDateString = selectedDate.toISOString().slice(0, 10);
@@ -190,10 +186,6 @@ const AgendarCita = ({ navigation }) => {
     setNoHayHorasDisponibles(uniqueData.length === 0);
   }, [selectedDate, actualCitas]);
 
-
-  useEffect(() => {
-    // console.log(actualCitas);
-  }, [actualCitas]);
 
   useEffect(() => {
     setShowModal(true);
@@ -211,13 +203,11 @@ const AgendarCita = ({ navigation }) => {
           return;
         }
 
-
         axios
           .get(`https://freshsmile.azurewebsites.net/FreshSmile/BuscarPacientes/${userId}`)
           .then((response) => {
             const data = response.data;
 
-            // Establecer los valores en los campos del formulario
             setTipoDocumento(data.tipo_documento);
             setNumeroDocumento(data.identificacion_paciente);
             setNombre(data.nombre_completo);
@@ -254,7 +244,7 @@ const AgendarCita = ({ navigation }) => {
   }, [procedimientos]);
 
   const handleHourSelect = (hour) => {
-    // Verificar si la hora seleccionada ya está ocupada
+
     const isHourAvailable = filteredCitas.every((cita) => cita !== hour);
 
     if (isHourAvailable) {
@@ -265,31 +255,31 @@ const AgendarCita = ({ navigation }) => {
 
   };
 
-  const handleModalButtonClick = forMe => {
-    setShowModal(false); // Cerrar la ventana modal al hacer clic en un botón
-    setIsModalVisible(!isModalVisible);
-    // Realizar acciones según el botón seleccionado (para mí o para otra persona)
-    if (forMe) {
-      setFieldsDisabled(true); // Bloquear los campos
-    } else {
-      // Aquí puedes establecer los valores predeterminados para tu propia cita
-      setTipoDocumento("");
-      setNumeroDocumento("");
-      setNombre("");
-      // Realizar acciones para permitir al usuario ingresar los datos de otra persona
-      setFieldsDisabled(false);
-    }
-  };
+  // const handleToggleModal = () => {
+  //   setIsModalVisible(!isModalVisible);
+  // };
+
+  // const handleModalButtonClick = forMe => {
+  //   setShowModal(false); // Cerrar la ventana modal al hacer clic en un botón
+  //   // setIsModalVisible(!isModalVisible);
+  //   // Realizar acciones según el botón seleccionado (para mí o para otra persona)
+  //   if (forMe) {
+  //     setFieldsDisabled(true); // Bloquear los campos
+  //   } else {
+  //     // Aquí puedes establecer los valores predeterminados para tu propia cita
+  //     setTipoDocumento("");
+  //     setNumeroDocumento("");
+  //     setNombre("");
+  //     // Realizar acciones para permitir al usuario ingresar los datos de otra persona
+  //     setFieldsDisabled(false);
+  //   }
+  // };
 
 
-  const handleToggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
-
-  const handleCitaParaMi = (isParaMi) => {
-    setIsCitaParaMi(isParaMi);
-    handleToggleModal();
-  };
+  // const handleCitaParaMi = (isParaMi) => {
+  //   setIsCitaParaMi(isParaMi);
+  //   handleToggleModal();
+  // };
 
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -298,8 +288,10 @@ const AgendarCita = ({ navigation }) => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleClose = () => {
-    setMenuOpen(false);
+
+  const handleVolverClick = () => {
+
+    navigation.navigate('HomeScreen');
   };
 
   return (
@@ -317,12 +309,6 @@ const AgendarCita = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
@@ -389,7 +375,7 @@ const AgendarCita = ({ navigation }) => {
         </View>
 
         <View style={styles.container}>
-          <Text style={styles.titlePrincipal}>Agenda tu cita</Text>
+          <Text style={styles.titlePrincipal}>AGENDA TU CITA</Text>
 
           <View style={styles.formGroup}>
             <Text style={styles.label}>Tipo de documento:</Text>
@@ -511,7 +497,7 @@ const AgendarCita = ({ navigation }) => {
 
         </View>
 
-        <Modal visible={isModalVisible} animationType="none">
+        {/* <Modal visible={isModalVisible} animationType="none">
           <View style={styles.modal}>
             <View style={styles.modalContent}>
               <Text style={styles.heading}>¿Para quién es la cita?</Text>
@@ -531,9 +517,21 @@ const AgendarCita = ({ navigation }) => {
                   <Text style={styles.buttonText}>Para otra persona</Text>
                 </TouchableOpacity>
               </View>
+
+              <View style={styles.containerModal2}>
+    
+                <TouchableOpacity
+                onPress={handleVolverClick}
+                  style={styles.button2}
+                >
+                  <Text style={styles.buttonText}>Volver</Text>
+                </TouchableOpacity>
+              </View>
+
             </View>
           </View>
-        </Modal>
+        </Modal> */}
+
 
         <Footer />
 
@@ -679,6 +677,17 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#249bad',
     color: '#fff',
+    margin: 10,
+    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    textAlign: 'center',
+  },
+  button2: {
+    backgroundColor: '#249bad',
+    color: '#fff',
+    marginTop: 70,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -703,6 +712,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  containerModal2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   modalButton: {
     backgroundColor: '#007bff',
     color: '#fff',
@@ -725,6 +738,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: '80%',
     maxHeight: '80%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   selected: {
     backgroundColor: '#249bad',

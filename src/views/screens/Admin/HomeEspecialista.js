@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -8,15 +16,10 @@ import ChatWhatsApp from "../../layouts/ChatWhatsApp";
 import Header from "../Header";
 
 const HomeEspecialista = ({ navigation }) => {
-
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handlePress = () => {
     setMenuOpen(!menuOpen);
-  };
-
-  const handleClose = () => {
-    setMenuOpen(false);
   };
 
   const handleLogoutClick = () => {
@@ -25,12 +28,11 @@ const HomeEspecialista = ({ navigation }) => {
 
   const logout = async () => {
     try {
-
       await AsyncStorage.removeItem("loggedIn");
       await AsyncStorage.removeItem("assignedImage");
       await AsyncStorage.removeItem("rol");
 
-      console.log("Sesión cerrada")
+      console.log("Sesión cerrada");
 
       navigation.navigate("LoginScreen");
     } catch (error) {
@@ -40,13 +42,20 @@ const HomeEspecialista = ({ navigation }) => {
 
   return (
     <SafeAreaView className="flex-1 ">
-
       <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
-
         <Header />
 
-        <View style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 340, marginTop: -43 }}>
+        <View
+          style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: 340,
+              marginTop: -43,
+            }}
+          >
             <TouchableOpacity onPress={handlePress}>
               <Icon name="bars" size={24} color="#5FFDFF" />
             </TouchableOpacity>
@@ -54,73 +63,82 @@ const HomeEspecialista = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("HomeAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HomeEspecialista")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="home" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Inicio</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("NosotrosAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NosotrosAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="users" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Nosotros</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("ProcedimientosAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="tooth" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Procedimientos</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("TablaAdmin")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("TablaAdmin")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="user-clock" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Agenda</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => navigation.navigate("DoctorCard")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SpecialistCards")}
+              >
                 <View style={styles.contentMenuItems}>
                   <Icon name="star" size={24} color="white" />
                   <Text style={styles.contentMenuText}>Valoraciones</Text>
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity>   
-                  <Text>Contacto</Text>
+              <TouchableOpacity>
+                <Text>Contacto</Text>
               </TouchableOpacity>
 
               <View style={styles.menu}>
-
-                <TouchableOpacity style={styles.menuOption} onPress={() => navigation.navigate("PerfilAdmin")}>
+                <TouchableOpacity
+                  style={styles.menuOption}
+                  onPress={() => navigation.navigate("PerfilAdmin")}
+                >
                   <Icon name="user" size={24} style={styles.menuIcon} />
                   <Text>Ver Perfil</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.menuOption} onPress={handleLogoutClick}>
+                <TouchableOpacity
+                  style={styles.menuOption}
+                  onPress={handleLogoutClick}
+                >
                   <Icon name="sign-out-alt" size={24} style={styles.menuIcon} />
                   <Text>Cerrar sesión</Text>
                 </TouchableOpacity>
-
               </View>
-
             </View>
           )}
         </View>
 
         <View style={styles.containerBanner}>
           <ImageBackground
-            source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465042/banner_xdrd5m.png" }}
+            source={{
+              uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465042/banner_xdrd5m.png",
+            }}
             resizeMode={"stretch"}
             style={styles.fondoContainer}
           >
@@ -129,14 +147,9 @@ const HomeEspecialista = ({ navigation }) => {
                 ¡BIENVENIDOS A LA CLINICA FRESH SMILE CMILLS!
               </Text>
               <View style={styles.buttonContainer}>
+
                 <TouchableOpacity
                   style={styles.button}
-                  onPress={() => navigation.navigate("AgendarCita")}
-                >
-                  <Text style={styles.buttonText}>Agendar Cita</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button}
                   onPress={() => navigation.navigate("MapaArmenia")}
                 >
                   <Text style={styles.buttonText}>Buscar Clinica</Text>
@@ -151,51 +164,22 @@ const HomeEspecialista = ({ navigation }) => {
             </Text>
           </View>
 
-          {/* <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white', width: 100 }}>Limpieza dental</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View style={styles.containerProcedimientos}>
-            <View style={styles.containerProcedimientos2}>
-              <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684268377/Fresh_Smile_Cmills/jonathan-borba-W9YEY6G8LVM-unsplash_qpfaed.jpg' }}
-                style={styles.image}
-                resizeMode="stretch"
-              />
-              <View style={{ marginLeft: 25, marginTop: 30, }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'white' }}>Endodoncia</Text>
-                <TouchableOpacity style={styles.buttonBlog2}
-                  onPress={() => navigation.navigate("ProcedimientosScreen")}
-                >
-                  <Text style={styles.buttonTextBlog}>Leer más</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View> */}
-
           <View style={styles.containerProcedimientos}>
             <View style={styles.card}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg' }}
+                source={{
+                  uri: "https://res.cloudinary.com/smilecmills/image/upload/v1684267038/Fresh_Smile_Cmills/pexels-karolina-grabowska-6627600_rr7web.jpg",
+                }}
                 style={styles.imagecard}
-                resizeMode={'stretch'}
+                resizeMode={"stretch"}
               />
-              <TouchableOpacity style={styles.buttoncard} onPress={() => navigation.navigate("ProcedimientosScreen")}>
-                <Text style={styles.buttonTextBlog2}>Blanqueamiento dental</Text>
+              <TouchableOpacity
+                style={styles.buttoncard}
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
+                <Text style={styles.buttonTextBlog2}>
+                  Blanqueamiento dental
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -203,11 +187,16 @@ const HomeEspecialista = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.card}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852202/Fresh_Smile_Cmills/carillas_hbazmk.jpg' }}
+                source={{
+                  uri: "https://res.cloudinary.com/smilecmills/image/upload/v1683852202/Fresh_Smile_Cmills/carillas_hbazmk.jpg",
+                }}
                 style={styles.imagecard}
-                resizeMode={'stretch'}
+                resizeMode={"stretch"}
               />
-              <TouchableOpacity style={styles.buttoncard} onPress={() => navigation.navigate("ProcedimientosScreen")}>
+              <TouchableOpacity
+                style={styles.buttoncard}
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
                 <Text style={styles.buttonTextBlog2}>Diseño de sonrisa</Text>
               </TouchableOpacity>
             </View>
@@ -216,11 +205,16 @@ const HomeEspecialista = ({ navigation }) => {
           <View style={styles.containerProcedimientos}>
             <View style={styles.card}>
               <Image
-                source={{ uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1683852210/Fresh_Smile_Cmills/implantes_keq38a.jpg' }}
+                source={{
+                  uri: "https://res.cloudinary.com/smilecmills/image/upload/v1683852210/Fresh_Smile_Cmills/implantes_keq38a.jpg",
+                }}
                 style={styles.imagecard}
-                resizeMode={'stretch'}
+                resizeMode={"stretch"}
               />
-              <TouchableOpacity style={styles.buttoncard} onPress={() => navigation.navigate("ProcedimientosScreen")}>
+              <TouchableOpacity
+                style={styles.buttoncard}
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
                 <Text style={styles.buttonTextBlog2}>Implante dental</Text>
               </TouchableOpacity>
             </View>
@@ -238,10 +232,10 @@ const HomeEspecialista = ({ navigation }) => {
                 style={styles.specialistImage}
                 resizeMode="stretch"
                 source={{
-                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505008/doctora1_ng31ar.jpg',
+                  uri: "https://res.cloudinary.com/smilecmills/image/upload/v1687464814/retrato-hombre-dentista-sonriendo-brazos-cruzados-clinica-dental_158595-7723_xtkeb5.jpg",
                 }}
               />
-              <Text style={styles.specialistName}>Karen Sanchez</Text>
+              <Text style={styles.specialistName}>Carlos Ospina</Text>
             </View>
 
             <View style={styles.specialistCard}>
@@ -249,10 +243,10 @@ const HomeEspecialista = ({ navigation }) => {
                 style={styles.specialistImage}
                 resizeMode="stretch"
                 source={{
-                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505071/doctor4_qet252.jpg',
+                  uri: "https://res.cloudinary.com/smilecmills/image/upload/v1686505033/doctora3_x4tvyn.jpg",
                 }}
               />
-              <Text style={styles.specialistName}>Juan González</Text>
+              <Text style={styles.specialistName}>Juliana Muñoz</Text>
             </View>
 
             <View style={styles.specialistCard}>
@@ -260,12 +254,11 @@ const HomeEspecialista = ({ navigation }) => {
                 style={styles.specialistImage}
                 resizeMode="stretch"
                 source={{
-                  uri: 'https://res.cloudinary.com/dexfjrgyw/image/upload/v1686505033/doctora3_x4tvyn.jpg',
+                  uri: "https://res.cloudinary.com/smilecmills/image/upload/v1687464813/dentista-sonriente-clinica_1098-533_sdfr5m.jpg",
                 }}
               />
-              <Text style={styles.specialistName}>María Rodríguez</Text>
+              <Text style={styles.specialistName}>Martha Ardila</Text>
             </View>
-
           </View>
 
           <View style={styles.containerBlog}>
@@ -274,29 +267,39 @@ const HomeEspecialista = ({ navigation }) => {
             </Text>
           </View>
 
-          <View style={{ backgroundColor: "#d3d3d3", borderRadius: 5, marginTop: 20 }}>
+          <View
+            style={{
+              backgroundColor: "#d3d3d3",
+              borderRadius: 5,
+              marginTop: 20,
+            }}
+          >
             <View style={styles.itemContainerBlog}>
               <Image
-                source={{ uri: "https://res.cloudinary.com/dsot09sfy/image/upload/v1684465241/nosotros_iwn5ht.jpg" }}
+                source={{
+                  uri: "https://res.cloudinary.com/smilecmills/image/upload/v1683852217/Fresh_Smile_Cmills/nosotros_ax9xkz.jpg",
+                }}
                 resizeMode={"stretch"}
                 style={styles.imageSomos}
               />
               <View style={styles.contentBlog}>
                 <Text style={styles.textSomos}>
-                  Fresh Smile Cmills es una reconocida clínica de ortodoncia comprometida con ofrecer
-                  soluciones de alta calidad para la salud dental de nuestros pacientes. Con una amplia
-                  experiencia y conocimientos en el campo de la ortodoncia, nos hemos ganado la confianza
-                  de numerosos individuos y familias que buscan mejorar su sonrisa y salud bucal.
+                  Fresh Smile Cmills es una reconocida clínica de ortodoncia
+                  comprometida con ofrecer soluciones de alta calidad para la
+                  salud dental de nuestros pacientes. Con una amplia experiencia
+                  y conocimientos en el campo de la ortodoncia, nos hemos ganado
+                  la confianza de numerosos individuos y familias que buscan
+                  mejorar su sonrisa y salud bucal.
                 </Text>
-                <TouchableOpacity style={styles.buttonBlog}
-                  onPress={() => navigation.navigate("NosotrosScreen")}
+                <TouchableOpacity
+                  style={styles.buttonBlog}
+                  onPress={() => navigation.navigate("NosotrosAdmin")}
                 >
                   <Text style={styles.buttonTextBlog}>Conocer más</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-
         </View>
 
         <View style={styles.footer}></View>
@@ -310,22 +313,22 @@ const HomeEspecialista = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   contentMenuCerrar: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginLeft: 300,
     marginBottom: 5,
   },
   contentMenuItems: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'black',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "black",
     padding: 10,
     marginLeft: 5,
     marginRight: 5,
   },
   contentMenuText: {
     marginLeft: 8,
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
   containerBanner: {
@@ -350,23 +353,23 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "white",
     textAlign: "center",
-    backgroundColor: 'lightgray',
+    backgroundColor: "lightgray",
     opacity: 0.8,
     borderRadius: 5,
   },
   containerProcedimientos2: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   containerUser: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
   },
   text: {
     fontSize: 20,
     marginBottom: 1,
     marginLeft: 15,
-    color: 'white',
+    color: "white",
   },
   tituloSomos: {
     fontSize: 20,
@@ -390,15 +393,15 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     margin: 10,
-    width: '90%',
+    width: "90%",
   },
   buttonText: {
     color: "white",
     fontSize: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   containerProcedimientos: {
-    width: '85%',
+    width: "85%",
     marginTop: 20,
     padding: 20,
     borderRadius: 15,
@@ -432,13 +435,13 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 11,
     color: "black",
-    textAlign: 'justify',
+    textAlign: "justify",
   },
   containerBlog: {
     marginTop: 20,
     marginBottom: 10,
     height: 60,
-    width: '100%',
+    width: "100%",
     backgroundColor: "black",
     justifyContent: "center",
     textAlign: "center",
@@ -457,7 +460,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 5,
     width: 100,
-    textAlign: 'center',
+    textAlign: "center",
     alignItems: "center",
   },
   buttonBlog: {
@@ -467,12 +470,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginLeft: 25,
     width: 130,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonTextBlog: {
     color: "white",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
   footer: {
     marginTop: 30,
@@ -480,47 +483,47 @@ const styles = StyleSheet.create({
   buttonTextBlog2: {
     color: "white",
     fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
   },
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
   },
   card: {
-    width: '100%',
+    width: "100%",
     height: 200,
   },
   imagecard: {
-    width: '100%',
-    height: '80%',
+    width: "100%",
+    height: "80%",
     borderRadius: 5,
   },
   buttoncard: {
     marginTop: 5,
     borderRadius: 5,
     height: 40,
-    backgroundColor: '#249bad',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#249bad",
+    justifyContent: "center",
+    alignItems: "center",
   },
   specialistContainer: {
     flex: 1,
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 10,
   },
   specialistCard: {
     borderRadius: 15,
-    width: '100%',
+    width: "100%",
     marginTop: 25,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#249bad',
-    shadowColor: 'rgba(0, 0, 0, 0.2)',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#249bad",
+    shadowColor: "rgba(0, 0, 0, 0.2)",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 1,
     shadowRadius: 10,
@@ -536,32 +539,32 @@ const styles = StyleSheet.create({
   },
   specialistName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginLeft: 10,
     marginBottom: 5,
-    color: 'white',
+    color: "white",
   },
   menu: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
     bottom: 5,
     right: 10,
-    backgroundColor: '#249bad',
+    backgroundColor: "#249bad",
     padding: 10,
     borderRadius: 5,
     elevation: 4,
   },
   menuOption: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginLeft: 10,
     marginVertical: 8,
   },
   menuIcon: {
     marginRight: 10,
-    color: 'black',
+    color: "black",
   },
 });
 

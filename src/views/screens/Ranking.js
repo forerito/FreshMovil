@@ -16,10 +16,6 @@ const Ranking = ({ navigation }) => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleClose = () => {
-    setMenuOpen(false);
-  };
-
   const fetchEspecialistasData = async () => {
     try {
       const response = await axios.get("https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarEspecialista");
@@ -32,7 +28,7 @@ const Ranking = ({ navigation }) => {
   const fetchEspecialistasVC = async () => {
     try {
       const response = await axios.get("https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarRating");
-      setEspecialistasVC(response.data.sort((a, b) => b.valoracion - a.valoracion).slice(0, 5));
+      setEspecialistasVC(response.data.sort((a, b) => b.valoracion - a.valoracion).slice(0, 10));
     } catch (error) {
       console.error("Error al obtener los datos desde la API:", error);
     }
@@ -41,6 +37,14 @@ const Ranking = ({ navigation }) => {
   useEffect(() => {
     fetchEspecialistasVC();
     fetchEspecialistasData();
+
+    const interval = setInterval(() => {
+      fetchEspecialistasVC();
+      fetchEspecialistasData();
+    }, 120000);
+
+    // Limpiar el intervalo al desmontar el componente
+    return () => clearInterval(interval);
   }, []);
 
   const calculateStars = (valoracion) => {
@@ -63,12 +67,6 @@ const Ranking = ({ navigation }) => {
 
           {menuOpen && (
             <View style={{ marginTop: 8 }}>
-              <TouchableOpacity onPress={handleClose}>
-                <View style={styles.contentMenuCerrar}>
-                  <Icon name="window-close" size={24} color="white" />
-                  <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                </View>
-              </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <View style={styles.contentMenuItems}>
@@ -135,7 +133,7 @@ const Ranking = ({ navigation }) => {
         </View>
 
         <View style={styles.rankingContainer}>
-          <Text style={styles.title}>Ranking</Text>
+          <Text style={styles.title}>RANKING</Text>
           <View style={styles.hr} />
           <View style={styles.rankingTable}>
             <View style={styles.tableRow}>
@@ -214,6 +212,7 @@ const styles = {
     padding: 10,
   },
   title: {
+    color: "#4fafd2",
     fontSize: 35,
     textAlign: 'center',
     fontWeight: 'bold',

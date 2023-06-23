@@ -1,27 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Header from "../Header";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const SpecialistCards = () => {
+const SpecialistCards = ({ navigation }) => {
   const [data, setData] = useState(null);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handlePress = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = await AsyncStorage.getItem('accessToken');
+        const token = await AsyncStorage.getItem("accessToken");
         const headers = {
           Authorization: `Bearer ${token}`,
         };
 
         const response = await axios.get(
-          'https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarRating',
+          "https://freshsmile.azurewebsites.net/FreshSmile/Especialistas/ConsultarRating",
           { headers }
         );
         setData(response.data);
       } catch (error) {
-        console.log('Error al obtener los datos:', error);
+        console.log("Error al obtener los datos:", error);
       }
     };
 
@@ -31,7 +39,7 @@ const SpecialistCards = () => {
   const fetchAllPatientData = async () => {
     if (data) {
       try {
-        const token = await AsyncStorage.getItem('accessToken');
+        const token = await AsyncStorage.getItem("accessToken");
         const headers = {
           Authorization: `Bearer ${token}`,
         };
@@ -53,7 +61,7 @@ const SpecialistCards = () => {
 
         setData(updatedData);
       } catch (error) {
-        console.log('Error al obtener los datos del paciente:', error);
+        console.log("Error al obtener los datos del paciente:", error);
       }
     }
   };
@@ -64,12 +72,14 @@ const SpecialistCards = () => {
 
   const filteredData = data
     ? data.filter(
-        (especialista, index, self) =>
-          index ===
-          self.findIndex(
-            (e) => e.identificacion_especialista === especialista.identificacion_especialista
-          )
-      )
+      (especialista, index, self) =>
+        index ===
+        self.findIndex(
+          (e) =>
+            e.identificacion_especialista ===
+            especialista.identificacion_especialista
+        )
+    )
     : null;
 
   const renderRatingStars = (valoracion) => {
@@ -84,66 +94,213 @@ const SpecialistCards = () => {
   };
 
   return (
-    <View style={styles.cardContainer}>
-      {filteredData ? (
-        filteredData.map((especialista) => (
-          <View key={especialista.id} style={styles.card}>
-            <View style={styles.icon}>
-              <Icon name="user" style={styles.iconLarge} />
+    <SafeAreaView className="flex-1">
+      <ScrollView className="h-full" showsVerticalScrollIndicator={false}>
+
+        <Header />
+
+        <View
+          style={{ backgroundColor: "black", marginLeft: 5, marginRight: 5 }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: 340,
+              marginTop: -43,
+            }}
+          >
+            <TouchableOpacity onPress={handlePress}>
+              <Icon name="bars" size={24} color="#5FFDFF" />
+            </TouchableOpacity>
+          </View>
+
+          {menuOpen && (
+            <View style={{ marginTop: 8 }}>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("HomeEspecialista")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="home" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Inicio</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("NosotrosAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="users" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Nosotros</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("ProcedimientosAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="tooth" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Procedimientos</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("TablaAdmin")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="user-clock" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Agenda</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SpecialistCards")}
+              >
+                <View style={styles.contentMenuItems}>
+                  <Icon name="star" size={24} color="white" />
+                  <Text style={styles.contentMenuText}>Valoraciones</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity>
+                <Text>Contacto</Text>
+              </TouchableOpacity>
+
             </View>
-            <Text>Identificación del especialista: {especialista.identificacion_especialista}</Text>
-            {especialista.patientData && (
-              <View>
-                <Text>Nombre del paciente: {especialista.patientData.nombre_completo}</Text>
-                <Text>Correo del paciente: {especialista.patientData.correo}</Text>
-                <Text>Especialidad: {especialista.patientData.especialidad}</Text>
-              </View>
-            )}
-            <Text>Valoración: {renderRatingStars(especialista.valoracion)}</Text>
-            <Text>Votos: {especialista.votos ? especialista.votos.length : 0}</Text>
-            <View style={styles.comentarios}>
-              <Text>Comentarios:</Text>
-              {especialista.comentarios && especialista.comentarios.length > 0 ? (
-                especialista.comentarios.map((comentario, index) => (
-                  <View key={index}>
-                    <Text>
-                      {comentario.userId}: {comentario.comentario}
+          )}
+        </View>
+
+        <View style={[styles.cardContainer, { paddingHorizontal: 20 }]}>
+          {filteredData ? (
+            filteredData.map((especialista) => (
+              <View
+                key={especialista.id}
+                style={[styles.card, { borderRadius: 10, marginBottom: 20 }]}
+              >
+                <View style={styles.icon}>
+                  <Icon
+                    name="user"
+                    style={[styles.iconLarge, { fontSize: 40 }]}
+                  />
+                </View>
+                <Text style={styles.cardText}>
+                  Identificación del especialista:{" "}
+                  {especialista.identificacion_especialista}
+                </Text>
+                {especialista.patientData && (
+                  <View>
+                    <Text style={styles.cardText}>
+                      Nombre del paciente:{" "}
+                      {especialista.patientData.nombre_completo}
+                    </Text>
+                    <Text style={styles.cardText}>
+                      Correo del paciente: {especialista.patientData.correo}
+                    </Text>
+                    <Text style={styles.cardText}>
+                      Especialidad: {especialista.patientData.especialidad}
                     </Text>
                   </View>
-                ))
-              ) : (
-                <Text>No hay comentarios.</Text>
-              )}
-            </View>
-          </View>
-        ))
-      ) : (
-        <Text></Text>
-      )}
-    </View>
+                )}
+                <Text style={styles.cardText}>
+                  Valoración: {renderRatingStars(especialista.valoracion)}
+                </Text>
+                <Text style={styles.cardText}>
+                  Votos: {especialista.votos ? especialista.votos.length : 0}
+                </Text>
+                <View style={styles.comentarios}>
+                  <Text style={styles.comentariosTitle}>Comentarios:</Text>
+                  {especialista.comentarios &&
+                    especialista.comentarios.length > 0 ? (
+                    especialista.comentarios.map((comentario, index) => (
+                      <View key={index} style={styles.comentarioItem}>
+                        <Text style={styles.comentarioText}>
+                          {comentario.userId}: {comentario.comentario}
+                        </Text>
+                      </View>
+                    ))
+                  ) : (
+                    <Text>No hay comentarios.</Text>
+                  )}
+                </View>
+              </View>
+            ))
+          ) : (
+            <Text></Text>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
+  contentMenuCerrar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 300,
+    marginBottom: 5,
+  },
+  contentMenuItems: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 10,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  contentMenuText: {
+    marginLeft: 8,
+    color: 'white',
+    fontSize: 16,
+  },
   cardContainer: {
-    flex: 1,
-    // Add your styles here
+    marginTop: 20,
+    backgroundColor: "white",
   },
   card: {
-    // Add your styles here
+    borderColor: "gray",
+    borderWidth: 2,
+    padding: 10,
+    marginBottom: 10,
   },
   icon: {
-    // Add your styles here
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
   },
   iconLarge: {
-    // Add your styles here
+    fontSize: 40,
   },
-  starIcon: {
-    // Add your styles here
+  cardText: {
+    textAlign: "center",
+    marginBottom: 5,
   },
   comentarios: {
-    // Add your styles here
+    backgroundColor: "lightgray",
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 10,
   },
-};
+  comentariosTitle: {
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  comentarioItem: {
+    backgroundColor: "white",
+    borderTopLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    padding: 10,
+    marginBottom: 5,
+  },
+  comentarioText: {
+    textAlign: "center",
+  },
+  starIcon: {
+    color: "gold",
+    borderRadius: 10,
+    padding: 5,
+  },
+});
 
 export default SpecialistCards;

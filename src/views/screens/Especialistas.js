@@ -24,21 +24,21 @@ function Especialistas({ navigation }) {
     useEffect(() => {
         getEspecialistas();
         getEspecialistasVC();
-    }, []);
 
-    useEffect(() => {
-        console.log(especialistasVC);
-        console.log(especialistas);
-    }, [especialistasVC, especialistas]);
+        // Establecer un intervalo para recargar los datos cada 5 minutos (300000 ms)
+        const interval = setInterval(() => {
+            getEspecialistas();
+            getEspecialistasVC();
+        }, 120000);
+
+        // Limpiar el intervalo al desmontar el componente
+        return () => clearInterval(interval);
+    }, []);
 
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handlePress = () => {
         setMenuOpen(!menuOpen);
-    };
-
-    const handleClose = () => {
-        setMenuOpen(false);
     };
 
     return (
@@ -56,12 +56,6 @@ function Especialistas({ navigation }) {
 
                     {menuOpen && (
                         <View style={{ marginTop: 8 }}>
-                            <TouchableOpacity onPress={handleClose}>
-                                <View style={styles.contentMenuCerrar}>
-                                    <Icon name="window-close" size={24} color="white" />
-                                    <Text style={{ marginLeft: 8, color: 'white' }}>Cerrar</Text>
-                                </View>
-                            </TouchableOpacity>
 
                             <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                                 <View style={styles.contentMenuItems}>
@@ -128,7 +122,7 @@ function Especialistas({ navigation }) {
                 </View>
 
                 <View>
-                    <Text style={styles.title}>Nuestros especialistas</Text>
+                    <Text style={styles.title}>NUESTROS ESPECIALISTAS</Text>
                     <View>
                         {especialistasVC.length > 0 && especialistas.map((especialista, i) => {
                             return (
@@ -173,11 +167,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     title: {
-        marginTop: 10,
-        fontSize: 24,
+        marginTop: 20,
+        marginBottom: 15,
+        fontSize: 23,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: 'blue',
+        color: "#4fafd2",
+
     },
 });
 
