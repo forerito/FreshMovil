@@ -154,7 +154,7 @@ const Ranking = ({ navigation }) => {
                   <Text style={styles.position}>{index + 1}</Text>
                   <View style={styles.profilePicContainer}>
                     <Image
-                      source={{ uri: item.foto || "https://fresh-smile.netlify.app/assets/user-d6ab4092.webp" }}
+                      source={{ uri: item.foto || "https://i.pinimg.com/564x/51/f6/fb/51f6fb256629fc755b8870c801092942.jpg" }}
                       style={styles.profilePic}
                     />
                     {index < 3 && (
