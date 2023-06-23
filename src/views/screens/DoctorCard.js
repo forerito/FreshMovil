@@ -147,7 +147,7 @@ const DoctorCard = ({ valoracion, votos, comentarios, data, ratingId }) => {
               <Image
                 source={{
                   uri:
-                    data.foto_perfil ||
+                    
                     "https://i.pinimg.com/564x/51/f6/fb/51f6fb256629fc755b8870c801092942.jpg",
                 }}
                 style={styles.doctorImage}
